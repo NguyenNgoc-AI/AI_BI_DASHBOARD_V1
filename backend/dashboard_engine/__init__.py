@@ -1,0 +1,1 @@
+"""Deterministic dashboard data processing."""
