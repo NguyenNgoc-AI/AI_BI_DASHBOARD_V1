@@ -1,0 +1,271 @@
+,Business Id,Product_Service,Product_Service_Type
+0,2,Casino Hotels,Service
+1,2,Camping and Parking,Service
+2,2,Traveller accomodation,Service
+3,2,Drinking and Special Food,Service
+4,2,Fast food,Service
+5,2,Coffee and Snack,Service
+6,2,Catering,Service
+7,2,Street vendoring,Service
+8,2,Bars and Nightclubs,Service
+9,2,Foods on demand,Service
+10,3,Mailbox Rental,Service
+11,3,Mailbox Services,Service
+12,3,Postal,Service
+13,3,Shipping,Service
+14,3,Packaging and labeling,Service
+15,3,Services,Service
+16,3,Copying,Service
+17,3,Document Copying,Service
+18,3,Photocopying,Service
+19,3,Printing,Service
+20,4,Breeding,Service
+21,4,Dairy,Service
+22,4,Boarding,Service
+23,4,Livestock,Service
+24,4,Miscellaneous,Service
+25,4,Shearing,Service
+26,4,Spraying,Service
+27,4,Farrier,Service
+28,4,Rental,Service
+29,4,Other,Service
+30,5,Golf Equipment,Service
+31,5,Golf Instructions,Service
+32,5,Meals,Service
+33,5,Golf Courses,Service
+34,5,Memberships,Service
+35,5,Recreation,Service
+36,5,Games,Service
+37,5,Tournaments and Matches,Service
+38,5,Club ,Service
+39,5,Services,Service
+40,6,Housing,Service
+41,6,high-rise and low-rise buildings,Service
+42,6,attached and detached units,Service
+43,6,Townhouses,Service
+44,6,Senior-care,Service
+45,6,homebuilders,Service
+46,6,Duplexes,Service
+47,6,Contracts,Service
+48,6,Construction activities,Service
+49,6,Bangalow,Service
+50,7,Training,Service
+51,7,Computer Programming,Service
+52,7,Software Training,Service
+53,7,LAN,Service
+54,7,Basic Skills Training,Service
+55,7,Steno class,Service
+56,7,Business courses,Service
+57,7,Repair and Maintainenance,Service
+58,7,Hacking Training,Service
+59,7,AI Courses,Service
+60,8,Trust and Fiduciary,Service
+61,8,Financial,Service
+62,8,Commodity Markets,Service
+63,8,Brokerage,Service
+64,8,Dealing,Service
+65,8,Financial Planning,Service
+66,8,Financial Investment,Service
+67,8,Securities,Service
+68,8,Money Management,Service
+69,8,Investment,Service
+70,9,Adoption,Service
+71,9,Abandoned Infant,Service
+72,9,Foster Care,Service
+73,9,Child guidance,Service
+74,9,Child abuse prevention,Service
+75,9,Youth community,Service
+76,9,Self-help programs,Service
+77,9,Teen outreach,Service
+78,9,Youth guidance,Service
+79,9,Recreational programs,Service
+80,10,Application Hosting,Service
+81,10,Service Provider,Service
+82,10,Data entry,Service
+83,10,Data processing computer,Service
+84,10,Data processing,Service
+85,10,Database management,Service
+86,10,Web hosting,Service
+87,10,Business management,Service
+88,10,Data storage management,Service
+89,10,Service Provisioning,Service
+90,11,Organic Gases,Service
+91,11,Inorganic Gases,Service
+92,11,Hydrogen,Service
+93,11,Oxygen,Service
+94,11,Helium,Service
+95,11,Nitrogen,Service
+96,11,Carbon dioxide,Service
+97,11,Acetylene,Service
+98,11,Fluorocarbon gases,Service
+99,11,Industrial manufacturing,Service
+100,12,Oil and gas wells,Service
+101,12,Surveying wells,Service
+102,12,"Casings, Tubes and Rods",Service
+103,12,Cementing walls,Service
+104,12,Well casings,Service
+105,12,Wells,Service
+106,12,Coal,Service
+107,12,Metal ore,Service
+108,12,Nonmetallic mineral ore,Service
+109,12,Contract,Service
+110,13,Attire and accessories,Service
+111,13,Food & drink,Service
+112,13,Ceremony & reception venue,Service
+113,13,Coordinators,Service
+114,13,Flowers,Service
+115,13,Photography,Service
+116,13,Musicians,Service
+117,13,Transportation,Service
+118,13,Invitations,Service
+119,13,Party favors,Service
+120,14,Construction Projects,Service
+121,14,environmental projects,Service
+122,14,Industrial processes and equipment,Service
+123,14,Construction management,Service
+124,14,Assessing product problems,Service
+125,14,Project assessments,Service
+126,14,Life cycle asset management,Service
+127,14,Environmental impact assessment,Service
+128,14,Quality assessment,Service
+129,14,Quality accreditation,Service
+130,15,Aircraft,Service
+131,15,Barge,Service
+132,15,Boat,Service
+133,15,Railcar,Service
+134,15,Tanker,Service
+135,15,Towboat,Service
+136,15,Forestry Machinery,Service
+137,15,Heavy construction equipment,Service
+138,15,Mining machinery,Service
+139,15,Oil field Machinery,Service
+140,16,Athletic uniforms,Service
+141,16,Bicycle,Service
+142,16,Bowling,Service
+143,16,Diving,Service
+144,16,Exercise,Service
+145,16,Fishing,Service
+146,16,Golf,Service
+147,16,Saddlery,Service
+148,16,Outdoor goods,Service
+149,16,Motorbike,Service
+150,17,Cleaning,Service
+151,17,Leveling and Trimming,Service
+152,17,Loading and unloading,Service
+153,17,Repair,Service
+154,17,Railroad switching,Service
+155,17,Railroad terminals,Service
+156,17,Shunting trailers,Service
+157,17,Repair and Maintainenance,Service
+158,17,Packing,Service
+159,17,Rail support,Service
+160,18,Hydroelectric electricity,Service
+161,18,Waste-fueled,Service
+162,18,Biomass electricity,Service
+163,18,Geothermal,Service
+164,18,Renewable-fueled,Service
+165,18,Nonfossil-fuel,Service
+166,18,Non-nuclear,Service
+167,18,Wind power,Service
+168,18,Coal Pwer,Service
+169,18,Non-renewable,Service
+170,19,Aeronautical Equipment,Service
+171,19,Aircraft Engines,Service
+172,19,Aircraft,Service
+173,19,Boats,Service
+174,19,Locomotives,Service
+175,19,Marine Supplies,Service
+176,19,Navigational Instruments,Service
+177,19,Railroad Cars,Service
+178,19,Railroad Equipment,Service
+179,19,Ships,Service
+180,20,Equity long bias,Service
+181,20,Fixed income,Service
+182,20,Emerging Market,Service
+183,20,Event-driven,Service
+184,20,Multi-strategy,Service
+185,20,Macro,Service
+186,20,Distressed Securities,Service
+187,20,Equity long-only,Service
+188,20,Equity long/short,Service
+189,20,Equity Market Neutral,Service
+190,21,Personal Care,Service
+191,21,Homemaker and companion,Service
+192,21,Physical Therapy,Service
+193,21,Medication,Service
+194,21,Counseling,Service
+195,21,Home care,Service
+196,21,Therapy,Service
+197,21,Dietary and Nutritional,Service
+198,21,Intravenous Therapy,Service
+199,21,Home Therapy,Service
+200,22,Musical,Service
+201,22,Opera,Service
+202,22,Non-musical,Service
+203,22,Symphony,Service
+204,22,Popular music shows,Service
+205,22,Dance,Service
+206,22,Appearances and speeches,Service
+207,22,Gifts and grants,Service
+208,22,Food and beverage sales,Service
+209,22,License fees,Service
+210,23,Grapefruit oil,Service
+211,23,Lemon oil,Service
+212,23,Orange oil,Service
+213,23,Citronella oil,Service
+214,23,Peppermint oil,Service
+215,23,Eucalyptus oil,Service
+216,23,Spearmint oil,Service
+217,23,Other essential oils,Service
+218,23,Natural oils,Service
+219,23,Synthetic Oils,Service
+220,24,Care-planning,Service
+221,24,Daily living assistance,Service
+222,24,Nursing and health,Service
+223,24,Therapeutic,Service
+224,24,Meal,Service
+225,24,Transportation,Service
+226,24,Social activities,Service
+227,24,Medical services,Service
+228,24,Social,Service
+229,24,Home-care,Service
+230,25,Furniture,Service
+231,25,Car seats,Service
+232,25,Toys,Service
+233,25,Apparel and shoes,Service
+234,25,Food,Service
+235,25,Accessories,Service
+236,25,Diapers,Service
+237,25,Carriers,Service
+238,25,Strollers,Service
+239,25,Clothing and footwear,Service
+240,26,Sofas/sofa-sleepers,Service
+241,26,Bedding,Service
+242,26,Bedroom,Service
+243,26,Dining,Service
+244,26,Entertainment,Service
+245,26,Home office,Service
+246,26,Youth,Service
+247,26,Chairs,Service
+248,26,Sleepers,Service
+249,26,Wardrobe,Service
+250,27,Window washing,Service
+251,27,Drain cleaning,Service
+252,27,Pool maintenance,Service
+253,27,Parking lot and driveway washing,Service
+254,27,Chimney sweep services,Service
+255,27,Providing other outdoor maintenance services,Service
+256,27,Duct and gutter cleaning,Service
+257,27,Ventilation cleaning,Service
+258,27,Snow removal services,Service
+259,27,Swimming pool Cleaning,Service
+260,28,PCs,Service
+261,28,Tablets,Service
+262,28,Macs,Service
+263,28,Mobile Device,Service
+264,28,Auto mobiles,Service
+265,28,Voice & Speech Recognition,Service
+266,28,Government Purposes,Service
+267,28,IT and telecommunication,Service
+268,28,Healthcare,Service
+269,28,Auto sector,Service

@@ -1,0 +1,796 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_metadata": {
+    "name": "ecommerce_bi_semantic_schema",
+    "version": "1.0.0",
+    "domain": "Retail & E-Commerce Business Intelligence",
+    "description": "Standardized Semantic Schema for E-Commerce BI Dashboard, Synthetic Data Pipeline, and Text-to-SQL Engine across 5 core business entities: customers, products, orders, sales, and financials.",
+    "created_at": "2026-10-04",
+    "author": "Code Candy Team - AI BI Dashboard",
+    "primary_currency": "USD",
+    "timezone": "UTC"
+  },
+  "tables": {
+    "customers": {
+      "table_name": "customers",
+      "description": "Customer entity profiles including demographics, geographic location, segmentation, and acquisition dates.",
+      "primary_key": ["customer_id"],
+      "foreign_keys": [],
+      "columns": {
+        "customer_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Unique identifier for each customer.",
+          "aliases": ["customer_id", "cust_id", "mã khách hàng", "mã khách", "id khách hàng", "user_id"],
+          "example": "CUST_00010242"
+        },
+        "customer_name": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "text",
+          "description": "Full name of the customer.",
+          "aliases": ["customer_name", "name", "tên khách hàng", "họ tên", "tên người mua", "buyer_name"],
+          "example": "Nguyen Van A"
+        },
+        "email": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "email",
+          "description": "Email address of the customer.",
+          "aliases": ["email", "mail", "email_address", "địa chỉ email", "thư điện tử"],
+          "example": "customer.10242@example.com"
+        },
+        "city": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "categorical_geographic",
+          "description": "City of customer residence or shipping destination.",
+          "aliases": ["city", "thành phố", "tỉnh thành", "đô thị", "billing_city", "shipping_city"],
+          "example": "Ho Chi Minh City"
+        },
+        "state": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "categorical_geographic",
+          "description": "State / Province code or name.",
+          "aliases": ["state", "province", "bang", "tỉnh", "tiểu bang", "khu vực"],
+          "example": "SG"
+        },
+        "country": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "categorical_geographic",
+          "description": "Country of the customer.",
+          "aliases": ["country", "quốc gia", "đất nước", "nation"],
+          "example": "Vietnam"
+        },
+        "zip_code": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "postal_code",
+          "description": "Postal or ZIP code of customer address.",
+          "aliases": ["zip_code", "postal_code", "mã bưu chính", "mã zip", "mã bưu điện"],
+          "example": "70000"
+        },
+        "customer_segment": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "categorical",
+          "allowed_values": ["Consumer", "Corporate", "Home Office", "VIP", "Wholesale"],
+          "description": "Classification segment of the customer.",
+          "aliases": ["customer_segment", "segment", "phân khúc khách hàng", "nhóm khách hàng", "loại khách hàng", "hạng thành viên"],
+          "example": "Consumer"
+        },
+        "created_at": {
+          "type": "datetime",
+          "nullable": false,
+          "semantic_type": "timestamp",
+          "description": "Timestamp when the customer profile was created / first registered.",
+          "aliases": ["created_at", "registration_date", "ngày tạo", "ngày đăng ký", "ngày gia nhập"],
+          "example": "2023-01-15 08:30:00"
+        }
+      }
+    },
+    "products": {
+      "table_name": "products",
+      "description": "Product master catalog with SKU hierarchy, pricing, manufacturing/acquisition cost (COGS), and physical attributes.",
+      "primary_key": ["product_id"],
+      "foreign_keys": [],
+      "columns": {
+        "product_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Unique identifier / SKU for each product.",
+          "aliases": ["product_id", "sku", "mã sản phẩm", "mã hàng", "id sản phẩm", "item_code"],
+          "example": "PROD_ELEC_9981"
+        },
+        "product_name": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "text",
+          "description": "Commercial title or name of the product.",
+          "aliases": ["product_name", "title", "item_name", "tên sản phẩm", "tên mặt hàng", "tên hàng hóa"],
+          "example": "Wireless Noise Canceling Headphones"
+        },
+        "category": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "categorical",
+          "allowed_values": [
+            "Electronics",
+            "Computers & Accessories",
+            "Home & Kitchen",
+            "Health & Personal Care",
+            "Beauty & Fashion",
+            "Sports & Outdoors",
+            "Automotive",
+            "Office Products",
+            "Toys & Games",
+            "Books"
+          ],
+          "description": "Primary high-level product category.",
+          "aliases": ["category", "danh mục", "ngành hàng", "nhóm sản phẩm", "chủng loại"],
+          "example": "Electronics"
+        },
+        "sub_category": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "categorical",
+          "description": "Secondary detailed product sub-category.",
+          "aliases": ["sub_category", "subcategory", "danh mục con", "phân nhóm", "nhóm phụ"],
+          "example": "Audio & Video"
+        },
+        "unit_price": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Standard retail selling price per unit (excluding discounts and taxes).",
+          "aliases": ["unit_price", "selling_price", "price", "giá bán", "đơn giá", "đơn giá bán", "giá niêm yết"],
+          "example": 99.99
+        },
+        "unit_cost": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Cost of Goods Sold (COGS) / acquisition cost per unit.",
+          "aliases": ["unit_cost", "cogs", "cost", "giá vốn", "giá nhập", "chi phí sản xuất", "đơn giá vốn", "chi phí sản phẩm"],
+          "example": 45.50
+        },
+        "margin_rate": {
+          "type": "float",
+          "nullable": true,
+          "semantic_type": "numerical_ratio",
+          "unit": "percentage",
+          "description": "Theoretical product profit margin rate ((unit_price - unit_cost) / unit_price).",
+          "aliases": ["margin_rate", "profit_margin", "tỷ suất lợi nhuận", "biên lợi nhuận định mức", "margin"],
+          "example": 0.545
+        },
+        "weight_g": {
+          "type": "float",
+          "nullable": true,
+          "semantic_type": "numerical_quantity",
+          "unit": "grams",
+          "description": "Physical weight of the product in grams.",
+          "aliases": ["weight_g", "weight", "khối lượng", "trọng lượng", "cân nặng"],
+          "example": 280.0
+        },
+        "is_active": {
+          "type": "boolean",
+          "nullable": false,
+          "semantic_type": "flag",
+          "description": "Status flag indicating whether the product is currently active for sale.",
+          "aliases": ["is_active", "status", "trạng thái kinh doanh", "đang bán", "active_flag"],
+          "example": true
+        }
+      }
+    },
+    "orders": {
+      "table_name": "orders",
+      "description": "Order lifecycle events, delivery milestones, payment methods, and current order fulfillment status.",
+      "primary_key": ["order_id"],
+      "foreign_keys": [
+        {
+          "column": "customer_id",
+          "references_table": "customers",
+          "references_column": "customer_id",
+          "relationship_type": "many_to_one"
+        }
+      ],
+      "columns": {
+        "order_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Unique identifier for each transaction order.",
+          "aliases": ["order_id", "mã đơn hàng", "mã đơn", "số đơn hàng", "id đơn hàng", "invoice_no"],
+          "example": "ORD_2023_88410"
+        },
+        "customer_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Foreign key reference to the purchasing customer in the customers table.",
+          "aliases": ["customer_id", "cust_id", "mã khách hàng", "người mua", "id khách"],
+          "example": "CUST_00010242"
+        },
+        "order_status": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "categorical",
+          "allowed_values": [
+            "delivered",
+            "shipped",
+            "invoiced",
+            "processing",
+            "created",
+            "approved",
+            "canceled",
+            "unavailable",
+            "returned"
+          ],
+          "description": "Current lifecycle status of the order.",
+          "aliases": ["order_status", "status", "trạng thái đơn", "tình trạng đơn hàng", "trạng thái giao hàng", "tiến độ đơn"],
+          "example": "delivered"
+        },
+        "order_purchase_timestamp": {
+          "type": "datetime",
+          "nullable": false,
+          "semantic_type": "timestamp",
+          "description": "Timestamp when the customer placed the order.",
+          "aliases": ["order_purchase_timestamp", "order_date", "purchase_date", "ngày đặt hàng", "thời gian mua", "ngày mua", "thời điểm đặt"],
+          "example": "2023-05-12 14:22:10"
+        },
+        "order_approved_at": {
+          "type": "datetime",
+          "nullable": true,
+          "semantic_type": "timestamp",
+          "description": "Timestamp when payment was approved and verified.",
+          "aliases": ["order_approved_at", "approved_date", "ngày duyệt đơn", "thời gian xác nhận", "thời điểm thanh toán"],
+          "example": "2023-05-12 14:35:00"
+        },
+        "order_delivered_carrier_date": {
+          "type": "datetime",
+          "nullable": true,
+          "semantic_type": "timestamp",
+          "description": "Timestamp when order was handed over to the logistics shipping carrier.",
+          "aliases": ["order_delivered_carrier_date", "shipping_date", "ngày giao đơn vị vận chuyển", "ngày xuất kho", "thời gian gửi hàng"],
+          "example": "2023-05-13 09:10:00"
+        },
+        "order_delivered_customer_date": {
+          "type": "datetime",
+          "nullable": true,
+          "semantic_type": "timestamp",
+          "description": "Timestamp when order was successfully delivered to the customer.",
+          "aliases": ["order_delivered_customer_date", "delivery_date", "ngày giao thành công", "ngày nhận hàng", "thời gian giao tận nơi"],
+          "example": "2023-05-16 16:45:22"
+        },
+        "order_estimated_delivery_date": {
+          "type": "datetime",
+          "nullable": true,
+          "semantic_type": "timestamp",
+          "description": "Estimated delivery date communicated to the customer upon purchase.",
+          "aliases": ["order_estimated_delivery_date", "estimated_delivery", "ngày dự kiến giao", "hạn giao dự kiến", "thời hạn ước tính"],
+          "example": "2023-05-18 00:00:00"
+        },
+        "payment_type": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "categorical",
+          "allowed_values": [
+            "credit_card",
+            "debit_card",
+            "boleto",
+            "voucher",
+            "e_wallet",
+            "bank_transfer",
+            "cod"
+          ],
+          "description": "Payment gateway / method used for settling the order.",
+          "aliases": ["payment_type", "payment_method", "phương thức thanh toán", "hình thức trả tiền", "kênh thanh toán", "loại thanh toán"],
+          "example": "credit_card"
+        },
+        "payment_installments": {
+          "type": "integer",
+          "nullable": false,
+          "semantic_type": "numerical_quantity",
+          "description": "Number of payment installments chosen (1 for full upfront payment).",
+          "aliases": ["payment_installments", "installments", "số kỳ trả góp", "trả góp", "số đợt thanh toán"],
+          "example": 1
+        },
+        "payment_value": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Total payment amount paid by customer for this order (including freight and vouchers).",
+          "aliases": ["payment_value", "total_paid", "số tiền thanh toán", "tổng tiền thanh toán", "tiền trả", "giá trị đơn"],
+          "example": 114.99
+        }
+      }
+    },
+    "sales": {
+      "table_name": "sales",
+      "description": "Granular order line item transactions detailing item quantity, selling price, discounts, freight, platform commissions, and net item sales.",
+      "primary_key": ["sales_id"],
+      "foreign_keys": [
+        {
+          "column": "order_id",
+          "references_table": "orders",
+          "references_column": "order_id",
+          "relationship_type": "many_to_one"
+        },
+        {
+          "column": "product_id",
+          "references_table": "products",
+          "references_column": "product_id",
+          "relationship_type": "many_to_one"
+        }
+      ],
+      "columns": {
+        "sales_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Unique identifier for each sales line item.",
+          "aliases": ["sales_id", "order_item_id", "mã dòng bán", "id chi tiết đơn", "mã chi tiết bán hàng", "mã giao dịch con"],
+          "example": "SALE_ITEM_1001"
+        },
+        "order_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Foreign key reference to parent order.",
+          "aliases": ["order_id", "mã đơn hàng", "mã đơn", "số đơn", "id đơn"],
+          "example": "ORD_2023_88410"
+        },
+        "product_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Foreign key reference to sold product SKU.",
+          "aliases": ["product_id", "sku", "mã sản phẩm", "mã hàng", "id sản phẩm"],
+          "example": "PROD_ELEC_9981"
+        },
+        "seller_id": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "identifier",
+          "description": "Unique identifier for seller / vendor / store branch fulfilling the item.",
+          "aliases": ["seller_id", "vendor_id", "mã người bán", "mã nhà bán hàng", "id gian hàng", "chi nhánh"],
+          "example": "SELL_VN_042"
+        },
+        "quantity": {
+          "type": "integer",
+          "nullable": false,
+          "semantic_type": "numerical_quantity",
+          "description": "Number of units purchased in this order line item.",
+          "aliases": ["quantity", "qty", "số lượng", "số lượng mua", "số lượng bán", "lượng hàng"],
+          "example": 1
+        },
+        "unit_price": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Actual unit selling price at transaction time.",
+          "aliases": ["unit_price", "price", "đơn giá", "giá bán đơn vị", "giá thực bán"],
+          "example": 99.99
+        },
+        "gross_sales": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Gross sales value before discount (quantity * unit_price).",
+          "aliases": ["gross_sales", "total_price", "doanh thu gộp", "tổng tiền hàng", "doanh số thô", "tổng giá trị hàng"],
+          "example": 99.99
+        },
+        "discount_amount": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Total coupon, voucher, or promotional discount applied to this line item.",
+          "aliases": ["discount_amount", "discount", "tiền giảm giá", "chiết khấu", "mức giảm", "khuyến mãi", "voucher_value"],
+          "example": 5.00
+        },
+        "freight_value": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Shipping and delivery fee charged for this item.",
+          "aliases": ["freight_value", "shipping_fee", "phí vận chuyển", "tiền cước", "phí ship", "cước chuyển phát"],
+          "example": 15.00
+        },
+        "platform_fee": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Marketplace platform commission / transaction fee paid per sale.",
+          "aliases": ["platform_fee", "commission", "phí sàn", "phí hoa hồng sàn", "phí giao dịch", "chiết khấu sàn"],
+          "example": 8.00
+        },
+        "net_sales": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Net sales revenue after discount deduction (gross_sales - discount_amount).",
+          "aliases": ["net_sales", "net_revenue", "doanh số thuần", "doanh thu thuần", "doanh thu sau giảm giá"],
+          "example": 94.99
+        }
+      }
+    },
+    "financials": {
+      "table_name": "financials",
+      "description": "Periodic accounting, marketing campaign spend, channel acquisition metrics, direct & indirect operating expenses, and consolidated net profit.",
+      "primary_key": ["financial_record_id"],
+      "foreign_keys": [
+        {
+          "column": "order_id",
+          "references_table": "orders",
+          "references_column": "order_id",
+          "relationship_type": "many_to_one"
+        }
+      ],
+      "columns": {
+        "financial_record_id": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "identifier",
+          "description": "Unique identifier for the financial or marketing ledger record.",
+          "aliases": ["financial_record_id", "record_id", "mã bản ghi tài chính", "mã sổ sách", "id tài chính"],
+          "example": "FIN_20230512_FB01"
+        },
+        "date": {
+          "type": "date",
+          "nullable": false,
+          "semantic_type": "date",
+          "description": "Accounting / campaign reporting date.",
+          "aliases": ["date", "report_date", "ngày ghi nhận", "ngày báo cáo", "ngày chi phí", "ngày tài chính"],
+          "example": "2023-05-12"
+        },
+        "order_id": {
+          "type": "string",
+          "nullable": true,
+          "semantic_type": "identifier",
+          "description": "Optional order reference when financial record maps directly to an order transaction.",
+          "aliases": ["order_id", "mã đơn hàng", "mã đơn liên quan"],
+          "example": "ORD_2023_88410"
+        },
+        "marketing_channel": {
+          "type": "string",
+          "nullable": false,
+          "semantic_type": "categorical",
+          "allowed_values": [
+            "Facebook Ads",
+            "Google Ads",
+            "TikTok Ads",
+            "Organic Search",
+            "Direct Traffic",
+            "Email Marketing",
+            "Affiliate",
+            "Offline / Store"
+          ],
+          "description": "Digital marketing acquisition channel or campaign source.",
+          "aliases": ["marketing_channel", "channel", "kênh tiếp thị", "kênh quảng cáo", "nguồn lưu lượng", "kênh bán"],
+          "example": "Facebook Ads"
+        },
+        "marketing_spend": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Daily or per-transaction advertising expenditure incurred on this channel.",
+          "aliases": ["marketing_spend", "ad_spend", "chi phí quảng cáo", "chi phí tiếp thị", "tiền ads", "ngân sách marketing"],
+          "example": 120.50
+        },
+        "impressions": {
+          "type": "integer",
+          "nullable": true,
+          "semantic_type": "numerical_quantity",
+          "description": "Number of ad impressions generated.",
+          "aliases": ["impressions", "lượt hiển thị", "số lượt xem quảng cáo", "view_count"],
+          "example": 15400
+        },
+        "clicks": {
+          "type": "integer",
+          "nullable": true,
+          "semantic_type": "numerical_quantity",
+          "description": "Number of clicks generated from marketing campaign.",
+          "aliases": ["clicks", "lượt click", "số lần nhấp chuột", "nhấp chuột"],
+          "example": 450
+        },
+        "conversions": {
+          "type": "integer",
+          "nullable": true,
+          "semantic_type": "numerical_quantity",
+          "description": "Number of customer conversion events or completed purchase orders attributed to channel.",
+          "aliases": ["conversions", "lượt chuyển đổi", "số đơn chuyển đổi", "khách mua thành công"],
+          "example": 18
+        },
+        "gross_revenue": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Total gross revenue generated on the specified date or channel.",
+          "aliases": ["gross_revenue", "tổng doanh thu", "doanh thu gộp kỳ", "doanh số tổng"],
+          "example": 1799.82
+        },
+        "cogs_total": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Total Cost of Goods Sold (COGS) aggregated for sold products.",
+          "aliases": ["cogs_total", "total_cogs", "tổng giá vốn", "tổng giá vốn hàng bán", "tổng chi phí hàng hóa"],
+          "example": 819.00
+        },
+        "platform_fees_total": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Total marketplace platform fees and commissions incurred.",
+          "aliases": ["platform_fees_total", "tổng phí sàn", "tổng chi phí hoa hồng sàn", "phí giao dịch sàn"],
+          "example": 144.00
+        },
+        "shipping_cost_total": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Total logistics and freight fulfillment expenses incurred.",
+          "aliases": ["shipping_cost_total", "tổng phí vận chuyển", "tổng chi phí giao hàng", "cước ship thực tế"],
+          "example": 180.00
+        },
+        "tax_amount": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Applicable value added tax (VAT) or corporate tax provision.",
+          "aliases": ["tax_amount", "tax", "thuế", "tiền thuế", "thuế VAT", "thuế thu nhập"],
+          "example": 65.00
+        },
+        "operating_expenses": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Indirect operating overheads (warehouse, staff salaries, software licenses, utilities).",
+          "aliases": ["operating_expenses", "opex", "chi phí vận hành", "chi phí quản lý", "chi phí cố định", "chi phí hoạt động"],
+          "example": 110.00
+        },
+        "net_profit": {
+          "type": "float",
+          "nullable": false,
+          "semantic_type": "numerical_currency",
+          "unit": "USD",
+          "description": "Bottom-line Net Profit after subtracting all direct and indirect expenses (gross_revenue - cogs_total - marketing_spend - platform_fees_total - shipping_cost_total - tax_amount - operating_expenses).",
+          "aliases": ["net_profit", "lợi nhuận ròng", "lợi nhuận thuần", "lãi ròng", "lợi nhuận sau thuế", "lãi thuần"],
+          "example": 361.32
+        }
+      }
+    }
+  },
+  "relationships": [
+    {
+      "id": "rel_orders_customers",
+      "from_table": "orders",
+      "from_column": "customer_id",
+      "to_table": "customers",
+      "to_column": "customer_id",
+      "cardinality": "many_to_one",
+      "description": "Each order belongs to exactly one customer. A customer can place multiple orders."
+    },
+    {
+      "id": "rel_sales_orders",
+      "from_table": "sales",
+      "from_column": "order_id",
+      "to_table": "orders",
+      "to_column": "order_id",
+      "cardinality": "many_to_one",
+      "description": "Each sales line item belongs to one parent order. An order can contain multiple item lines."
+    },
+    {
+      "id": "rel_sales_products",
+      "from_table": "sales",
+      "from_column": "product_id",
+      "to_table": "products",
+      "to_column": "product_id",
+      "cardinality": "many_to_one",
+      "description": "Each sales line item references one product from catalog. A product can be sold across many order items."
+    },
+    {
+      "id": "rel_financials_orders",
+      "from_table": "financials",
+      "from_column": "order_id",
+      "to_table": "orders",
+      "to_column": "order_id",
+      "cardinality": "many_to_one",
+      "description": "Optional link between transactional financial ledger entries and orders."
+    }
+  ],
+  "semantic_metrics": {
+    "GMV": {
+      "metric_name": "Gross Merchandise Value",
+      "code": "GMV",
+      "unit": "USD",
+      "category": "Sales & Revenue",
+      "description": "Total monetary value of merchandise sold over a given period, including freight and before discount deductions.",
+      "formula": "SUM(sales.gross_sales + sales.freight_value)",
+      "sql_expression": "SELECT SUM(s.gross_sales + s.freight_value) AS gmv FROM sales s JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["gmv", "tổng giá trị giao dịch", "tổng doanh số hàng hóa", "tổng giá trị đơn hàng"]
+    },
+    "Gross_Revenue": {
+      "metric_name": "Gross Revenue",
+      "code": "Gross_Revenue",
+      "unit": "USD",
+      "category": "Sales & Revenue",
+      "description": "Total top-line sales revenue before applying any discounts, returns, or deductions.",
+      "formula": "SUM(sales.quantity * sales.unit_price)",
+      "sql_expression": "SELECT SUM(s.quantity * s.unit_price) AS gross_revenue FROM sales s JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["gross_revenue", "doanh thu gộp", "tổng doanh thu bán hàng", "tổng tiền bán"]
+    },
+    "Net_Revenue": {
+      "metric_name": "Net Revenue / Net Sales",
+      "code": "Net_Revenue",
+      "unit": "USD",
+      "category": "Sales & Revenue",
+      "description": "Actual sales revenue realized after subtracting discounts and promotions.",
+      "formula": "SUM(sales.gross_sales - sales.discount_amount)",
+      "sql_expression": "SELECT SUM(s.gross_sales - s.discount_amount) AS net_revenue FROM sales s JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["net_revenue", "net_sales", "doanh thu thuần", "doanh số thuần", "doanh thu thực tế"]
+    },
+    "COGS": {
+      "metric_name": "Cost of Goods Sold",
+      "code": "COGS",
+      "unit": "USD",
+      "category": "Cost & Profitability",
+      "description": "Direct cost attributable to the production or acquisition of products sold.",
+      "formula": "SUM(sales.quantity * products.unit_cost)",
+      "sql_expression": "SELECT SUM(s.quantity * p.unit_cost) AS cogs FROM sales s JOIN products p ON s.product_id = p.product_id JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["cogs", "giá vốn hàng bán", "tổng giá vốn", "chi phí giá vốn", "chi phí vốn"]
+    },
+    "Gross_Profit": {
+      "metric_name": "Gross Profit",
+      "code": "Gross_Profit",
+      "unit": "USD",
+      "category": "Cost & Profitability",
+      "description": "Profit earned after subtracting cost of goods sold from net revenue.",
+      "formula": "Net_Revenue - COGS",
+      "sql_expression": "SELECT (SUM(s.gross_sales - s.discount_amount) - SUM(s.quantity * p.unit_cost)) AS gross_profit FROM sales s JOIN products p ON s.product_id = p.product_id JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["gross_profit", "lợi nhuận gộp", "lãi gộp", "lợi nhuận trước chi phí vận hành"]
+    },
+    "Gross_Margin": {
+      "metric_name": "Gross Margin Percentage",
+      "code": "Gross_Margin",
+      "unit": "percentage",
+      "category": "Cost & Profitability",
+      "description": "Percentage of net revenue retained as gross profit after paying direct production costs.",
+      "formula": "(Gross_Profit / Net_Revenue) * 100",
+      "sql_expression": "SELECT ((SUM(s.gross_sales - s.discount_amount) - SUM(s.quantity * p.unit_cost)) / NULLIF(SUM(s.gross_sales - s.discount_amount), 0)) * 100 AS gross_margin_pct FROM sales s JOIN products p ON s.product_id = p.product_id JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["gross_margin", "biên lợi nhuận gộp", "tỷ suất lợi nhuận gộp", "tỷ lệ lãi gộp"]
+    },
+    "Net_Profit": {
+      "metric_name": "Net Profit",
+      "code": "Net_Profit",
+      "unit": "USD",
+      "category": "Financial Bottom-line",
+      "description": "Bottom-line earnings remaining after deducting COGS, marketing ad spend, platform commissions, net logistics expenses, taxes, and operating overheads.",
+      "formula": "Gross_Profit - Marketing_Spend - Platform_Fees - Shipping_Cost - Taxes - Operating_Expenses",
+      "sql_expression": "SELECT SUM(f.net_profit) AS net_profit FROM financials f",
+      "aliases": ["net_profit", "lợi nhuận ròng", "lãi ròng", "lợi nhuận thuần", "lợi nhuận sau thuế", "lãi thuần"]
+    },
+    "Net_Margin": {
+      "metric_name": "Net Profit Margin",
+      "code": "Net_Margin",
+      "unit": "percentage",
+      "category": "Financial Bottom-line",
+      "description": "Percentage of revenue turned into bottom-line net profit.",
+      "formula": "(Net_Profit / Gross_Revenue) * 100",
+      "sql_expression": "SELECT (SUM(f.net_profit) / NULLIF(SUM(f.gross_revenue), 0)) * 100 AS net_margin_pct FROM financials f",
+      "aliases": ["net_margin", "biên lợi nhuận ròng", "tỷ suất lợi nhuận thuần", "tỷ lệ lãi ròng"]
+    },
+    "AOV": {
+      "metric_name": "Average Order Value",
+      "code": "AOV",
+      "unit": "USD",
+      "category": "Customer & Order Economics",
+      "description": "Average dollar amount spent each time a customer places an order.",
+      "formula": "Total_Net_Revenue / Total_Completed_Orders",
+      "sql_expression": "SELECT SUM(s.gross_sales - s.discount_amount) / NULLIF(COUNT(DISTINCT o.order_id), 0) AS aov FROM sales s JOIN orders o ON s.order_id = o.order_id WHERE o.order_status NOT IN ('canceled', 'unavailable')",
+      "aliases": ["aov", "giá trị đơn hàng trung bình", "doanh thu trung bình mỗi đơn", "trung bình một đơn", "average_order_value"]
+    },
+    "CAC": {
+      "metric_name": "Customer Acquisition Cost",
+      "code": "CAC",
+      "unit": "USD",
+      "category": "Marketing Efficiency",
+      "description": "Cost required to convince a potential customer to make their first purchase.",
+      "formula": "Total_Marketing_Spend / Number_of_New_Customers_Acquired",
+      "sql_expression": "SELECT SUM(f.marketing_spend) / NULLIF(COUNT(DISTINCT c.customer_id), 0) AS cac FROM financials f, customers c WHERE c.created_at >= '2023-01-01'",
+      "aliases": ["cac", "chi phí thu nạp khách hàng", "chi phí kiếm một khách hàng", "chi phí chuyển đổi khách hàng", "customer_acquisition_cost"]
+    },
+    "ROAS": {
+      "metric_name": "Return on Ad Spend",
+      "code": "ROAS",
+      "unit": "ratio",
+      "category": "Marketing Efficiency",
+      "description": "Revenue generated for every dollar spent on marketing advertising campaigns.",
+      "formula": "Ad_Attributed_Revenue / Total_Marketing_Spend",
+      "sql_expression": "SELECT SUM(f.gross_revenue) / NULLIF(SUM(f.marketing_spend), 0) AS roas FROM financials f WHERE f.marketing_spend > 0",
+      "aliases": ["roas", "hiệu quả chi phí quảng cáo", "tỷ suất doanh thu trên quảng cáo", "hệ số roas", "return_on_ad_spend"]
+    },
+    "LTV": {
+      "metric_name": "Customer Lifetime Value",
+      "code": "LTV",
+      "unit": "USD",
+      "category": "Customer & Order Economics",
+      "description": "Total revenue/profit a business can reasonably expect from a single customer throughout the business relationship.",
+      "formula": "AOV * Purchase_Frequency * Average_Customer_Lifespan_Years",
+      "sql_expression": "SELECT AVG(cust_total_rev) AS ltv FROM (SELECT o.customer_id, SUM(s.gross_sales - s.discount_amount) AS cust_total_rev FROM sales s JOIN orders o ON s.order_id = o.order_id WHERE o.order_status = 'delivered' GROUP BY o.customer_id)",
+      "aliases": ["ltv", "clv", "giá trị vòng đời khách hàng", "giá trị trọn đời", "customer_lifetime_value"]
+    },
+    "Order_Fulfillment_Rate": {
+      "metric_name": "Order Fulfillment Rate",
+      "code": "Order_Fulfillment_Rate",
+      "unit": "percentage",
+      "category": "Operations & Logistics",
+      "description": "Percentage of total orders successfully delivered to customers.",
+      "formula": "(Count(delivered_orders) / Total_Orders) * 100",
+      "sql_expression": "SELECT (COUNT(CASE WHEN order_status = 'delivered' THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)) AS fulfillment_rate_pct FROM orders",
+      "aliases": ["order_fulfillment_rate", "tỷ lệ hoàn thành đơn", "tỷ lệ giao hàng thành công", "tỷ lệ đơn thành công"]
+    },
+    "Cancellation_Rate": {
+      "metric_name": "Order Cancellation Rate",
+      "code": "Cancellation_Rate",
+      "unit": "percentage",
+      "category": "Operations & Logistics",
+      "description": "Percentage of placed orders that were canceled before delivery.",
+      "formula": "(Count(canceled_orders) / Total_Orders) * 100",
+      "sql_expression": "SELECT (COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)) AS cancellation_rate_pct FROM orders",
+      "aliases": ["cancellation_rate", "tỷ lệ hủy đơn", "tỷ lệ hủy", "tỷ lệ đơn bị hủy"]
+    },
+    "Repurchase_Rate": {
+      "metric_name": "Repeat Purchase Rate",
+      "code": "Repurchase_Rate",
+      "unit": "percentage",
+      "category": "Customer & Order Economics",
+      "description": "Percentage of customers who have made more than one purchase.",
+      "formula": "(Count(customers with >= 2 orders) / Total_Unique_Customers) * 100",
+      "sql_expression": "SELECT (COUNT(CASE WHEN order_cnt > 1 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)) AS repurchase_rate_pct FROM (SELECT customer_id, COUNT(order_id) AS order_cnt FROM orders GROUP BY customer_id)",
+      "aliases": ["repurchase_rate", "repeat_purchase_rate", "tỷ lệ mua lại", "tỷ lệ khách hàng quay lại", "tỷ lệ tái mua"]
+    }
+  },
+  "dimensions": {
+    "time_dimension": {
+      "description": "Standard temporal drill-down hierarchy.",
+      "hierarchies": ["year", "quarter", "month", "week", "day_of_week", "date", "hour"]
+    },
+    "geographic_dimension": {
+      "description": "Geographic drill-down hierarchy.",
+      "hierarchies": ["country", "state", "city", "zip_code"]
+    },
+    "product_dimension": {
+      "description": "Product catalog classification hierarchy.",
+      "hierarchies": ["category", "sub_category", "product_id"]
+    },
+    "marketing_dimension": {
+      "description": "Channel acquisition and marketing attribution hierarchy.",
+      "hierarchies": ["marketing_channel", "campaign_type"]
+    },
+    "customer_dimension": {
+      "description": "Customer grouping hierarchy.",
+      "hierarchies": ["customer_segment", "customer_id"]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "file_path": "Dataset/Data/2. DỮ LIỆU TÀI CHÍNH DOANH NGHIỆP/online+retail+ii/online_retail_II.xlsx",
+  "file_size_mb": 43.51,
+  "total_rows": 1067371,
+  "total_cols": 9,
+  "sheets": {
+    "Year 2009-2010": 525461,
+    "Year 2010-2011": 541910
+  },
+  "missing_customer_id_pct": 22.77,
+  "cancelled_pct": 1.83,
+  "price_le_zero_pct": 0.58,
+  "unique_customers": 5942,
+  "unique_products": 5305,
+  "unique_countries": 43,
+  "date_range": {
+    "min": "2009-12-01 07:45:00",
+    "max": "2011-12-09 12:50:00"
+  }
+}
