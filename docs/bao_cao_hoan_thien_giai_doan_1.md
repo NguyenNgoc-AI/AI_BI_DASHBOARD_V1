@@ -16,7 +16,6 @@
    - [Task 2: Định nghĩa Ràng buộc Nghiệp vụ Tài chính (`semantic/business_rules.py`)](#2-task-2-định-nghĩa-ràng-buộc-nghiệp-vụ-tài-chính)
    - [Task 3: ETL Hợp nhất & Phân tách Seed Data + Holdout Set](#3-task-3-etl-hợp-nhất--phân-tách-seed-data--holdout-set)
 3. [KẾT QUẢ KIỂM ĐỊNH CHẤT LƯỢNG & ĐỘ TOÀN VẸN (QUALITY GATE)](#iii-kết-quả-kiểm-định-chất-lượng--độ-toàn-vẹn)
-4. [LỘ TRÌNH KỸ THUẬT & HƯỚNG ĐI CHI TIẾT CHO CÁC GIAI ĐOẠN TIẾP THEO](#iv-lộ-trình-kỹ-thuật--hướng-đi-chi-tiết-cho-các-giai-đoạn-tiếp-theo)
 
 ---
 
