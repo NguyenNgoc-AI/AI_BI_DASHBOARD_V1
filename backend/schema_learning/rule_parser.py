@@ -230,6 +230,35 @@ class RuleParser:
             check_fn=self._check_non_negative_costs,
         )
 
+        # Declarative Specification Aliases (HR_* / SR_* mappings)
+        declarative_mappings = {
+            "HR_SALES_001": "BR_SALES_001",
+            "HR_SALES_002": "BR_SALES_002",
+            "HR_SALES_003": "BR_SALES_003",
+            "HR_SALES_004": "BR_SALES_004",
+            "SR_SALES_001": "BR_SALES_005",
+            "HR_PROD_001": "BR_PROD_001",
+            "SR_PROD_001": "BR_PROD_002",
+            "HR_ORD_001": "BR_ORD_001",
+            "HR_ORD_002": "BR_ORD_002",
+            "HR_FIN_001": "BR_FIN_001",
+            "HR_FIN_002": "BR_FIN_002",
+            "HR_FIN_003": "BR_FIN_003",
+        }
+        for decl_id, legacy_id in declarative_mappings.items():
+            if legacy_id in self.executable_constraints and decl_id not in self.executable_constraints:
+                base = self.executable_constraints[legacy_id]
+                self.executable_constraints[decl_id] = ExecutableConstraint(
+                    rule_id=decl_id,
+                    name=base.name,
+                    table=base.table,
+                    severity=base.severity,
+                    description=base.description,
+                    formula=base.formula,
+                    check_fn=base.check_fn,
+                    repair_fn=base.repair_fn,
+                )
+
     # -----------------------------------------------------------------
     # Vectorized Check Functions
     # -----------------------------------------------------------------

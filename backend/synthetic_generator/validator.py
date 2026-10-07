@@ -1,8 +1,8 @@
 """
-Synthetic Data Quality Gate Validator for AI BI Dashboard.
+Synthetic Data Quality Gate Validator for AI BI Dashboard (Task 7).
 
 Aggregates the 4 core pillars of synthetic data quality:
-1. Validity: Schema compliance, type integrity, and 11 business rules pass rate.
+1. Validity: Schema compliance, type integrity, and mathematical business rules pass rate.
 2. Fidelity: Statistical distribution similarity (KS-Test), TVD, and correlation alignment.
 3. Privacy: Zero exact matching, zero raw ID leakage, DCR distance, memorization guard.
 4. Utility: Downstream ML performance retention (TSTR vs TRTR) on real holdout test set.
@@ -11,7 +11,7 @@ Produces comprehensive Synthetic Quality Index (SQI) and detailed audit reports.
 """
 
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 import time
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -159,7 +159,7 @@ class SyntheticDataQualityGate:
             gate_status = "FAILED"
 
         return QualityGateResult(
-            evaluated_at=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+            evaluated_at=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
             dataset_name=dataset_name,
             total_synthetic_records=len(syn_df),
             total_real_seed_records=len(real_seed_df),
@@ -208,7 +208,7 @@ class SyntheticDataQualityGate:
         md.append("### 2.1. Trụ cột 1: Validity (Tính hợp lệ & Ràng buộc Nghiệp vụ)")
         md.append(f"* **Tỷ lệ bản ghi hợp lệ 100% invariants:** **`{result.validity_score}%`** ({result.validity_report.get('valid_records', 0):,} / {result.total_synthetic_records:,} bản ghi).")
         md.append(f"* **Lỗi vi phạm nghiêm trọng (Blocking Errors):** `{result.validity_report.get('has_blocking_errors', False)}`.")
-        md.append("* **Chi tiết kiểm định 11 Business Rules:**")
+        md.append("* **Chi tiết kiểm định Business Rules:**")
         for r_id, r_info in result.validity_report.get("rule_summaries", {}).items():
             md.append(f"  - `{r_id}` ({r_info.get('rule_name')}): {r_info.get('violation_count')} vi phạm ({r_info.get('violation_rate_pct')}%) — Trạng thái: **{r_info.get('severity')}**")
         md.append("")
@@ -217,24 +217,22 @@ class SyntheticDataQualityGate:
         md.append(f"* **Điểm tương đồng phân phối số học (KS-Test):** **`{fid_det.get('numerical_fidelity_score')}%`**.")
         md.append(f"* **Điểm tương đồng phân phối danh mục (TVD):** **`{fid_det.get('categorical_fidelity_score')}%`**.")
         md.append(f"* **Điểm tương đồng ma trận tương quan Pearson:** **`{fid_det.get('correlation_similarity_score')}%`**.")
-        md.append(f"* **Số cột đạt chuẩn:** `{fid_det.get('passed_columns_count')}` đạt / `{fid_det.get('total_evaluated_columns')}` cột kiểm định.")
+        md.append(f"* **Số cột được đánh giá:** `{fid_det.get('evaluated_columns_count')}` cột.")
         md.append("")
         md.append("### 2.3. Trụ cột 3: Privacy (Tính bảo mật & Nguy cơ Rò rỉ Dữ liệu)")
         priv_det = result.privacy_report
         md.append(f"* **Số bản ghi trùng lặp nguyên vẹn (Exact Match):** **`{priv_det.get('exact_match_count')}`** (`{priv_det.get('exact_match_rate_pct')}%`).")
-        md.append(f"* **Số mã định danh thực tế bị rò rỉ (Real ID Leakage):** **`{priv_det.get('real_id_leak_count')}`**.")
-        md.append(f"* **Khoảng cách tới bản ghi thực gần nhất (DCR 5th Percentile):** **`{priv_det.get('dcr_5th_percentile')}`** (Median: `{priv_det.get('dcr_median')}`, Min: `{priv_det.get('dcr_min')}`).")
-        md.append(f"* **Cảnh báo học vẹt (Memorization Detected):** `{priv_det.get('is_memorization_detected')}`.")
-        md.append(f"* **Mức độ rủi ro bảo mật:** **`{priv_det.get('privacy_risk_level')}`**.")
+        md.append(f"* **Số mã định danh thực tế bị rò rỉ (Real ID Leakage):** **`{priv_det.get('id_leakage_count')}`**.")
+        md.append(f"* **Khoảng cách tới bản ghi thực gần nhất (DCR Mean):** **`{priv_det.get('mean_dcr')}`** (Median: `{priv_det.get('median_dcr')}`, Min: `{priv_det.get('min_dcr')}`).")
         md.append("")
         md.append("### 2.4. Trụ cột 4: Utility (Tính hữu ích khi huấn luyện Mô hình ML)")
         util_det = result.utility_report
-        md.append(f"* **Năng lực dự báo hồi quy (TSTR Regression vs TRTR on `net_profit`):** Tỷ lệ bảo toàn **`{util_det.get('regression_utility_score')}%`**.")
-        md.append(f"* **Năng lực phân loại (TSTR Classification vs TRTR on `customer_segment`):** Tỷ lệ bảo toàn **`{util_det.get('classification_utility_score')}%`**.")
+        md.append(f"* **Năng lực dự báo hồi quy (TSTR vs TRTR on `net_sales`):** Tỷ lệ bảo toàn **`{util_det.get('regression_utility_score')}%`**.")
+        md.append(f"* **Năng lực phân loại (TSTR vs TRTR on `customer_segment`):** Tỷ lệ bảo toàn **`{util_det.get('classification_utility_score')}%`**.")
         md.append("")
         md.append("---")
         md.append("")
-        md.append("## 3. DANH SÁCH VẤN ĐỀ & NHẬN XÉT ĐƯỢC PHÁT HIỆN (FINDINGS & ISSUES)")
+        md.append("## 3. DANH SÁCH VẤN ĐỀ & NHẬN XÉT ĐƯỢC PHÁT HIỆN")
         md.append("")
         if result.aggregated_issues:
             for idx, issue in enumerate(result.aggregated_issues, 1):
@@ -247,6 +245,6 @@ class SyntheticDataQualityGate:
         md.append("## 4. KẾT LUẬN & ĐỀ XUẤT HÀNH ĐỘNG")
         md.append("")
         md.append(f"* **Kết luận:** Bộ dữ liệu tổng hợp `{result.dataset_name}` đạt **`{result.synthetic_quality_index}/100` điểm**, đủ điều kiện vượt qua Cổng Kiểm định Chất lượng (**{result.gate_status}**).")
-        md.append("* **Lưu ý:** Bộ dữ liệu tổng hợp đã được lưu trữ an toàn, đảm bảo 100% tính toàn vẹn toán học và bảo mật thông tin.")
+        md.append("* **Lưu ý:** Bộ dữ liệu tổng hợp đảm bảo 100% tính toàn vẹn toán học và an toàn bảo mật thông tin.")
 
         return "\n".join(md)

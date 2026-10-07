@@ -1,6 +1,6 @@
 {
   "dataset_name": "ecommerce_seed",
-  "extracted_at": "2026-10-04 07:14:34 UTC",
+  "extracted_at": "2026-10-07 19:19:16 UTC",
   "total_records": 35000,
   "total_columns": 38,
   "column_profiles": {
@@ -11592,15 +11592,16 @@
     "zip_code": {
       "name": "zip_code",
       "physical_dtype": "int64",
-      "semantic_type": "postal_code",
+      "semantic_type": "identifier",
       "total_count": 35000,
       "null_count": 0,
       "null_rate_pct": 0.0,
       "distinct_count": 10920,
       "distinct_rate_pct": 31.2,
-      "distribution_type": "text",
+      "distribution_type": "identifier",
       "stats": {
-        "sample_length_avg": 4.8
+        "format": "ZIP_CODE_PATTERN",
+        "is_unique": false
       }
     },
     "product_id": {
@@ -11821,87 +11822,23 @@
     "quantity": {
       "name": "quantity",
       "physical_dtype": "int64",
-      "semantic_type": "numerical_quantity",
+      "semantic_type": "boolean",
       "total_count": 35000,
       "null_count": 0,
       "null_rate_pct": 0.0,
       "distinct_count": 1,
       "distinct_rate_pct": 0.0,
-      "distribution_type": "numerical",
+      "distribution_type": "categorical",
       "stats": {
-        "mean": 1.0,
-        "std": 0.0,
-        "variance": 0.0,
-        "min": 1.0,
-        "max": 1.0,
-        "median": 1.0,
-        "iqr": 0.0,
-        "skewness": 0.0,
-        "kurtosis": 0.0,
-        "is_integer": true,
-        "percentiles": {
-          "p01": 1.0,
-          "p05": 1.0,
-          "p10": 1.0,
-          "p25": 1.0,
-          "p50": 1.0,
-          "p75": 1.0,
-          "p90": 1.0,
-          "p95": 1.0,
-          "p99": 1.0
-        },
-        "histogram": [
-          {
-            "bin_start": 0.5,
-            "bin_end": 0.6,
-            "count": 0
-          },
-          {
-            "bin_start": 0.6,
-            "bin_end": 0.7,
-            "count": 0
-          },
-          {
-            "bin_start": 0.7,
-            "bin_end": 0.8,
-            "count": 0
-          },
-          {
-            "bin_start": 0.8,
-            "bin_end": 0.9,
-            "count": 0
-          },
-          {
-            "bin_start": 0.9,
-            "bin_end": 1.0,
-            "count": 0
-          },
-          {
-            "bin_start": 1.0,
-            "bin_end": 1.1,
-            "count": 35000
-          },
-          {
-            "bin_start": 1.1,
-            "bin_end": 1.2,
-            "count": 0
-          },
-          {
-            "bin_start": 1.2,
-            "bin_end": 1.3,
-            "count": 0
-          },
-          {
-            "bin_start": 1.3,
-            "bin_end": 1.4,
-            "count": 0
-          },
-          {
-            "bin_start": 1.4,
-            "bin_end": 1.5,
-            "count": 0
+        "distinct_count": 1,
+        "top_value": "1",
+        "top_value_frequency": 35000,
+        "categories": {
+          "1": {
+            "count": 35000,
+            "probability": 1.0
           }
-        ]
+        }
       }
     },
     "unit_price": {
@@ -12251,7 +12188,7 @@
     "discount_amount": {
       "name": "discount_amount",
       "physical_dtype": "float64",
-      "semantic_type": "numerical_currency",
+      "semantic_type": "numerical_quantity",
       "total_count": 35000,
       "null_count": 0,
       "null_rate_pct": 0.0,
@@ -12950,52 +12887,15 @@
     "order_approved_at": {
       "name": "order_approved_at",
       "physical_dtype": "str",
-      "semantic_type": "timestamp",
+      "semantic_type": "text",
       "total_count": 35000,
       "null_count": 5,
       "null_rate_pct": 0.01,
       "distinct_count": 32189,
       "distinct_rate_pct": 91.97,
-      "distribution_type": "datetime",
+      "distribution_type": "text",
       "stats": {
-        "min_timestamp": "2016-09-15 12:16:38",
-        "max_timestamp": "2018-08-29 09:04:10",
-        "range_days": 712.87,
-        "day_of_week_distribution": {
-          "Tuesday": 6768,
-          "Thursday": 5569,
-          "Wednesday": 5523,
-          "Friday": 5174,
-          "Monday": 4505,
-          "Saturday": 4253,
-          "Sunday": 3203
-        },
-        "hour_distribution": {
-          "2": 2590,
-          "16": 2033,
-          "3": 2009,
-          "17": 1969,
-          "13": 1961,
-          "14": 1905,
-          "15": 1902,
-          "11": 1878,
-          "18": 1764,
-          "20": 1731,
-          "10": 1714,
-          "19": 1694,
-          "21": 1640,
-          "22": 1599,
-          "12": 1580,
-          "9": 1341,
-          "23": 1238,
-          "4": 1214,
-          "8": 775,
-          "0": 686,
-          "7": 563,
-          "1": 524,
-          "5": 380,
-          "6": 305
-        }
+        "sample_length_avg": 19.0
       }
     },
     "order_delivered_carrier_date": {
@@ -13163,7 +13063,7 @@
     "payment_installments": {
       "name": "payment_installments",
       "physical_dtype": "int64",
-      "semantic_type": "numerical_quantity",
+      "semantic_type": "numerical_currency",
       "total_count": 35000,
       "null_count": 0,
       "null_rate_pct": 0.0,
@@ -13549,7 +13449,7 @@
     "operating_expenses": {
       "name": "operating_expenses",
       "physical_dtype": "float64",
-      "semantic_type": "numerical_currency",
+      "semantic_type": "numerical",
       "total_count": 35000,
       "null_count": 0,
       "null_rate_pct": 0.0,
@@ -13807,81 +13707,6 @@
   },
   "distributions": {
     "numerical": {
-      "quantity": {
-        "mean": 1.0,
-        "std": 0.0,
-        "variance": 0.0,
-        "min": 1.0,
-        "max": 1.0,
-        "median": 1.0,
-        "iqr": 0.0,
-        "skewness": 0.0,
-        "kurtosis": 0.0,
-        "is_integer": true,
-        "percentiles": {
-          "p01": 1.0,
-          "p05": 1.0,
-          "p10": 1.0,
-          "p25": 1.0,
-          "p50": 1.0,
-          "p75": 1.0,
-          "p90": 1.0,
-          "p95": 1.0,
-          "p99": 1.0
-        },
-        "histogram": [
-          {
-            "bin_start": 0.5,
-            "bin_end": 0.6,
-            "count": 0
-          },
-          {
-            "bin_start": 0.6,
-            "bin_end": 0.7,
-            "count": 0
-          },
-          {
-            "bin_start": 0.7,
-            "bin_end": 0.8,
-            "count": 0
-          },
-          {
-            "bin_start": 0.8,
-            "bin_end": 0.9,
-            "count": 0
-          },
-          {
-            "bin_start": 0.9,
-            "bin_end": 1.0,
-            "count": 0
-          },
-          {
-            "bin_start": 1.0,
-            "bin_end": 1.1,
-            "count": 35000
-          },
-          {
-            "bin_start": 1.1,
-            "bin_end": 1.2,
-            "count": 0
-          },
-          {
-            "bin_start": 1.2,
-            "bin_end": 1.3,
-            "count": 0
-          },
-          {
-            "bin_start": 1.3,
-            "bin_end": 1.4,
-            "count": 0
-          },
-          {
-            "bin_start": 1.4,
-            "bin_end": 1.5,
-            "count": 0
-          }
-        ]
-      },
       "unit_price": {
         "mean": 121.2963,
         "std": 189.2675,
@@ -26908,6 +26733,17 @@
           }
         }
       },
+      "quantity": {
+        "distinct_count": 1,
+        "top_value": "1",
+        "top_value_frequency": 35000,
+        "categories": {
+          "1": {
+            "count": 35000,
+            "probability": 1.0
+          }
+        }
+      },
       "order_status": {
         "distinct_count": 7,
         "top_value": "delivered",
@@ -27039,46 +26875,6 @@
           "5": 56
         }
       },
-      "order_approved_at": {
-        "min_timestamp": "2016-09-15 12:16:38",
-        "max_timestamp": "2018-08-29 09:04:10",
-        "range_days": 712.87,
-        "day_of_week_distribution": {
-          "Tuesday": 6768,
-          "Thursday": 5569,
-          "Wednesday": 5523,
-          "Friday": 5174,
-          "Monday": 4505,
-          "Saturday": 4253,
-          "Sunday": 3203
-        },
-        "hour_distribution": {
-          "2": 2590,
-          "16": 2033,
-          "3": 2009,
-          "17": 1969,
-          "13": 1961,
-          "14": 1905,
-          "15": 1902,
-          "11": 1878,
-          "18": 1764,
-          "20": 1731,
-          "10": 1714,
-          "19": 1694,
-          "21": 1640,
-          "22": 1599,
-          "12": 1580,
-          "9": 1341,
-          "23": 1238,
-          "4": 1214,
-          "8": 775,
-          "0": 686,
-          "7": 563,
-          "1": 524,
-          "5": 380,
-          "6": 305
-        }
-      },
       "order_delivered_carrier_date": {
         "min_timestamp": "2016-10-09 03:45:42",
         "max_timestamp": "2018-09-03 12:56:00",
@@ -27178,53 +26974,29 @@
   },
   "correlation_matrices": {
     "pearson": {
-      "zip_code": {
-        "zip_code": 1.0,
-        "quantity": NaN,
-        "unit_price": 0.0485,
-        "unit_cost": 0.0485,
-        "margin_rate": -0.0234,
-        "gross_sales": 0.0485,
-        "discount_amount": 0.0224,
-        "net_sales": 0.0488,
-        "cogs": 0.0485,
-        "gross_profit": 0.0467,
-        "gross_margin_pct": -0.0247,
-        "freight_value": 0.2351,
-        "platform_fee": 0.047,
-        "payment_installments": 0.0631,
-        "payment_value": 0.0629,
-        "marketing_spend": 0.0008,
-        "tax_amount": 0.0488,
-        "operating_expenses": 0.0488,
-        "net_profit": 0.0431,
-        "net_margin_pct": 0.02
-      },
       "quantity": {
-        "zip_code": NaN,
-        "quantity": NaN,
-        "unit_price": NaN,
-        "unit_cost": NaN,
-        "margin_rate": NaN,
-        "gross_sales": NaN,
-        "discount_amount": NaN,
-        "net_sales": NaN,
-        "cogs": NaN,
-        "gross_profit": NaN,
-        "gross_margin_pct": NaN,
-        "freight_value": NaN,
-        "platform_fee": NaN,
-        "payment_installments": NaN,
-        "payment_value": NaN,
-        "marketing_spend": NaN,
-        "tax_amount": NaN,
-        "operating_expenses": NaN,
-        "net_profit": NaN,
-        "net_margin_pct": NaN
+        "quantity": 0.0,
+        "unit_price": 0.0,
+        "unit_cost": 0.0,
+        "margin_rate": 0.0,
+        "gross_sales": 0.0,
+        "discount_amount": 0.0,
+        "net_sales": 0.0,
+        "cogs": 0.0,
+        "gross_profit": 0.0,
+        "gross_margin_pct": 0.0,
+        "freight_value": 0.0,
+        "platform_fee": 0.0,
+        "payment_installments": 0.0,
+        "payment_value": 0.0,
+        "marketing_spend": 0.0,
+        "tax_amount": 0.0,
+        "operating_expenses": 0.0,
+        "net_profit": 0.0,
+        "net_margin_pct": 0.0
       },
       "unit_price": {
-        "zip_code": 0.0485,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 1.0,
         "unit_cost": 0.9839,
         "margin_rate": 0.017,
@@ -27245,8 +27017,7 @@
         "net_margin_pct": 0.2192
       },
       "unit_cost": {
-        "zip_code": 0.0485,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9839,
         "unit_cost": 1.0,
         "margin_rate": -0.081,
@@ -27267,8 +27038,7 @@
         "net_margin_pct": 0.1656
       },
       "margin_rate": {
-        "zip_code": -0.0234,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.017,
         "unit_cost": -0.081,
         "margin_rate": 1.0,
@@ -27289,8 +27059,7 @@
         "net_margin_pct": 0.4795
       },
       "gross_sales": {
-        "zip_code": 0.0485,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 1.0,
         "unit_cost": 0.9839,
         "margin_rate": 0.017,
@@ -27311,8 +27080,7 @@
         "net_margin_pct": 0.2192
       },
       "discount_amount": {
-        "zip_code": 0.0224,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.5591,
         "unit_cost": 0.5556,
         "margin_rate": 0.0059,
@@ -27333,8 +27101,7 @@
         "net_margin_pct": -0.0211
       },
       "net_sales": {
-        "zip_code": 0.0488,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9961,
         "unit_cost": 0.9795,
         "margin_rate": 0.0173,
@@ -27355,8 +27122,7 @@
         "net_margin_pct": 0.2337
       },
       "cogs": {
-        "zip_code": 0.0485,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9839,
         "unit_cost": 1.0,
         "margin_rate": -0.081,
@@ -27377,8 +27143,7 @@
         "net_margin_pct": 0.1656
       },
       "gross_profit": {
-        "zip_code": 0.0467,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9581,
         "unit_cost": 0.904,
         "margin_rate": 0.1317,
@@ -27399,8 +27164,7 @@
         "net_margin_pct": 0.3014
       },
       "gross_margin_pct": {
-        "zip_code": -0.0247,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.0149,
         "unit_cost": -0.0733,
         "margin_rate": 0.8977,
@@ -27421,8 +27185,7 @@
         "net_margin_pct": 0.5633
       },
       "freight_value": {
-        "zip_code": 0.2351,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.417,
         "unit_cost": 0.4178,
         "margin_rate": -0.0539,
@@ -27443,8 +27206,7 @@
         "net_margin_pct": 0.1179
       },
       "platform_fee": {
-        "zip_code": 0.047,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9719,
         "unit_cost": 0.9586,
         "margin_rate": 0.015,
@@ -27465,8 +27227,7 @@
         "net_margin_pct": 0.2127
       },
       "payment_installments": {
-        "zip_code": 0.0631,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.2821,
         "unit_cost": 0.2653,
         "margin_rate": 0.0713,
@@ -27487,8 +27248,7 @@
         "net_margin_pct": 0.1663
       },
       "payment_value": {
-        "zip_code": 0.0629,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.7851,
         "unit_cost": 0.78,
         "margin_rate": -0.0185,
@@ -27509,8 +27269,7 @@
         "net_margin_pct": 0.1665
       },
       "marketing_spend": {
-        "zip_code": 0.0008,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": -0.0098,
         "unit_cost": -0.0084,
         "margin_rate": -0.0112,
@@ -27531,8 +27290,7 @@
         "net_margin_pct": -0.2984
       },
       "tax_amount": {
-        "zip_code": 0.0488,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9961,
         "unit_cost": 0.9795,
         "margin_rate": 0.0173,
@@ -27553,8 +27311,7 @@
         "net_margin_pct": 0.2337
       },
       "operating_expenses": {
-        "zip_code": 0.0488,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9961,
         "unit_cost": 0.9795,
         "margin_rate": 0.0173,
@@ -27575,8 +27332,7 @@
         "net_margin_pct": 0.2337
       },
       "net_profit": {
-        "zip_code": 0.0431,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.8839,
         "unit_cost": 0.8022,
         "margin_rate": 0.2154,
@@ -27597,8 +27353,7 @@
         "net_margin_pct": 0.3608
       },
       "net_margin_pct": {
-        "zip_code": 0.02,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.2192,
         "unit_cost": 0.1656,
         "margin_rate": 0.4795,
@@ -27620,53 +27375,29 @@
       }
     },
     "spearman": {
-      "zip_code": {
-        "zip_code": 1.0,
-        "quantity": NaN,
-        "unit_price": 0.077,
-        "unit_cost": 0.0801,
-        "margin_rate": -0.0267,
-        "gross_sales": 0.077,
-        "discount_amount": 0.0194,
-        "net_sales": 0.076,
-        "cogs": 0.0801,
-        "gross_profit": 0.0687,
-        "gross_margin_pct": -0.0249,
-        "freight_value": 0.4781,
-        "platform_fee": 0.0747,
-        "payment_installments": 0.0751,
-        "payment_value": 0.1187,
-        "marketing_spend": 0.0008,
-        "tax_amount": 0.076,
-        "operating_expenses": 0.076,
-        "net_profit": 0.0586,
-        "net_margin_pct": 0.0206
-      },
       "quantity": {
-        "zip_code": NaN,
-        "quantity": NaN,
-        "unit_price": NaN,
-        "unit_cost": NaN,
-        "margin_rate": NaN,
-        "gross_sales": NaN,
-        "discount_amount": NaN,
-        "net_sales": NaN,
-        "cogs": NaN,
-        "gross_profit": NaN,
-        "gross_margin_pct": NaN,
-        "freight_value": NaN,
-        "platform_fee": NaN,
-        "payment_installments": NaN,
-        "payment_value": NaN,
-        "marketing_spend": NaN,
-        "tax_amount": NaN,
-        "operating_expenses": NaN,
-        "net_profit": NaN,
-        "net_margin_pct": NaN
+        "quantity": 0.0,
+        "unit_price": 0.0,
+        "unit_cost": 0.0,
+        "margin_rate": 0.0,
+        "gross_sales": 0.0,
+        "discount_amount": 0.0,
+        "net_sales": 0.0,
+        "cogs": 0.0,
+        "gross_profit": 0.0,
+        "gross_margin_pct": 0.0,
+        "freight_value": 0.0,
+        "platform_fee": 0.0,
+        "payment_installments": 0.0,
+        "payment_value": 0.0,
+        "marketing_spend": 0.0,
+        "tax_amount": 0.0,
+        "operating_expenses": 0.0,
+        "net_profit": 0.0,
+        "net_margin_pct": 0.0
       },
       "unit_price": {
-        "zip_code": 0.077,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 1.0,
         "unit_cost": 0.983,
         "margin_rate": 0.0791,
@@ -27687,8 +27418,7 @@
         "net_margin_pct": 0.5094
       },
       "unit_cost": {
-        "zip_code": 0.0801,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.983,
         "unit_cost": 1.0,
         "margin_rate": -0.084,
@@ -27709,8 +27439,7 @@
         "net_margin_pct": 0.3995
       },
       "margin_rate": {
-        "zip_code": -0.0267,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.0791,
         "unit_cost": -0.084,
         "margin_rate": 1.0,
@@ -27731,8 +27460,7 @@
         "net_margin_pct": 0.6218
       },
       "gross_sales": {
-        "zip_code": 0.077,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 1.0,
         "unit_cost": 0.983,
         "margin_rate": 0.0791,
@@ -27753,8 +27481,7 @@
         "net_margin_pct": 0.5094
       },
       "discount_amount": {
-        "zip_code": 0.0194,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.1542,
         "unit_cost": 0.1524,
         "margin_rate": 0.0119,
@@ -27775,8 +27502,7 @@
         "net_margin_pct": -0.3065
       },
       "net_sales": {
-        "zip_code": 0.076,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9963,
         "unit_cost": 0.9795,
         "margin_rate": 0.0793,
@@ -27797,8 +27523,7 @@
         "net_margin_pct": 0.5412
       },
       "cogs": {
-        "zip_code": 0.0801,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.983,
         "unit_cost": 1.0,
         "margin_rate": -0.084,
@@ -27819,8 +27544,7 @@
         "net_margin_pct": 0.3995
       },
       "gross_profit": {
-        "zip_code": 0.0687,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.964,
         "unit_cost": 0.9146,
         "margin_rate": 0.2478,
@@ -27841,8 +27565,7 @@
         "net_margin_pct": 0.6714
       },
       "gross_margin_pct": {
-        "zip_code": -0.0249,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.075,
         "unit_cost": -0.0737,
         "margin_rate": 0.8958,
@@ -27863,8 +27586,7 @@
         "net_margin_pct": 0.7381
       },
       "freight_value": {
-        "zip_code": 0.4781,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.4352,
         "unit_cost": 0.442,
         "margin_rate": -0.0416,
@@ -27885,8 +27607,7 @@
         "net_margin_pct": 0.1676
       },
       "platform_fee": {
-        "zip_code": 0.0747,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9711,
         "unit_cost": 0.955,
         "margin_rate": 0.0768,
@@ -27907,8 +27628,7 @@
         "net_margin_pct": 0.5004
       },
       "payment_installments": {
-        "zip_code": 0.0751,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.3278,
         "unit_cost": 0.3095,
         "margin_rate": 0.1056,
@@ -27929,8 +27649,7 @@
         "net_margin_pct": 0.2043
       },
       "payment_value": {
-        "zip_code": 0.1187,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.8382,
         "unit_cost": 0.8287,
         "margin_rate": 0.0558,
@@ -27951,8 +27670,7 @@
         "net_margin_pct": 0.4056
       },
       "marketing_spend": {
-        "zip_code": 0.0008,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": -0.003,
         "unit_cost": -0.0005,
         "margin_rate": -0.0114,
@@ -27973,8 +27691,7 @@
         "net_margin_pct": -0.322
       },
       "tax_amount": {
-        "zip_code": 0.076,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9963,
         "unit_cost": 0.9795,
         "margin_rate": 0.0793,
@@ -27995,8 +27712,7 @@
         "net_margin_pct": 0.5412
       },
       "operating_expenses": {
-        "zip_code": 0.076,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.9962,
         "unit_cost": 0.9794,
         "margin_rate": 0.0794,
@@ -28017,8 +27733,7 @@
         "net_margin_pct": 0.5414
       },
       "net_profit": {
-        "zip_code": 0.0586,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.8768,
         "unit_cost": 0.8059,
         "margin_rate": 0.3653,
@@ -28039,8 +27754,7 @@
         "net_margin_pct": 0.8175
       },
       "net_margin_pct": {
-        "zip_code": 0.0206,
-        "quantity": NaN,
+        "quantity": 0.0,
         "unit_price": 0.5094,
         "unit_cost": 0.3995,
         "margin_rate": 0.6218,
@@ -28646,10 +28360,6 @@
     }
   },
   "bounds": {
-    "quantity": {
-      "min": 1.0,
-      "max": 1.0
-    },
     "unit_price": {
       "min": 1.2,
       "max": 6729.0

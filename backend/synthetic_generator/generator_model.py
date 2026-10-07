@@ -1,24 +1,29 @@
 """
-Synthetic Generator Model for E-Commerce Business Intelligence.
+Business Data Generator Engine for AI BI Dashboard (Task 6).
 
-Implements a Hierarchical Conditional Synthetic Data Generator that generates realistic,
-privacy-preserving e-commerce transactions based on learned statistical schema profiles.
+Implements a Hierarchical Conditional Synthetic Data Generator that:
+1. Learns statistical distributions and schema profiles from raw seed datasets or LearnedSchemaProfile (fit).
+2. Generates realistic, privacy-preserving business transactions with customizable scenario simulations (generate).
+3. Supports parameterized scenarios (growth_rate, holiday_season, discount_shock, inflation, custom date ranges).
+4. Integrates seamlessly with ConstraintEngine for 100% mathematical business logic compliance.
 """
 
-from datetime import datetime, timedelta
+from __future__ import annotations
+from datetime import datetime, timedelta, timezone
 import math
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 
-from backend.schema_learning.schema_extractor import LearnedSchemaProfile
+from backend.schema_learning.schema_extractor import LearnedSchemaProfile, SchemaExtractor
+from backend.schema_learning.rule_parser import ConstraintEngine
 
 
-class SyntheticGeneratorModel:
+class BusinessDataGenerator:
     """
-    Hierarchical Conditional Synthetic Generator for E-Commerce Data.
-    Uses learned univariate distributions, conditional probabilities, and temporal patterns.
+    Standard Business Data Generator Engine.
+    Supports fit() on seed DataFrames or profile objects, and parameterized generate() with scenario simulations.
     """
 
     def __init__(
@@ -29,22 +34,45 @@ class SyntheticGeneratorModel:
     ):
         self.random_state = random_state
         self.rng = np.random.RandomState(random_state)
+        self.profile: Optional[LearnedSchemaProfile] = None
+        self.constraint_engine = ConstraintEngine()
 
         if profile is not None:
             self.profile = profile
-        elif profile_path is not None:
+            self._init_distributions()
+        elif profile_path is not None and Path(profile_path).exists():
             self.profile = LearnedSchemaProfile.load(profile_path)
+            self._init_distributions()
         else:
-            default_path = Path("data/generated/learned_seed_profile.json")
-            if default_path.exists():
-                self.profile = LearnedSchemaProfile.load(default_path)
-            else:
-                raise ValueError("A valid LearnedSchemaProfile or profile_path must be provided.")
+            self.profile = None
+
+    def fit(
+        self,
+        seed_data: Union[pd.DataFrame, str, Path, LearnedSchemaProfile],
+        schema_config: Optional[Dict[str, Any]] = None,
+        dataset_name: str = "custom_dataset",
+    ) -> "BusinessDataGenerator":
+        """
+        Learns statistical distributions, correlation structures, and schema metadata from seed dataset.
+        """
+        if isinstance(seed_data, LearnedSchemaProfile):
+            self.profile = seed_data
+        elif isinstance(seed_data, (str, Path)):
+            extractor = SchemaExtractor(dataset_name=dataset_name)
+            self.profile = extractor.extract(seed_data)
+        elif isinstance(seed_data, pd.DataFrame):
+            extractor = SchemaExtractor(dataset_name=dataset_name)
+            self.profile = extractor.extract(seed_data)
+        else:
+            raise TypeError("seed_data must be a DataFrame, filepath, or LearnedSchemaProfile instance.")
 
         self._init_distributions()
+        return self
 
     def _init_distributions(self) -> None:
         """Pre-computes and caches sampling structures for fast vectorized generation."""
+        if self.profile is None:
+            return
         self.cat_dists = self.profile.distributions.get("categorical", {})
         self.num_dists = self.profile.distributions.get("numerical", {})
         self.temp_dists = self.profile.distributions.get("temporal", {})
@@ -53,7 +81,7 @@ class SyntheticGeneratorModel:
 
     def _sample_categorical(self, col_name: str, size: int, fallback_values: Optional[List[str]] = None) -> np.ndarray:
         """Samples categorical column values based on learned probabilities."""
-        if col_name in self.cat_dists and "categories" in self.cat_dists[col_name]:
+        if hasattr(self, "cat_dists") and col_name in self.cat_dists and "categories" in self.cat_dists[col_name]:
             cats = list(self.cat_dists[col_name]["categories"].keys())
             probs = [self.cat_dists[col_name]["categories"][c]["probability"] for c in cats]
             total_p = sum(probs)
@@ -63,12 +91,12 @@ class SyntheticGeneratorModel:
 
         if fallback_values:
             return self.rng.choice(fallback_values, size=size)
-        return np.array(["Unknown"] * size)
+        return np.array(["Standard"] * size)
 
     def _sample_conditional_subcategory(self, categories: np.ndarray) -> np.ndarray:
         """Samples sub_category conditionally on selected category."""
         sub_cats = []
-        cat_to_sub = self.hierarchies.get("category_to_subcategory", {})
+        cat_to_sub = getattr(self, "hierarchies", {}).get("category_to_subcategory", {})
 
         for cat in categories:
             if cat in cat_to_sub and cat_to_sub[cat]:
@@ -78,14 +106,14 @@ class SyntheticGeneratorModel:
                 probs = [p / total_p for p in probs]
                 sub_cats.append(self.rng.choice(subs, p=probs))
             else:
-                sub_cats.append(f"{cat} General")
+                sub_cats.append(f"{cat} Item")
 
         return np.array(sub_cats)
 
     def _sample_conditional_city(self, states: np.ndarray) -> np.ndarray:
         """Samples city conditionally on selected state."""
         cities = []
-        state_to_city = self.hierarchies.get("state_to_city", {})
+        state_to_city = getattr(self, "hierarchies", {}).get("state_to_city", {})
 
         for st in states:
             if st in state_to_city and state_to_city[st]:
@@ -95,14 +123,14 @@ class SyntheticGeneratorModel:
                 probs = [p / total_p for p in probs]
                 cities.append(self.rng.choice(city_list, p=probs))
             else:
-                cities.append("Capital City")
+                cities.append("Central City")
 
         return np.array(cities)
 
     def _sample_conditional_payment(self, segments: np.ndarray) -> np.ndarray:
         """Samples payment_type conditionally on customer_segment."""
         payments = []
-        seg_to_pay = self.hierarchies.get("segment_to_payment_type", {})
+        seg_to_pay = getattr(self, "hierarchies", {}).get("segment_to_payment_type", {})
         default_pays = ["credit_card", "debit_card", "boleto", "e_wallet"]
 
         for seg in segments:
@@ -117,53 +145,77 @@ class SyntheticGeneratorModel:
 
         return np.array(payments)
 
-    def _sample_pricing_by_category(self, categories: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-        """Samples unit_price, unit_cost, and margin_rate conditioned on product category."""
-        pricing_patterns = self.hierarchies.get("category_pricing_patterns", {})
-        
+    def _sample_pricing_by_category(
+        self,
+        categories: np.ndarray,
+        scenario_params: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Samples unit_price, unit_cost, and margin_rate with optional scenario adjustments."""
+        pricing_patterns = getattr(self, "hierarchies", {}).get("category_pricing_patterns", {})
+        growth_rate = 0.0
+        margin_delta = 0.0
+
+        if scenario_params:
+            growth_rate = float(scenario_params.get("growth_rate", 0.0))
+            if scenario_params.get("scenario") == "margin_compression":
+                margin_delta = -0.10  # 10% lower margin due to supply chain cost inflation
+
         prices = np.zeros(len(categories))
         costs = np.zeros(len(categories))
         margin_rates = np.zeros(len(categories))
 
         for idx, cat in enumerate(categories):
             pattern = pricing_patterns.get(cat, {})
-            mean_price = pattern.get("mean_unit_price", 85.0)
-            std_price = max(5.0, pattern.get("std_unit_price", 35.0))
-            mean_margin = pattern.get("mean_margin_rate", 0.45)
+            mean_price = pattern.get("mean_unit_price", 85.0) * (1.0 + growth_rate)
+            mean_margin = pattern.get("mean_margin_rate", 0.45) + margin_delta
 
-            # Sample price using log-normal distribution centered near mean_price
+            # Sample price using log-normal distribution
             mu = math.log(max(10.0, mean_price)) - 0.5 * (0.4 ** 2)
-            sampled_price = float(np.clip(self.rng.lognormal(mu, 0.45), 4.99, 1500.0))
+            sampled_price = float(np.clip(self.rng.lognormal(mu, 0.45), 4.99, 2500.0))
             
-            # Sample margin rate with realistic variation (0.15 to 0.75)
-            sampled_margin = float(np.clip(mean_margin + self.rng.normal(0.0, 0.08), 0.15, 0.80))
+            # Sample margin rate with bounded realistic variation
+            sampled_margin = float(np.clip(mean_margin + self.rng.normal(0.0, 0.08), 0.10, 0.85))
             sampled_cost = float(np.clip(sampled_price * (1.0 - sampled_margin), 1.0, sampled_price * 0.95))
 
             prices[idx] = round(sampled_price, 2)
             costs[idx] = round(sampled_cost, 2)
-            margin_rates[idx] = round(sampled_margin, 4)
+            margin_rates[idx] = round((sampled_price - sampled_cost) / sampled_price, 4)
 
         return prices, costs, margin_rates
 
-    def _generate_timestamps(self, size: int) -> Dict[str, List[str]]:
+    def _generate_timestamps(
+        self,
+        size: int,
+        scenario_params: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, List[str]]:
         """Generates realistic temporal sequence for order lifecycle milestones."""
-        temp_col = self.temp_dists.get("order_purchase_timestamp", {})
+        temp_col = getattr(self, "temp_dists", {}).get("order_purchase_timestamp", {})
         min_ts_str = temp_col.get("min_timestamp", "2017-01-01 00:00:00")
         max_ts_str = temp_col.get("max_timestamp", "2018-09-01 00:00:00")
 
-        min_dt = datetime.strptime(min_ts_str, "%Y-%m-%d %H:%M:%S")
-        max_dt = datetime.strptime(max_ts_str, "%Y-%m-%d %H:%M:%S")
+        if scenario_params and "start_date" in scenario_params and "end_date" in scenario_params:
+            min_ts_str = f"{scenario_params['start_date']} 00:00:00"
+            max_ts_str = f"{scenario_params['end_date']} 23:59:59"
+
+        try:
+            min_dt = datetime.strptime(min_ts_str[:19], "%Y-%m-%d %H:%M:%S")
+            max_dt = datetime.strptime(max_ts_str[:19], "%Y-%m-%d %H:%M:%S")
+        except Exception:
+            min_dt = datetime(2017, 1, 1)
+            max_dt = datetime(2018, 9, 1)
+
         total_seconds = max(86400, int((max_dt - min_dt).total_seconds()))
 
-        # Sample random purchase timestamps
+        # Sample purchase timestamps
         random_offsets = self.rng.uniform(0, total_seconds, size=size)
         purchase_dts = [min_dt + timedelta(seconds=float(offset)) for offset in random_offsets]
 
         # Duration deltas from learned patterns
-        p_app_mean = self.temp_patterns.get("purchase_to_approved_hours", {}).get("mean", 10.5)
-        a_car_mean = self.temp_patterns.get("approved_to_carrier_hours", {}).get("mean", 32.0)
-        c_del_mean = self.temp_patterns.get("carrier_to_delivered_days", {}).get("mean", 8.5)
-        p_est_mean = self.temp_patterns.get("purchase_to_estimated_days", {}).get("mean", 22.0)
+        patterns = getattr(self, "temp_patterns", {})
+        p_app_mean = patterns.get("purchase_to_approved_hours", {}).get("mean", 10.5)
+        a_car_mean = patterns.get("approved_to_carrier_hours", {}).get("mean", 32.0)
+        c_del_mean = patterns.get("carrier_to_delivered_days", {}).get("mean", 8.5)
+        p_est_mean = patterns.get("purchase_to_estimated_days", {}).get("mean", 22.0)
 
         approved_dts = []
         carrier_dts = []
@@ -171,23 +223,19 @@ class SyntheticGeneratorModel:
         estimated_dts = []
 
         for p_dt in purchase_dts:
-            # 1. Purchase -> Approved (minutes to hours)
-            app_hours = max(0.1, self.rng.exponential(scale=p_app_mean))
+            app_hours = max(0.1, float(self.rng.exponential(scale=p_app_mean)))
             a_dt = p_dt + timedelta(hours=app_hours)
             approved_dts.append(a_dt)
 
-            # 2. Approved -> Carrier (12 to 72 hours)
-            car_hours = max(1.0, self.rng.exponential(scale=a_car_mean))
+            car_hours = max(1.0, float(self.rng.exponential(scale=a_car_mean)))
             c_dt = a_dt + timedelta(hours=car_hours)
             carrier_dts.append(c_dt)
 
-            # 3. Carrier -> Customer Delivered (2 to 25 days)
-            del_days = max(1.0, self.rng.lognormal(mean=math.log(max(2.0, c_del_mean)), sigma=0.4))
+            del_days = max(1.0, float(self.rng.lognormal(mean=math.log(max(2.0, c_del_mean)), sigma=0.4)))
             d_dt = c_dt + timedelta(days=del_days)
             customer_dts.append(d_dt)
 
-            # 4. Estimated Delivery Date
-            est_days = max(del_days + 2.0, self.rng.normal(loc=p_est_mean, scale=4.0))
+            est_days = max(del_days + 2.0, float(self.rng.normal(loc=p_est_mean, scale=4.0)))
             e_dt = p_dt + timedelta(days=est_days)
             estimated_dts.append(e_dt)
 
@@ -200,92 +248,110 @@ class SyntheticGeneratorModel:
             "order_estimated_delivery_date": [dt.strftime("%Y-%m-%d 00:00:00") for dt in estimated_dts],
         }
 
-    def generate(self, n_samples: int = 50000) -> pd.DataFrame:
+    def generate(
+        self,
+        num_rows: int = 50000,
+        scenario_params: Optional[Dict[str, Any]] = None,
+        enforce_business_rules: bool = True,
+        include_funnel_metrics: bool = False,
+    ) -> pd.DataFrame:
         """
-        Generates N synthetic e-commerce transaction records.
-        Returns a raw synthetic DataFrame before constraint post-processing.
+        Generates N synthetic business records with optional scenario parameters and vectorized rule enforcement.
+        Default generates 38 standard columns. If include_funnel_metrics=True, includes impressions, clicks, conversions (41 columns).
         """
-        # 1. IDs (Unique synthetic tokens)
-        sales_ids = [f"SYN_SALE_{i+1:07d}" for i in range(n_samples)]
-        order_ids = [f"SYN_ORD_{self.rng.randint(1000000, 9999999)}" for _ in range(n_samples)]
-        customer_ids = [f"SYN_CUST_{self.rng.randint(100000, 999999)}" for _ in range(n_samples)]
-        product_ids = [f"SYN_SKU_{self.rng.randint(10000, 99999)}" for _ in range(n_samples)]
+        if self.profile is None:
+            raise ValueError("Generator is not fitted yet. Please call fit() or provide a profile.")
+
+        params = scenario_params or {}
+        scenario_name = params.get("scenario", "baseline")
+        growth_rate = float(params.get("growth_rate", 0.0))
+        discount_multiplier = 1.0
+
+        if scenario_name in ["holiday_season", "black_friday"]:
+            discount_multiplier = 1.5
+        elif "discount_shock" in params:
+            discount_multiplier = 1.0 + float(params["discount_shock"])
+
+        # 1. Unique synthetic token IDs
+        sales_ids = [f"SYN_SALE_{i+1:07d}" for i in range(num_rows)]
+        order_ids = [f"SYN_ORD_{self.rng.randint(1000000, 9999999)}" for _ in range(num_rows)]
+        customer_ids = [f"SYN_CUST_{self.rng.randint(100000, 999999)}" for _ in range(num_rows)]
+        product_ids = [f"SYN_SKU_{self.rng.randint(10000, 99999)}" for _ in range(num_rows)]
 
         # 2. Customer Attributes
         segments = self._sample_categorical(
-            "customer_segment", n_samples, ["Consumer", "Corporate", "Home Office"]
+            "customer_segment", num_rows, ["Consumer", "Corporate", "Home Office", "VIP"]
         )
         states = self._sample_categorical(
-            "state", n_samples, ["SP", "RJ", "MG", "RS", "PR", "SC", "BA", "DF", "PE", "CE"]
+            "state", num_rows, ["SP", "RJ", "MG", "RS", "PR", "SC", "BA", "DF", "PE", "CE"]
         )
         cities = self._sample_conditional_city(states)
-        countries = np.array(["Brazil"] * n_samples)
-        zip_codes = self.rng.randint(1000, 99999, size=n_samples).astype(str)
+        countries = np.array(["Brazil"] * num_rows)
+        zip_codes = self.rng.randint(1000, 99999, size=num_rows).astype(str)
 
         # 3. Product Catalog Attributes
         categories = self._sample_categorical(
-            "category", n_samples, ["Electronics", "Home & Kitchen", "Computers & Accessories", "Beauty & Fashion", "Sports & Outdoors"]
+            "category",
+            num_rows,
+            ["Electronics", "Home & Kitchen", "Computers & Accessories", "Beauty & Fashion", "Sports & Outdoors"],
         )
         sub_categories = self._sample_conditional_subcategory(categories)
-        unit_prices, unit_costs, margin_rates = self._sample_pricing_by_category(categories)
+        unit_prices, unit_costs, margin_rates = self._sample_pricing_by_category(categories, params)
 
         # 4. Sales Line Item Metrics
-        quantities = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 4], size=n_samples)
+        quantities = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 4], size=num_rows)
         gross_sales = (quantities * unit_prices).round(2)
 
-        # Realistic Discounts (40% orders have discounts between 5% and 20%)
-        has_discount = self.rng.rand(n_samples) < 0.38
-        discount_rates = self.rng.uniform(0.05, 0.20, size=n_samples)
+        # Discounts
+        has_discount = self.rng.rand(num_rows) < min(0.70, 0.38 * discount_multiplier)
+        discount_rates = np.clip(self.rng.uniform(0.05, 0.20, size=num_rows) * discount_multiplier, 0.0, 0.60)
         discounts = np.where(has_discount, (gross_sales * discount_rates).round(2), 0.0)
         discounts = np.minimum(discounts, gross_sales)
 
         net_sales = (gross_sales - discounts).round(2)
         cogs = (quantities * unit_costs).round(2)
         gross_profits = (net_sales - cogs).round(2)
-        gross_margins = np.where(net_sales > 0, ((gross_profits / net_sales) * 100.0).round(2), 0.0)
+        safe_net = np.where(net_sales > 0, net_sales, 1.0)
+        gross_margins = np.where(net_sales > 0, ((gross_profits / safe_net) * 100.0).round(2), 0.0)
 
         # Freight & Platform Fee
-        freight_values = self.rng.uniform(8.50, 45.00, size=n_samples).round(2)
-        platform_fee_rates = self.rng.uniform(0.06, 0.12, size=n_samples)
+        freight_values = self.rng.uniform(8.50, 45.00, size=num_rows).round(2)
+        platform_fee_rates = self.rng.uniform(0.06, 0.12, size=num_rows)
         platform_fees = (net_sales * platform_fee_rates).round(2)
 
         # 5. Order Milestones & Lifecycle
-        order_statuses = self._sample_categorical("order_status", n_samples, ["delivered", "shipped", "invoiced"])
-        timestamps = self._generate_timestamps(n_samples)
+        order_statuses = self._sample_categorical("order_status", num_rows, ["delivered", "shipped", "invoiced"])
+        timestamps = self._generate_timestamps(num_rows, params)
         payment_types = self._sample_conditional_payment(segments)
-        payment_installments = self.rng.choice([1, 1, 1, 2, 3, 4, 6, 10], size=n_samples)
+        payment_installments = self.rng.choice([1, 1, 1, 2, 3, 4, 6, 10], size=num_rows)
         payment_values = (gross_sales + freight_values).round(2)
 
         # 6. Financial & Marketing Attributed Metrics
         marketing_channels = self._sample_categorical(
-            "marketing_channel", n_samples, ["Facebook Ads", "Google Ads", "TikTok Ads", "Organic Search", "Direct Traffic", "Email Marketing"]
+            "marketing_channel",
+            num_rows,
+            ["Facebook Ads", "Google Ads", "TikTok Ads", "Organic Search", "Direct Traffic", "Email Marketing"],
         )
-        
-        marketing_spends = np.zeros(n_samples)
+
+        marketing_spends = np.zeros(num_rows)
+        mkt_multiplier = 1.4 if scenario_name in ["holiday_season", "black_friday"] else 1.0
+
         for idx, chan in enumerate(marketing_channels):
             if chan in ["Facebook Ads", "Google Ads", "TikTok Ads"]:
-                marketing_spends[idx] = round(float(self.rng.uniform(2.50, 8.50)), 2)
+                marketing_spends[idx] = round(float(self.rng.uniform(2.50, 8.50) * mkt_multiplier), 2)
             elif chan == "Email Marketing":
-                marketing_spends[idx] = round(float(self.rng.uniform(0.30, 1.50)), 2)
+                marketing_spends[idx] = round(float(self.rng.uniform(0.30, 1.50) * mkt_multiplier), 2)
             else:
                 marketing_spends[idx] = 0.0
 
         tax_amounts = (net_sales * 0.08).round(2)
         operating_expenses = (net_sales * 0.04 + 1.00).round(2)
         net_profits = (gross_profits - platform_fees - marketing_spends - tax_amounts - operating_expenses).round(2)
-        net_margins = np.where(gross_sales > 0, ((net_profits / gross_sales) * 100.0).round(2), 0.0)
+        safe_gross = np.where(gross_sales > 0, gross_sales, 1.0)
+        net_margins = np.where(gross_sales > 0, ((net_profits / safe_gross) * 100.0).round(2), 0.0)
 
-        # 7. Funnel Metrics (Impressions -> Clicks -> Conversions)
-        impressions = np.where(
-            marketing_spends > 0,
-            (marketing_spends * self.rng.uniform(150, 300)).astype(int),
-            0
-        )
-        clicks = (impressions * self.rng.uniform(0.02, 0.08)).astype(int)
-        conversions = np.minimum(clicks, np.where(clicks > 0, self.rng.randint(1, 4, size=n_samples), 0))
-
-        # Build Consolidated DataFrame
-        df_synthetic = pd.DataFrame({
+        # Build Standard 38-column Consolidated DataFrame
+        data_dict = {
             "sales_id": sales_ids,
             "order_id": order_ids,
             "customer_id": customer_ids,
@@ -324,6 +390,28 @@ class SyntheticGeneratorModel:
             "operating_expenses": operating_expenses,
             "net_profit": net_profits,
             "net_margin_pct": net_margins,
-        })
+        }
+
+        if include_funnel_metrics:
+            impressions = np.where(
+                marketing_spends > 0,
+                (marketing_spends * self.rng.uniform(150, 300)).astype(int),
+                0,
+            )
+            clicks = (impressions * self.rng.uniform(0.02, 0.08)).astype(int)
+            conversions = np.minimum(clicks, np.where(clicks > 0, self.rng.randint(1, 4, size=num_rows), 0))
+            data_dict["impressions"] = impressions
+            data_dict["clicks"] = clicks
+            data_dict["conversions"] = conversions
+
+        df_synthetic = pd.DataFrame(data_dict)
+
+        if enforce_business_rules:
+            df_synthetic = self.constraint_engine.enforce_constraints(df_synthetic)
 
         return df_synthetic
+
+
+
+# Backwards compatibility alias
+SyntheticGeneratorModel = BusinessDataGenerator

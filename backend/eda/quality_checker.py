@@ -1,21 +1,22 @@
 """
-Data Quality Checker and Validation Framework for AI BI Dashboard.
+Generic Data Quality Checker and Validation Framework for AI BI Dashboard.
 
 Evaluates dataset health across 4 core quality dimensions:
 1. Completeness (Missing values, null rates, blank strings)
 2. Uniqueness (Duplicate rows, Primary Key integrity)
-3. Validity & Mathematical Invariants (Rules BR_SALES, BR_PROD, BR_ORD, BR_FIN)
-4. Outlier & Statistical Health (IQR and Z-score outlier ratios)
+3. Validity & Mathematical Invariants (Hard & Soft Business Rules via BusinessRuleEngine)
+4. Outlier & Statistical Health (IQR extreme outlier ratios)
 
 Produces a weighted Composite Data Quality Score (DQS: 0-100) and actionable diagnostics.
 """
 
-from datetime import datetime
+from __future__ import annotations
+from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
 import sys
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 
@@ -25,23 +26,28 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 try:
-    from semantic import business_rules as br
+    from semantic.business_rules import BusinessRuleEngine, DEFAULT_RULE_ENGINE
 except ImportError:
-    br = None
+    BusinessRuleEngine = None
+    DEFAULT_RULE_ENGINE = None
 
 
-class DataQualityChecker:
-    """Comprehensive Data Quality & Invariant Auditor."""
+class GenericQualityChecker:
+    """
+    Generic Data Quality & Invariant Auditor.
+    Scans any DataFrame for completeness, uniqueness, mathematical validity, and outlier health.
+    """
 
-    def __init__(self, dataset_name: str = "dataset"):
+    def __init__(self, dataset_name: str = "dataset", rule_engine: Optional[Any] = None):
         self.dataset_name = dataset_name
+        self.rule_engine = rule_engine or (DEFAULT_RULE_ENGINE if DEFAULT_RULE_ENGINE is not None else (BusinessRuleEngine() if BusinessRuleEngine else None))
 
     def evaluate_completeness(self, df: pd.DataFrame) -> Dict[str, Any]:
         """Calculates completeness score and missingness breakdown."""
         total_cells = df.size
         null_cells = int(df.isna().sum().sum())
         
-        # Check blank strings in object columns
+        # Check blank strings in object / text columns
         blank_cells = 0
         for col in df.select_dtypes(include=["object", "string"]).columns:
             blank_cells += int((df[col].astype(str).str.strip() == "").sum())
@@ -95,56 +101,63 @@ class DataQualityChecker:
         }
 
     def evaluate_invariants_and_validity(self, df: pd.DataFrame) -> Dict[str, Any]:
-        """Validates mathematical invariants and business constraints using semantic rules."""
+        """
+        Validates mathematical invariants and business constraints using BusinessRuleEngine.
+        Runs vectorized checks over sales, products, orders, and financials entities.
+        """
         total_rows = len(df)
-        if total_rows == 0 or br is None:
+        if total_rows == 0 or self.rule_engine is None:
             return {
                 "validity_score": 100.0,
-                "sales_pass_rate": 100.0,
-                "product_pass_rate": 100.0,
-                "order_pass_rate": 100.0,
-                "errors_total": 0,
+                "sales_pass_rate_pct": 100.0,
+                "product_pass_rate_pct": 100.0,
+                "order_pass_rate_pct": 100.0,
+                "financial_pass_rate_pct": 100.0,
+                "total_invariant_errors": 0,
             }
 
+        table_scores = []
+        rule_details = {}
+
         # 1. Sales Rules
-        sales_pass = 100.0
-        sales_errors = 0
-        if {"quantity", "unit_price", "gross_sales", "discount_amount", "net_sales"}.issubset(df.columns):
-            sales_records = df[["quantity", "unit_price", "gross_sales", "discount_amount", "net_sales", "platform_fee", "sales_id"]].to_dict("records")
-            res_sales = br.validate_dataset_records(sales_records, "sales")
-            sales_pass = res_sales["pass_rate_pct"]
-            sales_errors = res_sales["error_count"]
+        if any(c in df.columns for c in ["gross_sales", "quantity", "unit_price", "discount_amount", "net_sales"]):
+            res_sales = self.rule_engine.evaluate_dataframe(df, "sales")
+            table_scores.append(res_sales["pass_rate_pct"])
+            rule_details["sales"] = res_sales
 
         # 2. Product Rules
-        prod_pass = 100.0
-        prod_errors = 0
-        if {"unit_price", "unit_cost", "product_id"}.issubset(df.columns):
-            prod_records = df[["unit_price", "unit_cost", "product_id"]].to_dict("records")
-            res_prod = br.validate_dataset_records(prod_records, "products")
-            prod_pass = res_prod["pass_rate_pct"]
-            prod_errors = res_prod["error_count"]
+        if any(c in df.columns for c in ["unit_price", "unit_cost", "margin_rate"]):
+            res_prod = self.rule_engine.evaluate_dataframe(df, "products")
+            table_scores.append(res_prod["pass_rate_pct"])
+            rule_details["products"] = res_prod
 
         # 3. Order Rules
-        order_pass = 100.0
-        order_errors = 0
-        if {"order_id", "order_status", "order_delivered_customer_date", "payment_value"}.issubset(df.columns):
-            order_records = df[["order_id", "order_status", "order_delivered_customer_date", "payment_value"]].to_dict("records")
-            res_order = br.validate_dataset_records(order_records, "orders")
-            order_pass = res_order["pass_rate_pct"]
-            order_errors = res_order["error_count"]
+        if any(c in df.columns for c in ["order_id", "order_status", "payment_value", "order_purchase_timestamp"]):
+            res_order = self.rule_engine.evaluate_dataframe(df, "orders")
+            table_scores.append(res_order["pass_rate_pct"])
+            rule_details["orders"] = res_order
 
-        composite_validity = round((sales_pass + prod_pass + order_pass) / 3.0, 2)
+        # 4. Financial Rules
+        if any(c in df.columns for c in ["gross_revenue", "net_profit", "cogs_total", "impressions"]):
+            res_fin = self.rule_engine.evaluate_dataframe(df, "financials")
+            table_scores.append(res_fin["pass_rate_pct"])
+            rule_details["financials"] = res_fin
+
+        composite_validity = round(float(np.mean(table_scores)), 2) if table_scores else 100.0
+        total_errors = sum(r.get("hard_violations", 0) for r in rule_details.values())
 
         return {
             "validity_score": composite_validity,
-            "sales_pass_rate_pct": sales_pass,
-            "product_pass_rate_pct": prod_pass,
-            "order_pass_rate_pct": order_pass,
-            "total_invariant_errors": sales_errors + prod_errors + order_errors,
+            "sales_pass_rate_pct": rule_details.get("sales", {}).get("pass_rate_pct", 100.0),
+            "product_pass_rate_pct": rule_details.get("products", {}).get("pass_rate_pct", 100.0),
+            "order_pass_rate_pct": rule_details.get("orders", {}).get("pass_rate_pct", 100.0),
+            "financial_pass_rate_pct": rule_details.get("financials", {}).get("pass_rate_pct", 100.0),
+            "total_invariant_errors": total_errors,
+            "rule_breakdown": rule_details,
         }
 
     def evaluate_outliers_and_anomalies(self, df: pd.DataFrame) -> Dict[str, Any]:
-        """Assesses extreme outlier density in key financial variables."""
+        """Assesses extreme outlier density (3.0 * IQR) across numerical features."""
         numeric_cols = df.select_dtypes(include=[np.number]).columns
         if len(numeric_cols) == 0:
             return {"outlier_health_score": 100.0, "extreme_outliers_count": 0}
@@ -225,7 +238,7 @@ class DataQualityChecker:
 
         return {
             "dataset_name": self.dataset_name,
-            "audited_at": datetime.utcnow().isoformat(),
+            "audited_at": datetime.now(timezone.utc).isoformat(),
             "overall_status": status,
             "data_quality_score": dqs,
             "quality_tier": tier,
@@ -237,8 +250,19 @@ class DataQualityChecker:
             },
         }
 
+    def check_quality(self, df: pd.DataFrame, primary_key: Optional[str] = "sales_id") -> Dict[str, Any]:
+        """Alias for check_dataset_quality."""
+        return self.check_dataset_quality(df, primary_key=primary_key)
+
+    def save_report(self, audit_dict: Dict[str, Any], output_path: Union[str, Path]) -> None:
+        """Saves quality audit result dictionary to a JSON file."""
+        out_p = Path(output_path)
+        out_p.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_p, "w", encoding="utf-8") as f:
+            json.dump(audit_dict, f, indent=2, ensure_ascii=False)
+
     def generate_quality_markdown_report(self, audit: Dict[str, Any]) -> str:
-        """Renders quality audit dictionary into formatted markdown with objective, evidence-based statements."""
+        """Renders quality audit dictionary into formatted markdown report."""
         d = audit["dimensions"]
         lines = [
             f"# BÁO CÁO ĐÁNH GIÁ CHẤT LƯỢNG DỮ LIỆU (DATA QUALITY AUDIT REPORT)",
@@ -268,3 +292,6 @@ class DataQualityChecker:
         ]
         return "\n".join(lines)
 
+
+# Backwards compatibility alias
+DataQualityChecker = GenericQualityChecker

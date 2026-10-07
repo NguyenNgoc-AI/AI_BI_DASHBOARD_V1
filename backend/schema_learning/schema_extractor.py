@@ -7,7 +7,7 @@ Produces serializable metadata profiles to guide synthetic data generation.
 """
 
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
@@ -367,8 +367,13 @@ class SchemaExtractor:
         return {k: v for k, v in deltas.items() if v is not None}
 
     def _extract_correlation_matrices(self, df: pd.DataFrame) -> Dict[str, Dict[str, Dict[str, float]]]:
-        """Calculates Pearson and Spearman correlation matrices for numerical columns."""
-        num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+        """Calculates Pearson and Spearman correlation matrices for numerical columns, sanitizing constant columns and NaNs."""
+        # Filter out non-metric columns like zip_code or ID integers
+        ignored_cols = {"zip_code", "postal_code", "id", "customer_id", "order_id", "product_id", "sales_id"}
+        num_cols = [
+            col for col in df.select_dtypes(include=[np.number]).columns
+            if col.lower() not in ignored_cols and not col.lower().endswith("_id")
+        ]
         if len(num_cols) < 2:
             return {}
 
@@ -376,12 +381,13 @@ class SchemaExtractor:
         if clean_df.empty or len(clean_df) < 5:
             clean_df = df[num_cols].fillna(0)
 
-        pearson_df = clean_df.corr(method="pearson").round(4)
-        spearman_df = clean_df.corr(method="spearman").round(4)
+        # Pearson & Spearman calculation, filling NaN from zero-variance/constant columns with 0.0
+        pearson_df = clean_df.corr(method="pearson").fillna(0.0).round(4)
+        spearman_df = clean_df.corr(method="spearman").fillna(0.0).round(4)
 
         return {
-            "pearson": {col: pearson_df[col].to_dict() for col in pearson_df.columns},
-            "spearman": {col: spearman_df[col].to_dict() for col in spearman_df.columns},
+            "pearson": {col: {k: float(v) for k, v in pearson_df[col].to_dict().items()} for col in pearson_df.columns},
+            "spearman": {col: {k: float(v) for k, v in spearman_df[col].to_dict().items()} for col in spearman_df.columns},
         }
 
     def extract(self, data: Union[pd.DataFrame, str, Path]) -> LearnedSchemaProfile:
@@ -462,7 +468,7 @@ class SchemaExtractor:
 
         profile = LearnedSchemaProfile(
             dataset_name=self.dataset_name,
-            extracted_at=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+            extracted_at=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
             total_records=total_records,
             total_columns=total_cols,
             column_profiles=column_profiles,

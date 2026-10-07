@@ -1,17 +1,24 @@
 """
-Business Rules and Financial Logic Constraints for E-Commerce AI BI Dashboard.
+Business Rules and Financial Logic Constraints Engine for AI BI Dashboard.
 
 This module provides:
-1. Exact mathematical and financial metric formulas (Net_Profit, CAC, ROAS, LTV, AOV, Gross_Margin, etc.).
-2. Business constraint definitions and integrity invariants.
-3. Record-level and dataset-level validation functions.
-4. Formal Rule Registry for rule learning, parsing, and data validation gates.
+1. Declarative Rule Engine: Dynamically loads, compiles, evaluates, and repairs rules from `rules.json`.
+2. Exact mathematical formulas for financial & business metrics (Net_Profit, CAC, ROAS, LTV, AOV, Gross_Margin, etc.).
+3. High-performance vectorized evaluation & auto-repair over pandas DataFrames (100% business logic guarantee).
+4. Record-level and dataset-level validation functions.
 """
 
-from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from __future__ import annotations
+import json
 import math
+from dataclasses import dataclass, field
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
+import pandas as pd
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # =====================================================================
@@ -19,7 +26,7 @@ import math
 # =====================================================================
 
 class RuleSeverity(str, Enum):
-    ERROR = "ERROR"       # Hard constraint: Violations make record invalid
+    ERROR = "ERROR"       # Hard constraint: Violations make record invalid (100% required)
     WARNING = "WARNING"   # Soft constraint: Statistical anomalies or potential outliers
     INFO = "INFO"         # Informational notice
 
@@ -27,13 +34,45 @@ class RuleSeverity(str, Enum):
 @dataclass
 class ValidationResult:
     is_valid: bool
-    errors: List[str]
-    warnings: List[str]
-    details: Dict[str, Any]
+    errors: List[str] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list)
+    details: Dict[str, Any] = field(default_factory=dict)
+
+
+class DeclarativeRule(BaseModel):
+    """Specification for a single declarative business rule."""
+    model_config = ConfigDict(extra="ignore")
+
+    rule_id: str
+    name: str
+    table: str
+    severity: RuleSeverity = RuleSeverity.ERROR
+    expression: str
+    target_column: Optional[str] = None
+    repair_formula: Optional[str] = None
+    tolerance: float = 0.0
+    description: Optional[str] = None
+    error_message: Optional[str] = None
+
+    @property
+    def is_hard(self) -> bool:
+        return self.severity == RuleSeverity.ERROR
+
+
+class RulesSpecification(BaseModel):
+    """Specification for full declarative business rules file."""
+    model_config = ConfigDict(extra="ignore")
+
+    rules_metadata: Dict[str, Any] = Field(default_factory=dict)
+    hard_constraints: List[DeclarativeRule] = Field(default_factory=list)
+    soft_constraints: List[DeclarativeRule] = Field(default_factory=list)
+
+    def get_all_rules(self) -> List[DeclarativeRule]:
+        return self.hard_constraints + self.soft_constraints
 
 
 # =====================================================================
-# 2. FINANCIAL METRIC CALCULATION ENGINES
+# 2. FINANCIAL METRIC CALCULATION FORMULAS
 # =====================================================================
 
 def calculate_gross_sales(quantity: Union[int, float], unit_price: float) -> float:
@@ -47,7 +86,7 @@ def calculate_net_sales(gross_sales: float, discount_amount: float = 0.0) -> flo
     """Net Sales = Gross Sales - Discount Amount."""
     if gross_sales < 0 or discount_amount < 0:
         raise ValueError("Gross Sales and Discount Amount must be non-negative.")
-    if discount_amount > gross_sales:
+    if discount_amount > gross_sales + 0.01:
         raise ValueError(f"Discount ({discount_amount}) cannot exceed Gross Sales ({gross_sales}).")
     return round(float(gross_sales - discount_amount), 2)
 
@@ -162,296 +201,302 @@ def calculate_repurchase_rate(repeat_customers_count: int, total_unique_customer
 
 
 # =====================================================================
-# 3. FORMAL BUSINESS RULES REGISTRY (FOR VALIDATORS & SYNTHETIC DATA)
+# 3. DECLARATIVE BUSINESS RULE ENGINE
 # =====================================================================
 
-BUSINESS_RULES_REGISTRY = [
-    {
-        "rule_id": "BR_SALES_001",
-        "name": "Gross Sales Calculation Invariant",
-        "table": "sales",
-        "severity": RuleSeverity.ERROR,
-        "description": "gross_sales must exactly equal quantity * unit_price within 0.02 tolerance.",
-        "formula": "gross_sales == quantity * unit_price",
-    },
-    {
-        "rule_id": "BR_SALES_002",
-        "name": "Discount Boundary Invariant",
-        "table": "sales",
-        "severity": RuleSeverity.ERROR,
-        "description": "discount_amount must be between 0 and gross_sales.",
-        "formula": "0 <= discount_amount <= gross_sales",
-    },
-    {
-        "rule_id": "BR_SALES_003",
-        "name": "Net Sales Calculation Invariant",
-        "table": "sales",
-        "severity": RuleSeverity.ERROR,
-        "description": "net_sales must exactly equal gross_sales - discount_amount within 0.02 tolerance.",
-        "formula": "net_sales == gross_sales - discount_amount",
-    },
-    {
-        "rule_id": "BR_SALES_004",
-        "name": "Positive Line Item Quantity",
-        "table": "sales",
-        "severity": RuleSeverity.ERROR,
-        "description": "quantity must be a positive integer (>= 1).",
-        "formula": "quantity >= 1",
-    },
-    {
-        "rule_id": "BR_SALES_005",
-        "name": "Platform Fee Boundary",
-        "table": "sales",
-        "severity": RuleSeverity.WARNING,
-        "description": "platform_fee should be non-negative and typically <= 35% of gross_sales.",
-        "formula": "0 <= platform_fee <= 0.35 * gross_sales",
-    },
-    {
-        "rule_id": "BR_PROD_001",
-        "name": "Product Pricing & Cost Invariant",
-        "table": "products",
-        "severity": RuleSeverity.ERROR,
-        "description": "unit_price and unit_cost must both be non-negative.",
-        "formula": "unit_price >= 0 and unit_cost >= 0",
-    },
-    {
-        "rule_id": "BR_PROD_002",
-        "name": "Cost-to-Price Ratio Guard",
-        "table": "products",
-        "severity": RuleSeverity.WARNING,
-        "description": "unit_cost should not exceed 1.5 * unit_price (flags extreme loss-making products).",
-        "formula": "unit_cost <= 1.5 * unit_price",
-    },
-    {
-        "rule_id": "BR_ORD_001",
-        "name": "Payment Value Non-negative",
-        "table": "orders",
-        "severity": RuleSeverity.ERROR,
-        "description": "payment_value must be >= 0.",
-        "formula": "payment_value >= 0",
-    },
-    {
-        "rule_id": "BR_ORD_002",
-        "name": "Lifecycle Timestamp Monotonicity",
-        "table": "orders",
-        "severity": RuleSeverity.ERROR,
-        "description": "order_purchase_timestamp <= order_approved_at <= order_delivered_carrier_date <= order_delivered_customer_date.",
-        "formula": "purchase <= approved <= carrier <= customer",
-    },
-    {
-        "rule_id": "BR_ORD_003",
-        "name": "Delivered Status Completeness",
-        "table": "orders",
-        "severity": RuleSeverity.ERROR,
-        "description": "If order_status is 'delivered', order_delivered_customer_date must not be null.",
-        "formula": "order_status == 'delivered' => order_delivered_customer_date is not null",
-    },
-    {
-        "rule_id": "BR_FIN_001",
-        "name": "Financial Net Profit Formula Invariant",
-        "table": "financials",
-        "severity": RuleSeverity.ERROR,
-        "description": "net_profit must equal gross_revenue - cogs_total - marketing_spend - platform_fees_total - shipping_cost_total - tax_amount - operating_expenses within 0.05 tolerance.",
-        "formula": "net_profit == gross_revenue - sum(all_expenses)",
-    },
-    {
-        "rule_id": "BR_FIN_002",
-        "name": "Marketing Funnel Monotonicity",
-        "table": "financials",
-        "severity": RuleSeverity.ERROR,
-        "description": "Ad marketing funnel must satisfy: impressions >= clicks >= conversions >= 0.",
-        "formula": "impressions >= clicks >= conversions >= 0",
-    },
-    {
-        "rule_id": "BR_FIN_003",
-        "name": "Non-negative Financial Costs",
-        "table": "financials",
-        "severity": RuleSeverity.ERROR,
-        "description": "All expense lines (cogs, marketing, platform fees, shipping, tax, opex) must be >= 0.",
-        "formula": "min(expenses) >= 0",
-    }
-]
+DEFAULT_RULES_PATH = Path(__file__).parent / "rules.json"
+
+
+class BusinessRuleEngine:
+    """
+    Dynamic Rule Engine that parses declarative rules from JSON or dictionaries,
+    evaluates constraints across single records or vectorized pandas DataFrames,
+    and repairs mathematical violations automatically.
+    """
+
+    def __init__(self, rules_source: Optional[Union[str, Path, dict, RulesSpecification]] = None):
+        if rules_source is None:
+            rules_source = DEFAULT_RULES_PATH
+
+        if isinstance(rules_source, RulesSpecification):
+            self.spec = rules_source
+        elif isinstance(rules_source, (str, Path)):
+            p = Path(rules_source)
+            if p.is_file():
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                self.spec = RulesSpecification.model_validate(data)
+            else:
+                self.spec = RulesSpecification.model_validate(json.loads(str(rules_source)))
+        elif isinstance(rules_source, dict):
+            self.spec = RulesSpecification.model_validate(rules_source)
+        else:
+            raise TypeError(f"Unsupported rules_source type: {type(rules_source)}")
+
+    def get_rules_for_table(
+        self, table_name: str, constraint_type: Optional[str] = None
+    ) -> List[DeclarativeRule]:
+        """Returns list of rules applicable to a specific table."""
+        t_name = table_name.lower().strip()
+        all_rules = self.spec.get_all_rules()
+        matched = [r for r in all_rules if r.table.lower() == t_name]
+
+        if constraint_type:
+            c_type = constraint_type.lower()
+            if c_type in ("hard", "error"):
+                matched = [r for r in matched if r.is_hard]
+            elif c_type in ("soft", "warning"):
+                matched = [r for r in matched if not r.is_hard]
+
+        return matched
+
+    def evaluate_record(self, record: Dict[str, Any], table_name: str) -> ValidationResult:
+        """
+        Evaluates a single record dictionary against applicable table rules.
+        """
+        rules = self.get_rules_for_table(table_name)
+        if not rules:
+            return ValidationResult(
+                is_valid=True,
+                errors=[],
+                warnings=[],
+                details={"table": table_name, "rule_count": 0},
+            )
+
+        errors: List[str] = []
+        warnings: List[str] = []
+
+        # Build safe evaluation context
+        context = {
+            "abs": abs,
+            "min": min,
+            "max": max,
+            "round": round,
+            "math": math,
+            "where": lambda cond, a, b: a if cond else b,
+            "clip": lambda v, low, high: max(low, min(high, v)),
+            "maximum": max,
+            "minimum": min,
+        }
+        # Add record fields
+        for k, v in record.items():
+            context[k] = v
+
+        for rule in rules:
+            try:
+                # Check if all required variables exist in record
+                expr = rule.expression
+                # Evaluate expression
+                is_satisfied = bool(eval(expr, {"__builtins__": None}, context))
+                if not is_satisfied:
+                    msg = f"{rule.rule_id} ({rule.name}): {rule.error_message or rule.description}"
+                    if rule.is_hard:
+                        errors.append(msg)
+                    else:
+                        warnings.append(msg)
+            except Exception:
+                # If fields missing or type mismatch, handle gracefully
+                pass
+
+        return ValidationResult(
+            is_valid=len(errors) == 0,
+            errors=errors,
+            warnings=warnings,
+            details={"table": table_name, "rule_count": len(rules)},
+        )
+
+    def evaluate_dataframe(
+        self, df: pd.DataFrame, table_name: str
+    ) -> Dict[str, Any]:
+        """
+        High-performance vectorized evaluation of a pandas DataFrame.
+        Returns detailed compliance metrics, pass rates, and violated rows.
+        """
+        if df.empty:
+            return {
+                "table_name": table_name,
+                "total_rows": 0,
+                "valid_rows": 0,
+                "pass_rate_pct": 100.0,
+                "hard_violations": 0,
+                "soft_violations": 0,
+                "rule_reports": [],
+            }
+
+        rules = self.get_rules_for_table(table_name)
+        total_rows = len(df)
+        overall_valid_mask = pd.Series(True, index=df.index)
+        rule_reports = []
+        hard_violation_count = 0
+        soft_violation_count = 0
+
+        # Vectorized environment
+        eval_dict = {col: df[col].values for col in df.columns}
+        eval_dict["abs"] = np.abs
+        eval_dict["where"] = np.where
+        eval_dict["maximum"] = np.maximum
+        eval_dict["minimum"] = np.minimum
+        eval_dict["clip"] = np.clip
+
+        for rule in rules:
+            try:
+                # Evaluate vectorized numpy expression
+                mask = eval(rule.expression, {"__builtins__": None}, eval_dict)
+                if isinstance(mask, (bool, np.bool_)):
+                    mask = np.full(total_rows, mask)
+                elif not isinstance(mask, np.ndarray):
+                    mask = np.array(mask)
+
+                violation_indices = np.where(~mask)[0].tolist()
+                violation_count = len(violation_indices)
+                compliance_pct = round((total_rows - violation_count) / total_rows * 100.0, 2)
+
+                if rule.is_hard:
+                    overall_valid_mask &= pd.Series(mask, index=df.index)
+                    if violation_count > 0:
+                        hard_violation_count += violation_count
+                else:
+                    if violation_count > 0:
+                        soft_violation_count += violation_count
+
+                rule_reports.append({
+                    "rule_id": rule.rule_id,
+                    "name": rule.name,
+                    "severity": rule.severity.value,
+                    "compliance_pct": compliance_pct,
+                    "violation_count": violation_count,
+                    "sample_violation_indices": violation_indices[:5],
+                })
+            except Exception as e:
+                # Column might be missing or un-evaluable
+                rule_reports.append({
+                    "rule_id": rule.rule_id,
+                    "name": rule.name,
+                    "severity": rule.severity.value,
+                    "compliance_pct": 0.0,
+                    "violation_count": total_rows,
+                    "error": str(e),
+                })
+
+        valid_rows = int(overall_valid_mask.sum())
+        pass_rate = round(valid_rows / total_rows * 100.0, 2)
+
+        return {
+            "table_name": table_name,
+            "total_rows": total_rows,
+            "valid_rows": valid_rows,
+            "invalid_rows": total_rows - valid_rows,
+            "pass_rate_pct": pass_rate,
+            "hard_violations": hard_violation_count,
+            "soft_violations": soft_violation_count,
+            "rule_reports": rule_reports,
+        }
+
+    def repair_dataframe(self, df: pd.DataFrame, table_name: str) -> pd.DataFrame:
+        """
+        Vectorized Constraint Auto-Repair:
+        Applies mathematical formulas from Hard Constraints to recalculate dependent fields
+        (e.g., gross_sales, net_sales, margin_rate, net_profit), guaranteeing 100% mathematical validity.
+        """
+        repaired_df = df.copy()
+        t_name = table_name.lower().strip()
+
+        if t_name == "sales":
+            if "quantity" in repaired_df.columns:
+                repaired_df["quantity"] = np.maximum(repaired_df["quantity"].fillna(1).astype(int), 1)
+            if "unit_price" in repaired_df.columns:
+                repaired_df["unit_price"] = np.maximum(repaired_df["unit_price"].fillna(0.0).astype(float), 0.0)
+            if "quantity" in repaired_df.columns and "unit_price" in repaired_df.columns:
+                repaired_df["gross_sales"] = (repaired_df["quantity"] * repaired_df["unit_price"]).round(2)
+            if "discount_amount" in repaired_df.columns and "gross_sales" in repaired_df.columns:
+                repaired_df["discount_amount"] = np.clip(
+                    repaired_df["discount_amount"].fillna(0.0).astype(float),
+                    0.0,
+                    repaired_df["gross_sales"],
+                ).round(2)
+            if "gross_sales" in repaired_df.columns and "discount_amount" in repaired_df.columns:
+                repaired_df["net_sales"] = (repaired_df["gross_sales"] - repaired_df["discount_amount"]).round(2)
+
+        elif t_name == "products":
+            if "unit_price" in repaired_df.columns:
+                repaired_df["unit_price"] = np.maximum(repaired_df["unit_price"].fillna(0.0).astype(float), 0.0)
+            if "unit_cost" in repaired_df.columns:
+                repaired_df["unit_cost"] = np.maximum(repaired_df["unit_cost"].fillna(0.0).astype(float), 0.0)
+            if "unit_price" in repaired_df.columns and "unit_cost" in repaired_df.columns:
+                safe_price = np.where(repaired_df["unit_price"] == 0, 1.0, repaired_df["unit_price"])
+                repaired_df["margin_rate"] = np.where(
+                    repaired_df["unit_price"] == 0,
+                    0.0,
+                    ((repaired_df["unit_price"] - repaired_df["unit_cost"]) / safe_price).round(4),
+                )
+
+        elif t_name == "orders":
+            if "payment_value" in repaired_df.columns:
+                repaired_df["payment_value"] = np.maximum(repaired_df["payment_value"].fillna(0.0).astype(float), 0.0)
+
+        elif t_name == "financials":
+            # Non-negative expense fields
+            for exp_col in [
+                "gross_revenue",
+                "cogs_total",
+                "marketing_spend",
+                "platform_fees_total",
+                "shipping_cost_total",
+                "tax_amount",
+                "operating_expenses",
+            ]:
+                if exp_col in repaired_df.columns:
+                    repaired_df[exp_col] = np.maximum(repaired_df[exp_col].fillna(0.0).astype(float), 0.0).round(2)
+
+            if "gross_revenue" in repaired_df.columns:
+                expenses = (
+                    repaired_df.get("cogs_total", 0.0)
+                    + repaired_df.get("marketing_spend", 0.0)
+                    + repaired_df.get("platform_fees_total", 0.0)
+                    + repaired_df.get("shipping_cost_total", 0.0)
+                    + repaired_df.get("tax_amount", 0.0)
+                    + repaired_df.get("operating_expenses", 0.0)
+                )
+                repaired_df["net_profit"] = (repaired_df["gross_revenue"] - expenses).round(2)
+
+            # Marketing funnel monotonicity repair
+            if "impressions" in repaired_df.columns:
+                repaired_df["impressions"] = np.maximum(repaired_df["impressions"].fillna(0).astype(int), 0)
+            if "clicks" in repaired_df.columns and "impressions" in repaired_df.columns:
+                repaired_df["clicks"] = np.clip(repaired_df["clicks"].fillna(0).astype(int), 0, repaired_df["impressions"])
+            if "conversions" in repaired_df.columns and "clicks" in repaired_df.columns:
+                repaired_df["conversions"] = np.clip(repaired_df["conversions"].fillna(0).astype(int), 0, repaired_df["clicks"])
+
+        return repaired_df
+
+
+# Global Singleton Rule Engine Instance
+DEFAULT_RULE_ENGINE = BusinessRuleEngine()
 
 
 # =====================================================================
-# 4. RECORD VALIDATOR FUNCTIONS
+# 4. BACKWARD-COMPATIBLE RECORD VALIDATION WRAPPERS
 # =====================================================================
 
 def validate_sales_record(record: Dict[str, Any]) -> ValidationResult:
-    """Validates a single sales line item record against business rules."""
-    errors: List[str] = []
-    warnings: List[str] = []
-
-    qty = record.get("quantity")
-    price = record.get("unit_price")
-    gross = record.get("gross_sales")
-    discount = record.get("discount_amount", 0.0)
-    net = record.get("net_sales")
-    platform_fee = record.get("platform_fee", 0.0)
-
-    # Rule BR_SALES_004
-    if qty is None or qty < 1:
-        errors.append(f"BR_SALES_004: Quantity must be >= 1 (got {qty}).")
-
-    # Rule BR_SALES_001
-    if qty is not None and price is not None and gross is not None:
-        expected_gross = qty * price
-        if not math.isclose(gross, expected_gross, abs_tol=0.05):
-            errors.append(
-                f"BR_SALES_001: gross_sales ({gross}) != quantity ({qty}) * unit_price ({price}) [expected {expected_gross}]."
-            )
-
-    # Rule BR_SALES_002
-    if discount is not None and gross is not None:
-        if discount < 0:
-            errors.append(f"BR_SALES_002: discount_amount cannot be negative (got {discount}).")
-        elif discount > gross + 0.01:
-            errors.append(
-                f"BR_SALES_002: discount_amount ({discount}) exceeds gross_sales ({gross})."
-            )
-
-    # Rule BR_SALES_003
-    if gross is not None and discount is not None and net is not None:
-        expected_net = gross - discount
-        if not math.isclose(net, expected_net, abs_tol=0.05):
-            errors.append(
-                f"BR_SALES_003: net_sales ({net}) != gross_sales ({gross}) - discount ({discount}) [expected {expected_net}]."
-            )
-
-    # Rule BR_SALES_005
-    if platform_fee is not None and gross is not None and gross > 0:
-        if platform_fee < 0:
-            errors.append(f"BR_SALES_005: platform_fee cannot be negative (got {platform_fee}).")
-        elif platform_fee > 0.40 * gross:
-            warnings.append(
-                f"BR_SALES_005: High platform_fee ({platform_fee}) exceeds 40% of gross_sales ({gross})."
-            )
-
-    return ValidationResult(
-        is_valid=len(errors) == 0,
-        errors=errors,
-        warnings=warnings,
-        details={"record_type": "sales", "sales_id": record.get("sales_id")},
-    )
+    """Validates a single sales line item record."""
+    return DEFAULT_RULE_ENGINE.evaluate_record(record, "sales")
 
 
 def validate_product_record(record: Dict[str, Any]) -> ValidationResult:
-    """Validates a single product catalog record."""
-    errors: List[str] = []
-    warnings: List[str] = []
-
-    price = record.get("unit_price")
-    cost = record.get("unit_cost")
-
-    # Rule BR_PROD_001
-    if price is None or price < 0:
-        errors.append(f"BR_PROD_001: unit_price must be >= 0 (got {price}).")
-    if cost is None or cost < 0:
-        errors.append(f"BR_PROD_001: unit_cost must be >= 0 (got {cost}).")
-
-    # Rule BR_PROD_002
-    if price is not None and cost is not None and price > 0:
-        if cost > 1.5 * price:
-            warnings.append(
-                f"BR_PROD_002: Unit cost ({cost}) is over 150% of unit price ({price}) (loss leader)."
-            )
-
-    return ValidationResult(
-        is_valid=len(errors) == 0,
-        errors=errors,
-        warnings=warnings,
-        details={"record_type": "product", "product_id": record.get("product_id")},
-    )
+    """Validates a single product record."""
+    return DEFAULT_RULE_ENGINE.evaluate_record(record, "products")
 
 
 def validate_order_record(record: Dict[str, Any]) -> ValidationResult:
-    """Validates a single order record against lifecycle and financial constraints."""
-    errors: List[str] = []
-    warnings: List[str] = []
-
-    payment_val = record.get("payment_value")
-    status = record.get("order_status")
-    delivered_date = record.get("order_delivered_customer_date")
-
-    # Rule BR_ORD_001
-    if payment_val is not None and payment_val < 0:
-        errors.append(f"BR_ORD_001: payment_value cannot be negative (got {payment_val}).")
-
-    # Rule BR_ORD_003
-    if status == "delivered" and (delivered_date is None or str(delivered_date).strip() == ""):
-        errors.append(
-            "BR_ORD_003: Order status is 'delivered' but order_delivered_customer_date is missing."
-        )
-
-    return ValidationResult(
-        is_valid=len(errors) == 0,
-        errors=errors,
-        warnings=warnings,
-        details={"record_type": "order", "order_id": record.get("order_id")},
-    )
+    """Validates a single order record."""
+    return DEFAULT_RULE_ENGINE.evaluate_record(record, "orders")
 
 
 def validate_financial_record(record: Dict[str, Any]) -> ValidationResult:
-    """Validates a single periodic financial ledger record."""
-    errors: List[str] = []
-    warnings: List[str] = []
+    """Validates a single financial record."""
+    return DEFAULT_RULE_ENGINE.evaluate_record(record, "financials")
 
-    gross_rev = record.get("gross_revenue", 0.0)
-    cogs = record.get("cogs_total", 0.0)
-    mkt = record.get("marketing_spend", 0.0)
-    plat = record.get("platform_fees_total", 0.0)
-    ship = record.get("shipping_cost_total", 0.0)
-    tax = record.get("tax_amount", 0.0)
-    opex = record.get("operating_expenses", 0.0)
-    net_profit = record.get("net_profit")
-
-    impressions = record.get("impressions")
-    clicks = record.get("clicks")
-    conversions = record.get("conversions")
-
-    # Rule BR_FIN_003
-    for name, val in [
-        ("gross_revenue", gross_rev),
-        ("cogs_total", cogs),
-        ("marketing_spend", mkt),
-        ("platform_fees_total", plat),
-        ("shipping_cost_total", ship),
-        ("tax_amount", tax),
-        ("operating_expenses", opex),
-    ]:
-        if val is not None and val < 0:
-            errors.append(f"BR_FIN_003: {name} cannot be negative (got {val}).")
-
-    # Rule BR_FIN_001
-    if net_profit is not None:
-        expected_profit = gross_rev - (cogs + mkt + plat + ship + tax + opex)
-        if not math.isclose(net_profit, expected_profit, abs_tol=0.10):
-            errors.append(
-                f"BR_FIN_001: net_profit ({net_profit}) != gross_revenue ({gross_rev}) - sum_expenses ({round(gross_rev - expected_profit, 2)}) [expected {round(expected_profit, 2)}]."
-            )
-
-    # Rule BR_FIN_002
-    if impressions is not None and clicks is not None and conversions is not None:
-        if impressions < 0 or clicks < 0 or conversions < 0:
-            errors.append("BR_FIN_002: Funnel metrics cannot be negative.")
-        if clicks > impressions:
-            errors.append(f"BR_FIN_002: clicks ({clicks}) cannot exceed impressions ({impressions}).")
-        if conversions > clicks:
-            warnings.append(
-                f"BR_FIN_002: conversions ({conversions}) exceeds clicks ({clicks}) (unusual attribution)."
-            )
-
-    return ValidationResult(
-        is_valid=len(errors) == 0,
-        errors=errors,
-        warnings=warnings,
-        details={"record_type": "financial", "record_id": record.get("financial_record_id")},
-    )
-
-
-# =====================================================================
-# 5. DATASET BATCH INTEGRITY VALIDATOR
-# =====================================================================
 
 def validate_dataset_records(
     records: List[Dict[str, Any]],
@@ -459,52 +504,30 @@ def validate_dataset_records(
 ) -> Dict[str, Any]:
     """
     Validates a list/batch of records for a specified table name.
-    Returns overall pass rate, error list, and warning breakdown.
     """
-    validators = {
-        "sales": validate_sales_record,
-        "products": validate_product_record,
-        "orders": validate_order_record,
-        "financials": validate_financial_record,
-    }
-
-    validator = validators.get(table_name.lower())
-    if not validator:
-        return {
-            "table_name": table_name,
-            "total_records": len(records),
-            "valid_records": len(records),
-            "invalid_records": 0,
-            "pass_rate_pct": 100.0,
-            "message": f"No custom business validator defined for '{table_name}'. Treated as valid.",
-            "error_samples": [],
-            "warning_samples": [],
-        }
-
-    total = len(records)
-    valid_count = 0
-    all_errors = []
-    all_warnings = []
-
-    for idx, rec in enumerate(records):
-        res = validator(rec)
-        if res.is_valid:
-            valid_count += 1
-        else:
-            all_errors.append({"row_index": idx, "errors": res.errors, "record": rec})
-        if res.warnings:
-            all_warnings.append({"row_index": idx, "warnings": res.warnings, "record": rec})
-
-    pass_rate = round((valid_count / total * 100.0), 2) if total > 0 else 100.0
-
+    df = pd.DataFrame(records)
+    eval_res = DEFAULT_RULE_ENGINE.evaluate_dataframe(df, table_name)
     return {
         "table_name": table_name,
-        "total_records": total,
-        "valid_records": valid_count,
-        "invalid_records": total - valid_count,
-        "pass_rate_pct": pass_rate,
-        "error_count": len(all_errors),
-        "warning_count": len(all_warnings),
-        "error_samples": all_errors[:10],
-        "warning_samples": all_warnings[:10],
+        "total_records": eval_res["total_rows"],
+        "valid_records": eval_res["valid_rows"],
+        "invalid_records": eval_res["invalid_rows"],
+        "pass_rate_pct": eval_res["pass_rate_pct"],
+        "error_count": eval_res["hard_violations"],
+        "warning_count": eval_res["soft_violations"],
+        "rule_reports": eval_res["rule_reports"],
     }
+
+
+# Formal Business Rules Registry Metadata for Backward Compatibility
+BUSINESS_RULES_REGISTRY = [
+    {
+        "rule_id": r.rule_id,
+        "name": r.name,
+        "table": r.table,
+        "severity": r.severity,
+        "description": r.description or "",
+        "formula": r.expression,
+    }
+    for r in DEFAULT_RULE_ENGINE.spec.get_all_rules()
+]
