@@ -1,6 +1,6 @@
 # KẾ HOẠCH BÀN GIAO KỸ THUẬT GIAI ĐOẠN 1 & 2
 ## DỰ ÁN AI BI DASHBOARD (CODE CANDY)
-### TỔNG HỢP NỀN TẢNG SEMANTIC SCHEMA, SYNTHETIC ENGINE & CẨM NANG TRIỂN KHAI GIAI ĐOẠN TIẾP THEO
+### TỔNG HỢP NỀN TẢNG SEMANTIC SCHEMA, SYNTHETIC ENGINE & PHƯƠNG PHÁP TRIỂN KHAI GIAI ĐOẠN TIẾP THEO
 
 > **Dự án:** Code Candy – AI BI Dashboard  
 > **Phạm vi tài liệu:** Kế hoạch bàn giao kỹ thuật Phase 1 & Phase 2, Cấu trúc hệ thống, Luồng dữ liệu, Kế hoạch thừa kế Phase 3 – 7, Runbook xử lý sự cố & Giới hạn kỹ thuật  
@@ -34,7 +34,7 @@ Toàn bộ các mục tiêu nghiên cứu, trừu tượng hóa kiến trúc và
 │                              TỔNG KẾT TIẾN ĐỘ GIAI ĐOẠN 1 VÀ GIAI ĐOẠN 2                               │
 ├────────────────────────────────────────────────────┬───────────────────────────────────────────────────┤
 │ GIAI ĐOẠN 1: Schema Abstraction & Benchmarking     │ GIAI ĐOẠN 2: Dynamic Engine & Quality Gate        │
-│ • Trạng thái: Hoàn thành                      │ • Trạng thái: Hoàn thành                     │
+│ • Trạng thái: Hoàn thành                           │ • Trạng thái: Hoàn thành                          │
 │ • Phạm vi: Task 1, Task 2, Task 3                  │ • Phạm vi: Task 4, Task 5, Task 6, Task 7         │
 │ • Kiểm định: 12/12 Unit Tests PASSED               │ • Kiểm định: 22/22 Unit Tests PASSED              │
 │ • Bàn giao: 50k dòng Mock Data cho Backend         │ • Chỉ số SQI: 95.78 / 100 (Tier A - PASSED)       │
@@ -147,7 +147,7 @@ d:\PYTHON\Modal\Antigrafity\
 │   ├── sample_dataset/                       # Dữ liệu mẫu benchmark
 │   │   └── ecommerce_seed.csv                # Tập dữ liệu mồi huấn luyện chuẩn hóa (35,000 dòng, 38 cột)
 │   ├── generated/                            # Dữ liệu sinh tự động & Artifacts
-│   │   ├── learned_seed_profile.json         # Hồ sơ phân phối thống kê chuẩn hóa không chứa NaN (743 KB)
+│   │   ├── learned_seed_profile.json         # Hồ sơ phân phối thống kê chuẩn hóa (743 KB)
 │   │   └── synthetic_ecommerce.csv           # Bộ Mock Data tài chính chuẩn hóa (50,000 dòng, 100% Valid)
 │   ├── warehouse/                            # Kho dữ liệu ứng dụng & Kiểm định độc lập
 │   │   └── real_holdout.csv                  # Tập kiểm định cách ly phục vụ đánh giá TSTR (15,000 dòng)
