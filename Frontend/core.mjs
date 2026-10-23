@@ -69,8 +69,8 @@ export function parseDataset(text, filename) {
       return Object.fromEntries(headers.map((h, j) => [h, r[j]]));
     });
   } else throw new Error("Chỉ hỗ trợ tệp CSV và JSON.");
-  if (!Array.isArray(rows) || !rows.length || rows.length > 100000)
-    throw new Error("Dữ liệu cần từ 1 đến 100.000 dòng.");
+  if (!Array.isArray(rows) || !rows.length || rows.length > 200000)
+    throw new Error("Dữ liệu cần từ 1 đến 200.000 dòng.");
   return rows.map((row) => {
     if (!row || Array.isArray(row) || typeof row !== "object")
       throw new Error("Mỗi dòng phải là một object.");

@@ -1,4 +1,5 @@
 import { ApiClient } from "./api.mjs";
+import { readRelationFiles, relationPayload, describeRelation } from "./relations.mjs";
 import {
   escapeHtml as esc,
   money,
@@ -27,6 +28,8 @@ const state = {
   messages: [],
   reports: [],
   requests: [],
+  relationTables: [],
+  relationResult: null,
   filter: {},
   busy: false,
   error: "",
@@ -78,6 +81,8 @@ function resetSession() {
   state.messages = [];
   state.reports = [];
   state.requests = [];
+  state.relationTables = [];
+  state.relationResult = null;
   state.result = null;
   state.filter = {};
   state.name = "";
@@ -291,6 +296,37 @@ function reports() {
     `<div class="tabs"><button class="selected">▥ Báo cáo doanh thu</button><span class="tag">Báo cáo khách hàng / nhân sự: cần API bổ sung</span></div>${kpis()}<div class="split"><div class="stack"><section class="card"><h2>Biểu đồ doanh thu theo thời gian</h2>${trend()}</section><section class="card"><h2>Báo cáo đã xuất trong phiên</h2>${state.reports.length ? table(state.reports) : "<p>Chưa có báo cáo nào. Chọn định dạng bên phải để xuất.</p>"}</section></div><aside class="stack"><section class="card">${filters()}</section><section class="card"><h2>Xuất báo cáo</h2><div class="export-buttons">${["pdf", "xlsx", "pptx", "json", "csv", "html"].map((f) => `<button data-export="${f}" ${!state.analysis ? "disabled" : ""}><b>▤</b>${f.toUpperCase()}</button>`).join("")}</div></section><div class="tip">✧ Báo cáo được tạo bởi backend từ các dòng sau khi lọc. Lịch sử này chỉ tồn tại trong phiên.</div></aside></div>`
   );
 }
+function relationsPanel() {
+  const result = state.relationResult;
+  const links = result?.foreign_keys || [];
+  return `<section class="card"><h2>Tìm liên kết giữa các bảng</h2>
+    <p>Ví dụ: kết nối đơn hàng với khách hàng qua cột <code>customer_id</code>. Bạn không cần nhập mã JSON.</p>
+    <ol><li>Chọn ít nhất 2 tệp CSV hoặc JSON.</li><li>Kiểm tra tên bảng và các cột bên dưới.</li><li>Nhấn tìm liên kết để xem gợi ý.</li></ol>
+    <label>Chọn các tệp dữ liệu<input type="file" name="relation_files" accept=".csv,.json" multiple></label>
+    <p class="notice">2–10 tệp · UTF-8 · Tổng tối đa 100 MiB, tối đa 200.000 dòng và 100 cột mỗi bảng. Chọn lại sẽ thay danh sách hiện tại. Chưa hỗ trợ Excel.</p>
+    <form data-form="relations">
+    ${state.relationTables.map((t, i) => `<section class="card section-gap"><strong>${esc(t.file)}</strong><p>${number(t.rows.length)} dòng · ${t.columns.length} cột</p><label>Tên bảng ${i + 1}<input name="table_${i}" value="${esc(t.name)}" required></label><p>Các cột: ${t.columns.map(esc).join(', ')}</p></section>`).join('')}
+    <p>Tên bảng nên ngắn gọn như <code>orders</code>, <code>customers</code>. Tên bảng giúp hệ thống nhận diện cột mã tương ứng.</p>
+    <button class="primary" ${state.relationTables.length < 2 ? 'disabled' : ''}>Tìm liên kết</button></form>
+    ${result ? `<hr><h3>${links.length ? `${links.length} liên kết được đề xuất` : 'Chưa tìm thấy liên kết phù hợp'}</h3>
+    ${links.length ? links.map(link => { const info = describeRelation(link, state.relationTables); return `<div class="notice section-gap"><h3>${esc(info.title)}</h3><p><strong>${esc(info.type)}</strong></p><p>${esc(info.explanation)}</p><p>${esc(info.example)}</p><p>Đã đối chiếu ${number(info.matched)} dòng có mã; ${number(info.missing)} dòng thiếu mã không được tính vào kết luận.</p><details><summary>Xem cột dùng để đối chiếu</summary><p>${esc(link.child_table)} · ${esc(link.child_column)} ↔ ${esc(link.parent_table)} · ${esc(link.parent_column)}</p></details></div>`; }).join('') : '<p>Chưa tìm được cột mã chung phù hợp. Hãy chọn các bảng liên quan, chẳng hạn đơn hàng và khách hàng. Hệ thống hiện cần cột mã cùng tên và bảng đối chiếu chứa đủ mã. Đây chưa phải kết luận hai bảng không liên quan.</p>'}
+    <h3>Cột mã duy nhất được đề xuất</h3>${Object.entries(result.primary_key_candidates).map(([name, keys]) => `<p><strong>${esc(name)}</strong>: ${keys.length ? keys.map(esc).join(', ') : 'Chưa nhận diện được cột mã phù hợp'}</p>`).join('')}
+    <details><summary>Chi tiết kỹ thuật (JSON)</summary>${jsonBlock(result)}</details>` : ''}
+    <p class="notice section-gap">Chỉ đề xuất quan hệ dựa trên dữ liệu và tên cột; chưa tự ghép bảng hay thay đổi dữ liệu. Bạn cần kiểm tra ý nghĩa nghiệp vụ trước khi sử dụng.</p></section>`;
+}
+
+root.addEventListener('change', event => {
+  if (event.target.name !== 'relation_files') return;
+  const files = Array.from(event.target.files || []);
+  if (!files.length) return;
+  run(async () => {
+    state.relationTables = [];
+    state.relationResult = null;
+    state.relationTables = await readRelationFiles(files);
+    toast('Đã đọc tệp. Kiểm tra tên bảng rồi nhấn Tìm liên kết.');
+  });
+});
+
 function table(rows) {
   if (!rows.length) return "<p>Không có dòng phù hợp.</p>";
   const keys = Object.keys(rows[0]);
@@ -311,7 +347,7 @@ function dataView() {
       "Quản lý dữ liệu trong phiên làm việc và kiểm tra chất lượng.",
       state.analysis ? button("Xóa khỏi phiên", "clear-data", "ghost") : "",
     ) +
-    `<div class="split"><div class="stack"><section class="card"><form data-form="upload" class="dropzone"><div class="empty-symbol">⇧</div><h2>Tải dữ liệu của bạn</h2><p>CSV hoặc JSON · UTF-8 · Tối đa 10 MiB<br>Cột bắt buộc: date, order_id, product, revenue, cost</p><label>Tệp dữ liệu<input name="file" type="file" accept=".csv,.json" required></label><button class="primary">Tải lên & phân tích</button> ${button("Dùng mẫu", "sample", "ghost")}</form></section><section class="card"><div class="row between"><h2>Dữ liệu hiện tại</h2><span class="tag">${state.analysis ? esc(state.name) : "Chưa tải"}</span></div>${state.rows.length ? table(state.rows) : empty()}</section>${state.analysis ? `<section class="card"><h2>Schema & thống kê</h2><details><summary>Kiểu dữ liệu và quan hệ</summary>${jsonBlock(state.analysis.schema)}</details><details><summary>Profiling: phân bố, min, max, trung bình</summary>${jsonBlock(state.analysis.profile)}</details><details><summary>Chi tiết chất lượng</summary>${jsonBlock(state.analysis.quality)}</details></section>` : ""}<section class="card"><h2>Suy luận quan hệ nhiều bảng</h2><form data-form="relations"><label>JSON: {"tables": {"orders": [...], "customers": [...]}}<textarea name="tables" required placeholder='{"tables":{"orders":[{"customer_id":"C1"}],"customers":[{"customer_id":"C1"}]}}'></textarea></label><button class="primary">Phân tích quan hệ</button></form>${state.result?.kind === "relations" ? jsonBlock(state.result.data) : ""}</section></div><aside class="stack"><section class="card"><h2>Trạng thái dữ liệu</h2><p>${state.rows.length ? `${number(state.rows.length)} dòng đã tải` : "Chưa có nguồn dữ liệu"}</p><span class="tag ${state.demo ? "orange" : "green"}">${state.demo ? "Dữ liệu mẫu" : "Dữ liệu của bạn"}</span><div class="notice section-gap">Dữ liệu lưu trong bộ nhớ phiên. Tải lại trang hoặc đăng xuất sẽ xóa dữ liệu khỏi giao diện.</div></section><section class="card"><h2>Tệp mẫu</h2><p>Đúng schema backend, sẵn sàng để tải lên.</p>${button("↓ Tải CSV mẫu", "download-sample", "ghost")}</section></aside></div>`
+    `<div class="split"><div class="stack"><section class="card"><form data-form="upload" class="dropzone"><div class="empty-symbol">⇧</div><h2>Tải dữ liệu của bạn</h2><p>CSV hoặc JSON · UTF-8 · Tối đa 100 MiB<br>EDA cho bảng tổng quát · KPI chỉ khi đủ dữ liệu bán hàng</p><label>Tệp dữ liệu<input name="file" type="file" accept=".csv,.json" required></label><button class="primary">Tải lên & phân tích</button> ${button("Dùng mẫu", "sample", "ghost")}</form></section><section class="card"><div class="row between"><h2>Dữ liệu hiện tại</h2><span class="tag">${state.analysis ? esc(state.name) : "Chưa tải"}</span></div>${state.rows.length ? table(state.rows) : empty()}</section>${state.analysis ? `<section class="card">${(state.analysis.warnings || []).map(w => `<p class="notice">${esc(w)}</p>`).join("")}<h2>Schema & thống kê</h2><details><summary>Kiểu dữ liệu và quan hệ</summary>${jsonBlock(state.analysis.schema)}</details><details><summary>Profiling: phân bố, min, max, trung bình</summary>${jsonBlock(state.analysis.profile)}</details><details><summary>Chi tiết chất lượng</summary>${jsonBlock(state.analysis.quality)}</details></section>` : ""}${relationsPanel()}</div><aside class="stack"><section class="card"><h2>Trạng thái dữ liệu</h2><p>${state.rows.length ? `${number(state.rows.length)} dòng đã tải` : "Chưa có nguồn dữ liệu"}</p><span class="tag ${state.demo ? "orange" : "green"}">${state.demo ? "Dữ liệu mẫu" : "Dữ liệu của bạn"}</span><div class="notice section-gap">Dữ liệu lưu trong bộ nhớ phiên. Tải lại trang hoặc đăng xuất sẽ xóa dữ liệu khỏi giao diện.</div></section><section class="card"><h2>Tệp mẫu</h2><p>Đúng schema backend, sẵn sàng để tải lên.</p>${button("↓ Tải CSV mẫu", "download-sample", "ghost")}</section></aside></div>`
   );
 }
 function chat() {
@@ -377,7 +413,7 @@ function pageView() {
       return (
         heading("Tài chính", "Các chỉ số được tính từ dữ liệu sau lọc.") +
         kpis() +
-        `<section class="card">${state.analysis ? table(Object.entries(state.analysis.kpis).map(([metric, value]) => ({ metric, value: value ?? "Chưa đủ dữ liệu" }))) : empty()}</section>`
+        `<section class="card">${state.analysis?.kpis ? table(Object.entries(state.analysis.kpis).map(([metric, value]) => ({ metric, value: value ?? "Chưa đủ dữ liệu" }))) : empty()}</section>`
       );
     default:
       return overview();
@@ -480,8 +516,8 @@ root.addEventListener("submit", (event) => {
     }
     if (kind === "upload") {
       const file = data.file;
-      if (!file.size || file.size > 10485760)
-        throw new Error("Tệp phải từ 1 byte đến 10 MiB.");
+      if (!file.size || file.size > 104857600)
+        throw new Error("Tệp phải từ 1 byte đến 100 MiB.");
       const text = await file.text();
       const rows = parseDataset(text, file.name);
       const analysis = await api.post(
@@ -529,11 +565,15 @@ root.addEventListener("submit", (event) => {
       state.result = { kind: "synthetic", data: response };
     }
     if (kind === "relations") {
+      state.relationResult = null;
+      const names = state.relationTables.map((t, i) => data[`table_${i}`]);
+      const payload = relationPayload(state.relationTables, names);
+      state.relationTables.forEach((t, i) => { t.name = names[i].trim(); });
       const response = await api.post(
         "/schema/infer-relations",
-        JSON.parse(data.tables),
+        payload,
       );
-      state.result = { kind: "relations", data: response };
+      state.relationResult = response;
     }
     if (kind === "provision") {
       if (data.data_scope === "all" && data.role !== "admin")

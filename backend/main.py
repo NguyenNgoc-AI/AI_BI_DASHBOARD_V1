@@ -38,7 +38,7 @@ from backend.chatbot.rag_engine import answer_dashboard_question, build_dashboar
 from backend.chatbot.text_to_sql import question_to_sql, validate_select_sql
 from backend.config import settings
 from backend.dashboard_engine.chart_generator import generate_charts
-from backend.dashboard_engine.data_pipeline import coerce_ecommerce_types, ingest, validate_required_columns
+from backend.dashboard_engine.data_pipeline import REQUIRED_COLUMNS, coerce_ecommerce_types, ingest, prepare_rows, validate_required_columns
 from backend.dashboard_engine.kpi_calculator import calculate_kpis
 from backend.dashboard_engine.report_exporter import build_report_payload, export_report
 from backend.eda.profiling import profile_dataset
@@ -211,8 +211,10 @@ class AnalysisResponse(StrictModel):
     schema_definition: SchemaResponse = Field(alias="schema")
     profile: ProfileResponse
     quality: QualityResponse
-    kpis: KpiResponse
+    kpis: KpiResponse | None
     charts: list[dict[str, JsonValue]]
+    capabilities: dict[str, JsonValue] = Field(default_factory=dict)
+    warnings: list[str] = Field(default_factory=list)
 
 
 class RelationsResponse(StrictModel):
@@ -351,8 +353,34 @@ def analyze(rows: list[dict]) -> dict:
 
 
 def canonical_rows(rows: list[dict]) -> list[dict]:
+    rows = prepare_rows(rows, settings.max_rows)
     validate_required_columns(rows)
     return coerce_ecommerce_types(rows)
+
+
+def explore(rows: list[dict]) -> dict:
+    """EDA is always available; business KPIs require a valid canonical table."""
+    missing = sorted(REQUIRED_COLUMNS - set(rows[0]))
+    warning = ""
+    business_rows = None
+    if not missing:
+        try:
+            business_rows = coerce_ecommerce_types(rows)
+        except ValueError as error:
+            warning = str(error)
+    else:
+        warning = "E-commerce KPIs unavailable; missing columns: " + ", ".join(missing)
+    if business_rows is not None:
+        result = analyze(business_rows)
+    else:
+        result = {
+            "dataset": {"rows": len(rows), "columns": len(rows[0])},
+            "schema": infer_schema(rows), "profile": profile_dataset(rows),
+            "quality": check_quality(rows), "kpis": None, "charts": [],
+        }
+    result["capabilities"] = {"eda": True, "ecommerce_kpis": business_rows is not None, "missing_columns": missing}
+    result["warnings"] = [warning] if warning else []
+    return result
 
 
 @app.get("/", response_model=RootResponse)
@@ -509,22 +537,22 @@ def analyze_upload(
 ) -> dict:
     if len(content) > settings.max_upload_bytes:
         raise HTTPException(status_code=413, detail="File is too large")
-    return analyze(ingest(content, filename, settings.max_rows))
+    return explore(ingest(content, filename, settings.max_rows, generic=True))
 
 
 @app.post("/datasets/profile", response_model=ProfileResponse, responses=DATA_RESPONSES)
 def dataset_profile(payload: DatasetRequest, _user: dict = Depends(current_user)) -> dict:
-    return profile_dataset(canonical_rows(payload.rows))
+    return profile_dataset(prepare_rows(payload.rows, settings.max_rows))
 
 
 @app.post("/datasets/quality", response_model=QualityResponse, responses=DATA_RESPONSES)
 def dataset_quality(payload: DatasetRequest, _user: dict = Depends(current_user)) -> dict:
-    return check_quality(canonical_rows(payload.rows))
+    return check_quality(prepare_rows(payload.rows, settings.max_rows))
 
 
 @app.post("/datasets/schema", response_model=SchemaResponse, responses=DATA_RESPONSES)
 def dataset_schema(payload: DatasetRequest, _user: dict = Depends(current_user)) -> dict:
-    return infer_schema(canonical_rows(payload.rows))
+    return infer_schema(prepare_rows(payload.rows, settings.max_rows))
 
 
 @app.post(
@@ -533,7 +561,9 @@ def dataset_schema(payload: DatasetRequest, _user: dict = Depends(current_user))
     responses={**AUTH_RESPONSES, 400: {"description": "Invalid tables"}},
 )
 def schema_relations(payload: TablesRequest, _user: dict = Depends(current_user)) -> dict:
-    return infer_database_schema(payload.tables)
+    if not 2 <= len(payload.tables) <= 10:
+        raise ValueError("Select 2 to 10 tables")
+    return infer_database_schema({name: prepare_rows(rows, settings.max_rows) for name, rows in payload.tables.items()})
 
 
 @app.post("/dashboard/kpis", response_model=KpiResponse, responses=DATA_RESPONSES)

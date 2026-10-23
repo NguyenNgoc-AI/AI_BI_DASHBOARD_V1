@@ -12,9 +12,10 @@ def find_missing(rows: list[dict]) -> dict:
 
 
 def find_duplicates(rows: list[dict], key: str = "order_id") -> dict:
-    counts = Counter(row.get(key) for row in rows)
+    by_key = any(key in row for row in rows)
+    counts = Counter(row.get(key) if by_key else tuple(sorted(row.items())) for row in rows)
     duplicates = sum(count - 1 for value, count in counts.items() if value is not None and count > 1)
-    return {"rows": duplicates, "rate": duplicates / len(rows) if rows else 0.0}
+    return {"rows": duplicates, "rate": duplicates / len(rows) if rows else 0.0, "basis": key if by_key else "entire_row"}
 
 
 def find_outliers(values: list[Any]) -> dict:

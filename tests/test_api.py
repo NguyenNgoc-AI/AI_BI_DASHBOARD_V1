@@ -93,6 +93,31 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(analysis.status_code, 200, analysis.text)
         self.assertEqual(analysis.json()["kpis"]["net_profit"], 160)
 
+    def test_generic_upload_and_eda_without_sales_columns(self):
+        headers = {**self.user["headers"], "Content-Type": "application/octet-stream"}
+        response = self.client.post('/datasets/analyze?filename=customers.csv', content=b'customer_id,city,score\n001,Hanoi,4\n002,Hue,5\n', headers=headers)
+        self.assertEqual(response.status_code, 200, response.text)
+        body = response.json()
+        self.assertIsNone(body['kpis'])
+        self.assertFalse(body['capabilities']['ecommerce_kpis'])
+        self.assertEqual(body['profile']['columns']['score']['mean'], 4.5)
+        for endpoint in ('profile', 'quality', 'schema'):
+            result = self.client.post('/datasets/' + endpoint, json={'rows': [{'customer_id': '001', 'city': 'Hanoi'}, {'customer_id': '002'}]}, headers=self.user['headers'])
+            self.assertEqual(result.status_code, 200, result.text)
+        malformed = self.client.post('/datasets/analyze?filename=test.csv', content=b'a,b\n1,2,3\n', headers=headers)
+        self.assertEqual(malformed.status_code, 400)
+
+    def test_upload_over_ten_mib_and_new_size_limit(self):
+        headers = {**self.user['headers'], 'Content-Type': 'application/octet-stream'}
+        body = b'[{"customer_id":"C1"}]' + b' ' * (10 * 1024 * 1024)
+        response = self.client.post('/datasets/analyze?filename=large.json', content=body, headers=headers)
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()['dataset']['rows'], 1)
+        response = self.client.post('/datasets/analyze?filename=large.json', content=b'[]', headers={**headers, 'Content-Length': str(settings.max_upload_bytes + 1)})
+        self.assertEqual(response.status_code, 413)
+
+    def test_remaining_analytics_endpoints(self):
+
         profile = self.client.post("/datasets/profile", json={"rows": ROWS}, headers=self.user["headers"])
         quality = self.client.post("/datasets/quality", json={"rows": ROWS}, headers=self.user["headers"])
         schema = self.client.post("/datasets/schema", json={"rows": ROWS}, headers=self.user["headers"])
