@@ -115,8 +115,3 @@ pytest tests/ -v
 ```
 
 ---
-
-## 📌 Lưu ý về Kiến trúc Phân tách Nhánh
-
-* **Nhánh `Unhi0`:** Chỉ tập trung vào **Dữ liệu & Thuật toán sinh/đánh giá dữ liệu**. Không chứa mã nguồn frontend hay các chức năng ứng dụng web (auth, user management, chatbot, dashboard UI).
-* **Nhánh `Unhi1`:** Nhánh tích hợp toàn diện gồm Backend BI API + Giao diện người dùng Web Frontend.
