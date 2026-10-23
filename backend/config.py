@@ -4,6 +4,17 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT_DIR / "data"
+SAMPLE_DATASET_DIR = DATA_DIR / "sample_dataset"
+GENERATED_DATA_DIR = DATA_DIR / "generated"
+WAREHOUSE_DIR = DATA_DIR / "warehouse"
+SEED_DATA_PATH = SAMPLE_DATASET_DIR / "ecommerce_seed.csv"
+SYNTHETIC_DATA_PATH = GENERATED_DATA_DIR / "synthetic_ecommerce.csv"
+HOLDOUT_DATA_PATH = WAREHOUSE_DIR / "real_holdout.csv"
+PROFILE_PATH = GENERATED_DATA_DIR / "learned_seed_profile.json"
+EXPORTS_DIR = GENERATED_DATA_DIR / "exports"
+
 
 @dataclass(frozen=True)
 class Settings:

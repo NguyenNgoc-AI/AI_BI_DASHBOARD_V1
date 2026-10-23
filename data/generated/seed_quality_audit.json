@@ -1,0 +1,334 @@
+{
+  "dataset_name": "ecommerce_seed",
+  "audited_at": "2026-10-07T16:54:05.810048",
+  "overall_status": "PASSED",
+  "data_quality_score": 98.13,
+  "quality_tier": "Tier A (Excellent - Ready for Synthetic Training & Production)",
+  "dimensions": {
+    "completeness": {
+      "completeness_score": 99.92,
+      "total_cells": 1330000,
+      "null_cells": 1089,
+      "blank_cells": 0,
+      "columns_with_nulls_count": 3,
+      "missing_by_column": {
+        "order_approved_at": {
+          "null_count": 5,
+          "null_pct": 0.01
+        },
+        "order_delivered_carrier_date": {
+          "null_count": 346,
+          "null_pct": 0.99
+        },
+        "order_delivered_customer_date": {
+          "null_count": 738,
+          "null_pct": 2.11
+        }
+      }
+    },
+    "uniqueness": {
+      "uniqueness_score": 100.0,
+      "duplicate_full_rows": 0,
+      "row_uniqueness_pct": 100.0,
+      "primary_key": "sales_id",
+      "primary_key_duplicates": 0,
+      "primary_key_uniqueness_pct": 100.0
+    },
+    "validity_and_invariants": {
+      "validity_score": 99.47,
+      "sales_pass_rate_pct": 100.0,
+      "product_pass_rate_pct": 100.0,
+      "order_pass_rate_pct": 97.89,
+      "financial_pass_rate_pct": 100.0,
+      "total_invariant_errors": 738,
+      "rule_breakdown": {
+        "sales": {
+          "table_name": "sales",
+          "total_rows": 35000,
+          "valid_rows": 35000,
+          "invalid_rows": 0,
+          "pass_rate_pct": 100.0,
+          "hard_violations": 0,
+          "soft_violations": 0,
+          "rule_reports": [
+            {
+              "rule_id": "HR_SALES_001",
+              "name": "Gross Sales Mathematical Invariant",
+              "severity": "ERROR",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "HR_SALES_002",
+              "name": "Discount Amount Range Boundary",
+              "severity": "ERROR",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
+            },
+            {
+              "rule_id": "HR_SALES_003",
+              "name": "Net Sales Mathematical Invariant",
+              "severity": "ERROR",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "HR_SALES_004",
+              "name": "Positive Line Item Quantity",
+              "severity": "ERROR",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "HR_SALES_005",
+              "name": "Non-Negative Unit Price",
+              "severity": "ERROR",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "SR_SALES_001",
+              "name": "Marketplace Commission Ratio Guard",
+              "severity": "WARNING",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "SR_SALES_002",
+              "name": "High Promotional Discount Warning",
+              "severity": "WARNING",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            }
+          ]
+        },
+        "products": {
+          "table_name": "products",
+          "total_rows": 35000,
+          "valid_rows": 35000,
+          "invalid_rows": 0,
+          "pass_rate_pct": 100.0,
+          "hard_violations": 0,
+          "soft_violations": 0,
+          "rule_reports": [
+            {
+              "rule_id": "HR_PROD_001",
+              "name": "Product Price and Cost Non-Negative",
+              "severity": "ERROR",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
+            },
+            {
+              "rule_id": "HR_PROD_002",
+              "name": "Margin Rate Formula Invariant",
+              "severity": "ERROR",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "SR_PROD_001",
+              "name": "Extreme Loss Leader Guard",
+              "severity": "WARNING",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "SR_PROD_002",
+              "name": "Target Minimum Profit Margin",
+              "severity": "WARNING",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            }
+          ]
+        },
+        "orders": {
+          "table_name": "orders",
+          "total_rows": 35000,
+          "valid_rows": 34262,
+          "invalid_rows": 738,
+          "pass_rate_pct": 97.89,
+          "hard_violations": 738,
+          "soft_violations": 0,
+          "rule_reports": [
+            {
+              "rule_id": "HR_ORD_001",
+              "name": "Order Payment Value Non-Negative",
+              "severity": "ERROR",
+              "compliance_pct": 100.0,
+              "violation_count": 0,
+              "sample_violation_indices": []
+            },
+            {
+              "rule_id": "HR_ORD_002",
+              "name": "Delivery Date Monotonicity",
+              "severity": "ERROR",
+              "compliance_pct": 97.89,
+              "violation_count": 738,
+              "sample_violation_indices": [
+                21,
+                130,
+                166,
+                171,
+                200
+              ]
+            }
+          ]
+        },
+        "financials": {
+          "table_name": "financials",
+          "total_rows": 35000,
+          "valid_rows": 35000,
+          "invalid_rows": 0,
+          "pass_rate_pct": 100.0,
+          "hard_violations": 0,
+          "soft_violations": 0,
+          "rule_reports": [
+            {
+              "rule_id": "HR_FIN_001",
+              "name": "Consolidated Net Profit Formula Invariant",
+              "severity": "ERROR",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "'NoneType' object is not subscriptable"
+            },
+            {
+              "rule_id": "HR_FIN_002",
+              "name": "Marketing Funnel Volume Monotonicity",
+              "severity": "ERROR",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "'NoneType' object is not subscriptable"
+            },
+            {
+              "rule_id": "HR_FIN_003",
+              "name": "Financial Expense Components Non-Negative",
+              "severity": "ERROR",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "'NoneType' object is not subscriptable"
+            },
+            {
+              "rule_id": "SR_FIN_001",
+              "name": "Plausible Click-Through Rate (CTR) Boundary",
+              "severity": "WARNING",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "'NoneType' object is not subscriptable"
+            },
+            {
+              "rule_id": "SR_FIN_002",
+              "name": "Plausible Conversion Rate (CR) Boundary",
+              "severity": "WARNING",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "'NoneType' object is not subscriptable"
+            },
+            {
+              "rule_id": "SR_FIN_003",
+              "name": "Healthy COGS-to-Revenue Proportion",
+              "severity": "WARNING",
+              "compliance_pct": 0.0,
+              "violation_count": 35000,
+              "error": "'NoneType' object is not subscriptable"
+            }
+          ]
+        }
+      }
+    },
+    "outlier_health": {
+      "outlier_health_score": 91.66,
+      "extreme_outliers_total": 18483,
+      "extreme_outliers_pct": 2.78,
+      "columns_analyzed_count": 19,
+      "outlier_by_column": {
+        "zip_code": {
+          "extreme_outliers_count": 0,
+          "extreme_outliers_pct": 0.0
+        },
+        "unit_price": {
+          "extreme_outliers_count": 1262,
+          "extreme_outliers_pct": 3.61
+        },
+        "unit_cost": {
+          "extreme_outliers_count": 1312,
+          "extreme_outliers_pct": 3.75
+        },
+        "margin_rate": {
+          "extreme_outliers_count": 0,
+          "extreme_outliers_pct": 0.0
+        },
+        "gross_sales": {
+          "extreme_outliers_count": 1262,
+          "extreme_outliers_pct": 3.61
+        },
+        "discount_amount": {
+          "extreme_outliers_count": 1884,
+          "extreme_outliers_pct": 5.38
+        },
+        "net_sales": {
+          "extreme_outliers_count": 1258,
+          "extreme_outliers_pct": 3.59
+        },
+        "cogs": {
+          "extreme_outliers_count": 1312,
+          "extreme_outliers_pct": 3.75
+        },
+        "gross_profit": {
+          "extreme_outliers_count": 1383,
+          "extreme_outliers_pct": 3.95
+        },
+        "gross_margin_pct": {
+          "extreme_outliers_count": 0,
+          "extreme_outliers_pct": 0.0
+        },
+        "freight_value": {
+          "extreme_outliers_count": 1691,
+          "extreme_outliers_pct": 4.83
+        },
+        "platform_fee": {
+          "extreme_outliers_count": 1306,
+          "extreme_outliers_pct": 3.73
+        },
+        "payment_installments": {
+          "extreme_outliers_count": 61,
+          "extreme_outliers_pct": 0.17
+        },
+        "payment_value": {
+          "extreme_outliers_count": 1535,
+          "extreme_outliers_pct": 4.39
+        },
+        "marketing_spend": {
+          "extreme_outliers_count": 0,
+          "extreme_outliers_pct": 0.0
+        },
+        "tax_amount": {
+          "extreme_outliers_count": 1258,
+          "extreme_outliers_pct": 3.59
+        },
+        "operating_expenses": {
+          "extreme_outliers_count": 1258,
+          "extreme_outliers_pct": 3.59
+        },
+        "net_profit": {
+          "extreme_outliers_count": 1393,
+          "extreme_outliers_pct": 3.98
+        },
+        "net_margin_pct": {
+          "extreme_outliers_count": 308,
+          "extreme_outliers_pct": 0.88
+        }
+      }
+    }
+  }
+}

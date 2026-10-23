@@ -1,0 +1,190 @@
+,Business Id,Payment method,Credit card
+0,2,Visa,Yes
+1,2,Discover,Yes
+2,2,American Express,Yes
+3,2,Diners Club,Yes
+4,2,MasterCard,Yes
+5,2,Check,No
+6,2,Cash,No
+7,3,American Express,Yes
+8,3,Visa,Yes
+9,3,Diners Club,Yes
+10,3,Cash,No
+11,3,Discover,Yes
+12,3,MasterCard,Yes
+13,3,Check,No
+14,4,Cash,No
+15,4,MasterCard,Yes
+16,4,Visa,Yes
+17,4,Discover,Yes
+18,4,Diners Club,Yes
+19,4,Check,No
+20,4,American Express,Yes
+21,5,American Express,Yes
+22,5,Discover,Yes
+23,5,Check,No
+24,5,MasterCard,Yes
+25,5,Diners Club,Yes
+26,5,Visa,Yes
+27,5,Cash,No
+28,6,American Express,Yes
+29,6,MasterCard,Yes
+30,6,Check,No
+31,6,Discover,Yes
+32,6,Diners Club,Yes
+33,6,Visa,Yes
+34,6,Cash,No
+35,7,Diners Club,Yes
+36,7,Visa,Yes
+37,7,Check,No
+38,7,Discover,Yes
+39,7,American Express,Yes
+40,7,Cash,No
+41,7,MasterCard,Yes
+42,8,Check,No
+43,8,Cash,No
+44,8,American Express,Yes
+45,8,Discover,Yes
+46,8,MasterCard,Yes
+47,8,Visa,Yes
+48,8,Diners Club,Yes
+49,9,Diners Club,Yes
+50,9,MasterCard,Yes
+51,9,Cash,No
+52,9,Check,No
+53,9,Discover,Yes
+54,9,Visa,Yes
+55,9,American Express,Yes
+56,10,American Express,Yes
+57,10,MasterCard,Yes
+58,10,Diners Club,Yes
+59,10,Cash,No
+60,10,Check,No
+61,10,Visa,Yes
+62,10,Discover,Yes
+63,11,Check,No
+64,11,Cash,No
+65,11,MasterCard,Yes
+66,11,Diners Club,Yes
+67,11,American Express,Yes
+68,11,Discover,Yes
+69,11,Visa,Yes
+70,12,American Express,Yes
+71,12,MasterCard,Yes
+72,12,Discover,Yes
+73,12,Cash,No
+74,12,Diners Club,Yes
+75,12,Visa,Yes
+76,12,Check,No
+77,13,Discover,Yes
+78,13,Cash,No
+79,13,Check,No
+80,13,MasterCard,Yes
+81,13,Diners Club,Yes
+82,13,Visa,Yes
+83,13,American Express,Yes
+84,14,Check,No
+85,14,Discover,Yes
+86,14,Cash,No
+87,14,Visa,Yes
+88,14,American Express,Yes
+89,14,Diners Club,Yes
+90,14,MasterCard,Yes
+91,15,Cash,No
+92,15,Visa,Yes
+93,15,MasterCard,Yes
+94,15,Diners Club,Yes
+95,15,American Express,Yes
+96,15,Discover,Yes
+97,15,Check,No
+98,16,Diners Club,Yes
+99,16,Discover,Yes
+100,16,Check,No
+101,16,Visa,Yes
+102,16,MasterCard,Yes
+103,16,American Express,Yes
+104,16,Cash,No
+105,17,Check,No
+106,17,Cash,No
+107,17,Discover,Yes
+108,17,Visa,Yes
+109,17,American Express,Yes
+110,17,MasterCard,Yes
+111,17,Diners Club,Yes
+112,18,Discover,Yes
+113,18,Check,No
+114,18,Cash,No
+115,18,Visa,Yes
+116,18,American Express,Yes
+117,18,Diners Club,Yes
+118,18,MasterCard,Yes
+119,19,Visa,Yes
+120,19,American Express,Yes
+121,19,Diners Club,Yes
+122,19,MasterCard,Yes
+123,19,Cash,No
+124,19,Check,No
+125,19,Discover,Yes
+126,20,Visa,Yes
+127,20,Diners Club,Yes
+128,20,MasterCard,Yes
+129,20,Discover,Yes
+130,20,Check,No
+131,20,American Express,Yes
+132,20,Cash,No
+133,21,Discover,Yes
+134,21,MasterCard,Yes
+135,21,Visa,Yes
+136,21,Check,No
+137,21,Cash,No
+138,21,American Express,Yes
+139,21,Diners Club,Yes
+140,22,Check,No
+141,22,Visa,Yes
+142,22,Cash,No
+143,22,American Express,Yes
+144,22,Diners Club,Yes
+145,22,MasterCard,Yes
+146,22,Discover,Yes
+147,23,Visa,Yes
+148,23,Diners Club,Yes
+149,23,Cash,No
+150,23,Check,No
+151,23,Discover,Yes
+152,23,American Express,Yes
+153,23,MasterCard,Yes
+154,24,MasterCard,Yes
+155,24,Cash,No
+156,24,American Express,Yes
+157,24,Visa,Yes
+158,24,Check,No
+159,24,Discover,Yes
+160,24,Diners Club,Yes
+161,25,Diners Club,Yes
+162,25,Visa,Yes
+163,25,Check,No
+164,25,Discover,Yes
+165,25,Cash,No
+166,25,MasterCard,Yes
+167,25,American Express,Yes
+168,26,Cash,No
+169,26,Visa,Yes
+170,26,American Express,Yes
+171,26,Diners Club,Yes
+172,26,MasterCard,Yes
+173,26,Check,No
+174,26,Discover,Yes
+175,27,MasterCard,Yes
+176,27,Visa,Yes
+177,27,Cash,No
+178,27,Check,No
+179,27,Discover,Yes
+180,27,American Express,Yes
+181,27,Diners Club,Yes
+182,28,Diners Club,Yes
+183,28,MasterCard,Yes
+184,28,Check,No
+185,28,Discover,Yes
+186,28,Cash,No
+187,28,American Express,Yes
+188,28,Visa,Yes

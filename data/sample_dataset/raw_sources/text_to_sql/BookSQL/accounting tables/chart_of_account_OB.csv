@@ -1,0 +1,2431 @@
+,Business Id,Account name,Account Full Name,Account type
+0,2,Bookkeeper,Bookkeeper,Expenses
+1,2,Lawyer,Lawyer,Expenses
+2,2,Maintenance and Repair,Maintenance and Repair,Expenses
+3,2,Building Repairs,Building Repairs,Expenses
+4,2,Computer Repairs,Computer Repairs,Expenses
+5,2,Advertising,Advertising,Expenses
+6,2,Bank Charges,Bank Charges,Expenses
+7,2,Commissions & fees,Commissions & fees,Expenses
+8,2,Dues & Subscriptions,Dues & Subscriptions,Expenses
+9,2,Insurance,Insurance,Expenses
+10,2,Legal & Professional Fees,Legal & Professional Fees,Expenses
+11,2,Meals and Entertainment,Meals and Entertainment,Expenses
+12,2,Miscellaneous,Miscellaneous,Other Expense
+13,2,Office Expenses,Office Expenses,Expenses
+14,2,Promotional,Promotional,Expenses
+15,2,Rent or Lease,Rent or Lease,Expenses
+16,2,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+17,2,Stationery & Printing,Stationery & Printing,Expenses
+18,2,Supplies,Supplies,Expenses
+19,2,Taxes & Licenses,Taxes & Licenses,Expenses
+20,2,Travel,Travel,Expenses
+21,2,Travel Meals,Travel Meals,Expenses
+22,2,Utilities,Utilities,Expenses
+23,2,Interest Earned,Interest Earned,Other Income
+24,2,Other Portfolio Income,Other Portfolio Income,Other Income
+25,2,Penalties & Settlements,Penalties & Settlements,Other Expense
+26,2,Disposal Fees,Disposal Fees,Expenses
+27,2,Equipment Rental,Equipment Rental,Expenses
+28,2,Uncategorized Income,Uncategorized Income,Income
+29,2,Uncategorized Expense,Uncategorized Expense,Expenses
+30,2,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+31,2,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+32,2,Coffee and snack shops,Coffee and snack shops,Income
+33,2,Checking,Checking,Bank
+34,2,Savings,Savings,Bank
+35,2,Truck,Truck,Fixed Assets
+36,2,Original Cost,Original Cost,Fixed Assets
+37,2,Depreciation,Depreciation,Fixed Assets
+38,2,Depreciation,Depreciation,Other Expense
+39,2,Mastercard,Mastercard,Credit Card
+40,2,Visa,Visa,Credit Card
+41,2,Loan Payable,Loan Payable,Other Current Liabilities
+42,2,Notes Payable,Notes Payable,Long Term Liabilities
+43,2,Fast food restaurants,Fast food restaurants,Income
+44,2,Job Materials,Job Materials,Income
+45,2,Decks and Patios,Decks and Patios,Income
+46,2,Campground and RV park services,Campground and RV park services,Income
+47,2,Street vending locations,Street vending locations,Income
+48,2,Other food services,Other food services,Income
+49,2,Labor,Labor,Income
+50,2,Installation,Installation,Income
+51,2,Maintenance and Repair,Maintenance and Repair,Income
+52,2,Catering services,Catering services,Income
+53,2,Automobile,Automobile,Expenses
+54,2,Fuel,Fuel,Expenses
+55,2,Workers Compensation,Workers Compensation,Expenses
+56,2,Job Expenses,Job Expenses,Expenses
+57,2,Cost of Labor,Cost of Labor,Expenses
+58,2,Installation,Installation,Expenses
+59,2,Maintenance and Repairs,Maintenance and Repairs,Expenses
+60,2,Equipment Repairs,Equipment Repairs,Expenses
+61,2,Gas and Electric,Gas and Electric,Expenses
+62,2,Telephone,Telephone,Expenses
+63,2,Purchases,Purchases,Expenses
+64,2,Bars and nightclubs,Bars and nightclubs,Income
+65,2,Hotels and motel services,Hotels and motel services,Income
+66,2,Full-service restaurants,Full-service restaurants,Income
+67,2,Design income,Design income,Income
+68,2,Other Income,Other Income,Income
+69,2,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+70,2,Billable Expense Income,Billable Expense Income,Income
+71,2,Discounts given,Discounts given,Income
+72,2,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+73,2,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+74,2,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+75,2,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+76,2,Services,Services,Income
+77,2,Retained Earnings,Retained Earnings,Equity
+78,2,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+79,2,Undeposited Funds,Undeposited Funds,Other Current Assets
+80,2,Equipment Rental,Equipment Rental,Expenses
+81,2,Fees Billed,Fees Billed,Income
+82,2,Refunds-Allowances,Refunds-Allowances,Income
+83,2,Job Materials,Job Materials,Expenses
+84,2,Decks and Patios,Decks and Patios,Expenses
+85,2,Other accommodation services,Other accommodation services,Income
+86,2,Street vending locations,Street vending locations,Income
+87,2,Other food services,Other food services,Income
+88,2,Permits,Permits,Expenses
+89,2,Accounting,Accounting,Expenses
+90,3,Bookkeeper,Bookkeeper,Expenses
+91,3,Lawyer,Lawyer,Expenses
+92,3,Maintenance and Repair,Maintenance and Repair,Expenses
+93,3,Building Repairs,Building Repairs,Expenses
+94,3,Computer Repairs,Computer Repairs,Expenses
+95,3,Advertising,Advertising,Expenses
+96,3,Bank Charges,Bank Charges,Expenses
+97,3,Commissions & fees,Commissions & fees,Expenses
+98,3,Dues & Subscriptions,Dues & Subscriptions,Expenses
+99,3,Insurance,Insurance,Expenses
+100,3,Legal & Professional Fees,Legal & Professional Fees,Expenses
+101,3,Meals and Entertainment,Meals and Entertainment,Expenses
+102,3,Miscellaneous,Miscellaneous,Other Expense
+103,3,Office Expenses,Office Expenses,Expenses
+104,3,Promotional,Promotional,Expenses
+105,3,Rent or Lease,Rent or Lease,Expenses
+106,3,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+107,3,Stationery & Printing,Stationery & Printing,Expenses
+108,3,Supplies,Supplies,Expenses
+109,3,Taxes & Licenses,Taxes & Licenses,Expenses
+110,3,Travel,Travel,Expenses
+111,3,Travel Meals,Travel Meals,Expenses
+112,3,Utilities,Utilities,Expenses
+113,3,Interest Earned,Interest Earned,Other Income
+114,3,Other Portfolio Income,Other Portfolio Income,Other Income
+115,3,Penalties & Settlements,Penalties & Settlements,Other Expense
+116,3,Disposal Fees,Disposal Fees,Expenses
+117,3,Equipment Rental,Equipment Rental,Expenses
+118,3,Uncategorized Income,Uncategorized Income,Income
+119,3,Uncategorized Expense,Uncategorized Expense,Expenses
+120,3,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+121,3,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+122,3,Business services centers,Business services centers,Income
+123,3,Checking,Checking,Bank
+124,3,Savings,Savings,Bank
+125,3,Truck,Truck,Fixed Assets
+126,3,Original Cost,Original Cost,Fixed Assets
+127,3,Depreciation,Depreciation,Fixed Assets
+128,3,Depreciation,Depreciation,Other Expense
+129,3,Mastercard,Mastercard,Credit Card
+130,3,Visa,Visa,Credit Card
+131,3,Loan Payable,Loan Payable,Other Current Liabilities
+132,3,Notes Payable,Notes Payable,Long Term Liabilities
+133,3,Blueprinting services,Blueprinting services,Income
+134,3,Job Materials,Job Materials,Income
+135,3,Decks and Patios,Decks and Patios,Income
+136,3,Private mailbox rental services,Private mailbox rental services,Income
+137,3,Document copying services,Document copying services,Income
+138,3,Reprographic services,Reprographic services,Income
+139,3,Labor,Labor,Income
+140,3,Installation,Installation,Income
+141,3,Maintenance and Repair,Maintenance and Repair,Income
+142,3,Copy centers,Copy centers,Income
+143,3,Automobile,Automobile,Expenses
+144,3,Fuel,Fuel,Expenses
+145,3,Workers Compensation,Workers Compensation,Expenses
+146,3,Job Expenses,Job Expenses,Expenses
+147,3,Cost of Labor,Cost of Labor,Expenses
+148,3,Installation,Installation,Expenses
+149,3,Maintenance and Repairs,Maintenance and Repairs,Expenses
+150,3,Equipment Repairs,Equipment Repairs,Expenses
+151,3,Gas and Electric,Gas and Electric,Expenses
+152,3,Telephone,Telephone,Expenses
+153,3,Purchases,Purchases,Expenses
+154,3,Photocopying services,Photocopying services,Income
+155,3,Private mailbox rental centers,Private mailbox rental centers,Income
+156,3,Private parcel mailing services,Private parcel mailing services,Income
+157,3,Design income,Design income,Income
+158,3,Other Income,Other Income,Income
+159,3,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+160,3,Billable Expense Income,Billable Expense Income,Income
+161,3,Discounts given,Discounts given,Income
+162,3,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+163,3,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+164,3,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+165,3,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+166,3,Services,Services,Income
+167,3,Retained Earnings,Retained Earnings,Equity
+168,3,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+169,3,Undeposited Funds,Undeposited Funds,Other Current Assets
+170,3,Equipment Rental,Equipment Rental,Expenses
+171,3,Fees Billed,Fees Billed,Income
+172,3,Refunds-Allowances,Refunds-Allowances,Income
+173,3,Job Materials,Job Materials,Expenses
+174,3,Decks and Patios,Decks and Patios,Expenses
+175,3,Private parcel mailing centers,Private parcel mailing centers,Income
+176,3,Document copying services,Document copying services,Income
+177,3,Reprographic services,Reprographic services,Income
+178,3,Permits,Permits,Expenses
+179,3,Accounting,Accounting,Expenses
+180,4,Bookkeeper,Bookkeeper,Expenses
+181,4,Lawyer,Lawyer,Expenses
+182,4,Maintenance and Repair,Maintenance and Repair,Expenses
+183,4,Building Repairs,Building Repairs,Expenses
+184,4,Computer Repairs,Computer Repairs,Expenses
+185,4,Advertising,Advertising,Expenses
+186,4,Bank Charges,Bank Charges,Expenses
+187,4,Commissions & fees,Commissions & fees,Expenses
+188,4,Dues & Subscriptions,Dues & Subscriptions,Expenses
+189,4,Insurance,Insurance,Expenses
+190,4,Legal & Professional Fees,Legal & Professional Fees,Expenses
+191,4,Meals and Entertainment,Meals and Entertainment,Expenses
+192,4,Miscellaneous,Miscellaneous,Other Expense
+193,4,Office Expenses,Office Expenses,Expenses
+194,4,Promotional,Promotional,Expenses
+195,4,Rent or Lease,Rent or Lease,Expenses
+196,4,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+197,4,Stationery & Printing,Stationery & Printing,Expenses
+198,4,Supplies,Supplies,Expenses
+199,4,Taxes & Licenses,Taxes & Licenses,Expenses
+200,4,Travel,Travel,Expenses
+201,4,Travel Meals,Travel Meals,Expenses
+202,4,Utilities,Utilities,Expenses
+203,4,Interest Earned,Interest Earned,Other Income
+204,4,Other Portfolio Income,Other Portfolio Income,Other Income
+205,4,Penalties & Settlements,Penalties & Settlements,Other Expense
+206,4,Disposal Fees,Disposal Fees,Expenses
+207,4,Equipment Rental,Equipment Rental,Expenses
+208,4,Uncategorized Income,Uncategorized Income,Income
+209,4,Uncategorized Expense,Uncategorized Expense,Expenses
+210,4,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+211,4,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+212,4,Shearing services,Shearing services,Income
+213,4,Checking,Checking,Bank
+214,4,Savings,Savings,Bank
+215,4,Truck,Truck,Fixed Assets
+216,4,Original Cost,Original Cost,Fixed Assets
+217,4,Depreciation,Depreciation,Fixed Assets
+218,4,Depreciation,Depreciation,Other Expense
+219,4,Mastercard,Mastercard,Credit Card
+220,4,Visa,Visa,Credit Card
+221,4,Loan Payable,Loan Payable,Other Current Liabilities
+222,4,Notes Payable,Notes Payable,Long Term Liabilities
+223,4,Miscellaneous services,Miscellaneous services,Income
+224,4,Job Materials,Job Materials,Income
+225,4,Decks and Patios,Decks and Patios,Income
+226,4,Dairy support services,Dairy support services,Income
+227,4,Farrier services,Farrier services,Income
+228,4,Other Services,Other Services,Income
+229,4,Labor,Labor,Income
+230,4,Installation,Installation,Income
+231,4,Maintenance and Repair,Maintenance and Repair,Income
+232,4,Spraying services,Spraying services,Income
+233,4,Automobile,Automobile,Expenses
+234,4,Fuel,Fuel,Expenses
+235,4,Workers Compensation,Workers Compensation,Expenses
+236,4,Job Expenses,Job Expenses,Expenses
+237,4,Cost of Labor,Cost of Labor,Expenses
+238,4,Installation,Installation,Expenses
+239,4,Maintenance and Repairs,Maintenance and Repairs,Expenses
+240,4,Equipment Repairs,Equipment Repairs,Expenses
+241,4,Gas and Electric,Gas and Electric,Expenses
+242,4,Telephone,Telephone,Expenses
+243,4,Purchases,Purchases,Expenses
+244,4,Rental Services,Rental Services,Income
+245,4,Breeding services,Breeding services,Income
+246,4,Livestock health services,Livestock health services,Income
+247,4,Design income,Design income,Income
+248,4,Other Income,Other Income,Income
+249,4,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+250,4,Billable Expense Income,Billable Expense Income,Income
+251,4,Discounts given,Discounts given,Income
+252,4,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+253,4,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+254,4,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+255,4,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+256,4,Services,Services,Income
+257,4,Retained Earnings,Retained Earnings,Equity
+258,4,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+259,4,Undeposited Funds,Undeposited Funds,Other Current Assets
+260,4,Equipment Rental,Equipment Rental,Expenses
+261,4,Fees Billed,Fees Billed,Income
+262,4,Refunds-Allowances,Refunds-Allowances,Income
+263,4,Job Materials,Job Materials,Expenses
+264,4,Decks and Patios,Decks and Patios,Expenses
+265,4,Boarding services,Boarding services,Income
+266,4,Farrier services,Farrier services,Income
+267,4,Other Services,Other Services,Income
+268,4,Permits,Permits,Expenses
+269,4,Accounting,Accounting,Expenses
+270,5,Bookkeeper,Bookkeeper,Expenses
+271,5,Lawyer,Lawyer,Expenses
+272,5,Maintenance and Repair,Maintenance and Repair,Expenses
+273,5,Building Repairs,Building Repairs,Expenses
+274,5,Computer Repairs,Computer Repairs,Expenses
+275,5,Advertising,Advertising,Expenses
+276,5,Bank Charges,Bank Charges,Expenses
+277,5,Commissions & fees,Commissions & fees,Expenses
+278,5,Dues & Subscriptions,Dues & Subscriptions,Expenses
+279,5,Insurance,Insurance,Expenses
+280,5,Legal & Professional Fees,Legal & Professional Fees,Expenses
+281,5,Meals and Entertainment,Meals and Entertainment,Expenses
+282,5,Miscellaneous,Miscellaneous,Other Expense
+283,5,Office Expenses,Office Expenses,Expenses
+284,5,Promotional,Promotional,Expenses
+285,5,Rent or Lease,Rent or Lease,Expenses
+286,5,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+287,5,Stationery & Printing,Stationery & Printing,Expenses
+288,5,Supplies,Supplies,Expenses
+289,5,Taxes & Licenses,Taxes & Licenses,Expenses
+290,5,Travel,Travel,Expenses
+291,5,Travel Meals,Travel Meals,Expenses
+292,5,Utilities,Utilities,Expenses
+293,5,Interest Earned,Interest Earned,Other Income
+294,5,Other Portfolio Income,Other Portfolio Income,Other Income
+295,5,Penalties & Settlements,Penalties & Settlements,Other Expense
+296,5,Disposal Fees,Disposal Fees,Expenses
+297,5,Equipment Rental,Equipment Rental,Expenses
+298,5,Uncategorized Income,Uncategorized Income,Income
+299,5,Uncategorized Expense,Uncategorized Expense,Expenses
+300,5,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+301,5,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+302,5,Amusement and recreation services,Amusement and recreation services,Income
+303,5,Checking,Checking,Bank
+304,5,Savings,Savings,Bank
+305,5,Truck,Truck,Fixed Assets
+306,5,Original Cost,Original Cost,Fixed Assets
+307,5,Depreciation,Depreciation,Fixed Assets
+308,5,Depreciation,Depreciation,Other Expense
+309,5,Mastercard,Mastercard,Credit Card
+310,5,Visa,Visa,Credit Card
+311,5,Loan Payable,Loan Payable,Other Current Liabilities
+312,5,Notes Payable,Notes Payable,Long Term Liabilities
+313,5,Memberships,Memberships,Income
+314,5,Job Materials,Job Materials,Income
+315,5,Decks and Patios,Decks and Patios,Income
+316,5,golf instruction services,golf instruction services,Income
+317,5,Registration for tournaments and matches,Registration for tournaments and matches,Income
+318,5,Other Services,Other Services,Income
+319,5,Labor,Labor,Income
+320,5,Installation,Installation,Income
+321,5,Maintenance and Repair,Maintenance and Repair,Income
+322,5,Coin operated games and rides,Coin operated games and rides,Income
+323,5,Automobile,Automobile,Expenses
+324,5,Fuel,Fuel,Expenses
+325,5,Workers Compensation,Workers Compensation,Expenses
+326,5,Job Expenses,Job Expenses,Expenses
+327,5,Cost of Labor,Cost of Labor,Expenses
+328,5,Installation,Installation,Expenses
+329,5,Maintenance and Repairs,Maintenance and Repairs,Expenses
+330,5,Equipment Repairs,Equipment Repairs,Expenses
+331,5,Gas and Electric,Gas and Electric,Expenses
+332,5,Telephone,Telephone,Expenses
+333,5,Purchases,Purchases,Expenses
+334,5,Amateur sports teams and club servcies,Amateur sports teams and club servcies,Income
+335,5,golf equipment rental services,golf equipment rental services,Income
+336,5,golf courses and country clubs,golf courses and country clubs,Income
+337,5,Design income,Design income,Income
+338,5,Other Income,Other Income,Income
+339,5,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+340,5,Billable Expense Income,Billable Expense Income,Income
+341,5,Discounts given,Discounts given,Income
+342,5,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+343,5,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+344,5,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+345,5,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+346,5,Services,Services,Income
+347,5,Retained Earnings,Retained Earnings,Equity
+348,5,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+349,5,Undeposited Funds,Undeposited Funds,Other Current Assets
+350,5,Equipment Rental,Equipment Rental,Expenses
+351,5,Fees Billed,Fees Billed,Income
+352,5,Refunds-Allowances,Refunds-Allowances,Income
+353,5,Job Materials,Job Materials,Expenses
+354,5,Decks and Patios,Decks and Patios,Expenses
+355,5,food and beverage services,food and beverage services,Income
+356,5,Registration for tournaments and matches,Registration for tournaments and matches,Income
+357,5,Other Services,Other Services,Income
+358,5,Permits,Permits,Expenses
+359,5,Accounting,Accounting,Expenses
+360,6,Bookkeeper,Bookkeeper,Expenses
+361,6,Lawyer,Lawyer,Expenses
+362,6,Maintenance and Repair,Maintenance and Repair,Expenses
+363,6,Building Repairs,Building Repairs,Expenses
+364,6,Computer Repairs,Computer Repairs,Expenses
+365,6,Advertising,Advertising,Expenses
+366,6,Bank Charges,Bank Charges,Expenses
+367,6,Commissions & fees,Commissions & fees,Expenses
+368,6,Dues & Subscriptions,Dues & Subscriptions,Expenses
+369,6,Insurance,Insurance,Expenses
+370,6,Legal & Professional Fees,Legal & Professional Fees,Expenses
+371,6,Meals and Entertainment,Meals and Entertainment,Expenses
+372,6,Miscellaneous,Miscellaneous,Other Expense
+373,6,Office Expenses,Office Expenses,Expenses
+374,6,Promotional,Promotional,Expenses
+375,6,Rent or Lease,Rent or Lease,Expenses
+376,6,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+377,6,Stationery & Printing,Stationery & Printing,Expenses
+378,6,Supplies,Supplies,Expenses
+379,6,Taxes & Licenses,Taxes & Licenses,Expenses
+380,6,Travel,Travel,Expenses
+381,6,Travel Meals,Travel Meals,Expenses
+382,6,Utilities,Utilities,Expenses
+383,6,Interest Earned,Interest Earned,Other Income
+384,6,Other Portfolio Income,Other Portfolio Income,Other Income
+385,6,Penalties & Settlements,Penalties & Settlements,Other Expense
+386,6,Disposal Fees,Disposal Fees,Expenses
+387,6,Equipment Rental,Equipment Rental,Expenses
+388,6,Uncategorized Income,Uncategorized Income,Income
+389,6,Uncategorized Expense,Uncategorized Expense,Expenses
+390,6,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+391,6,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+392,6,Construction management of multifamily building,Construction management of multifamily building,Income
+393,6,Checking,Checking,Bank
+394,6,Savings,Savings,Bank
+395,6,Truck,Truck,Fixed Assets
+396,6,Original Cost,Original Cost,Fixed Assets
+397,6,Depreciation,Depreciation,Fixed Assets
+398,6,Depreciation,Depreciation,Other Expense
+399,6,Mastercard,Mastercard,Credit Card
+400,6,Visa,Visa,Credit Card
+401,6,Loan Payable,Loan Payable,Other Current Liabilities
+402,6,Notes Payable,Notes Payable,Long Term Liabilities
+403,6,Constructing multiunit special-needs complexes,Constructing multiunit special-needs complexes,Income
+404,6,Job Materials,Job Materials,Income
+405,6,Decks and Patios,Decks and Patios,Income
+406,6,Constructing apartment complexes,Constructing apartment complexes,Income
+407,6,General contracting,General contracting,Income
+408,6,Constructing bangalow,Constructing bangalow,Income
+409,6,Labor,Labor,Income
+410,6,Installation,Installation,Income
+411,6,Maintenance and Repair,Maintenance and Repair,Income
+412,6,Constructing duplexes,Constructing duplexes,Income
+413,6,Automobile,Automobile,Expenses
+414,6,Fuel,Fuel,Expenses
+415,6,Workers Compensation,Workers Compensation,Expenses
+416,6,Job Expenses,Job Expenses,Expenses
+417,6,Cost of Labor,Cost of Labor,Expenses
+418,6,Installation,Installation,Expenses
+419,6,Maintenance and Repairs,Maintenance and Repairs,Expenses
+420,6,Equipment Repairs,Equipment Repairs,Expenses
+421,6,Gas and Electric,Gas and Electric,Expenses
+422,6,Telephone,Telephone,Expenses
+423,6,Purchases,Purchases,Expenses
+424,6,Other construction activities,Other construction activities,Income
+425,6,Constructing multifamily residential,Constructing multifamily residential,Income
+426,6,Constructing townhouses,Constructing townhouses,Income
+427,6,Design income,Design income,Income
+428,6,Other Income,Other Income,Income
+429,6,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+430,6,Billable Expense Income,Billable Expense Income,Income
+431,6,Discounts given,Discounts given,Income
+432,6,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+433,6,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+434,6,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+435,6,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+436,6,Services,Services,Income
+437,6,Retained Earnings,Retained Earnings,Equity
+438,6,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+439,6,Undeposited Funds,Undeposited Funds,Other Current Assets
+440,6,Equipment Rental,Equipment Rental,Expenses
+441,6,Fees Billed,Fees Billed,Income
+442,6,Refunds-Allowances,Refunds-Allowances,Income
+443,6,Job Materials,Job Materials,Expenses
+444,6,Decks and Patios,Decks and Patios,Expenses
+445,6,Constructing condominiums,Constructing condominiums,Income
+446,6,General contracting,General contracting,Income
+447,6,Constructing bangalow,Constructing bangalow,Income
+448,6,Permits,Permits,Expenses
+449,6,Accounting,Accounting,Expenses
+450,7,Bookkeeper,Bookkeeper,Expenses
+451,7,Lawyer,Lawyer,Expenses
+452,7,Maintenance and Repair,Maintenance and Repair,Expenses
+453,7,Building Repairs,Building Repairs,Expenses
+454,7,Computer Repairs,Computer Repairs,Expenses
+455,7,Advertising,Advertising,Expenses
+456,7,Bank Charges,Bank Charges,Expenses
+457,7,Commissions & fees,Commissions & fees,Expenses
+458,7,Dues & Subscriptions,Dues & Subscriptions,Expenses
+459,7,Insurance,Insurance,Expenses
+460,7,Legal & Professional Fees,Legal & Professional Fees,Expenses
+461,7,Meals and Entertainment,Meals and Entertainment,Expenses
+462,7,Miscellaneous,Miscellaneous,Other Expense
+463,7,Office Expenses,Office Expenses,Expenses
+464,7,Promotional,Promotional,Expenses
+465,7,Rent or Lease,Rent or Lease,Expenses
+466,7,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+467,7,Stationery & Printing,Stationery & Printing,Expenses
+468,7,Supplies,Supplies,Expenses
+469,7,Taxes & Licenses,Taxes & Licenses,Expenses
+470,7,Travel,Travel,Expenses
+471,7,Travel Meals,Travel Meals,Expenses
+472,7,Utilities,Utilities,Expenses
+473,7,Interest Earned,Interest Earned,Other Income
+474,7,Other Portfolio Income,Other Portfolio Income,Other Income
+475,7,Penalties & Settlements,Penalties & Settlements,Other Expense
+476,7,Disposal Fees,Disposal Fees,Expenses
+477,7,Equipment Rental,Equipment Rental,Expenses
+478,7,Uncategorized Income,Uncategorized Income,Income
+479,7,Uncategorized Expense,Uncategorized Expense,Expenses
+480,7,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+481,7,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+482,7,Providing classes in stenography and court reporting,Providing classes in stenography and court reporting,Income
+483,7,Checking,Checking,Bank
+484,7,Savings,Savings,Bank
+485,7,Truck,Truck,Fixed Assets
+486,7,Original Cost,Original Cost,Fixed Assets
+487,7,Depreciation,Depreciation,Fixed Assets
+488,7,Depreciation,Depreciation,Other Expense
+489,7,Mastercard,Mastercard,Credit Card
+490,7,Visa,Visa,Credit Card
+491,7,Loan Payable,Loan Payable,Other Current Liabilities
+492,7,Notes Payable,Notes Payable,Long Term Liabilities
+493,7,Basic office and secretarial skills training,Basic office and secretarial skills training,Income
+494,7,Job Materials,Job Materials,Income
+495,7,Decks and Patios,Decks and Patios,Income
+496,7,Providing courses in computer programming,Providing courses in computer programming,Income
+497,7,Computer Repair and Maintainenance,Computer Repair and Maintainenance,Income
+498,7,Artificial Intelligence Courses,Artificial Intelligence Courses,Income
+499,7,Labor,Labor,Income
+500,7,Installation,Installation,Income
+501,7,Maintenance and Repair,Maintenance and Repair,Income
+502,7,Providing courses through business schools,Providing courses through business schools,Income
+503,7,Automobile,Automobile,Expenses
+504,7,Fuel,Fuel,Expenses
+505,7,Workers Compensation,Workers Compensation,Expenses
+506,7,Job Expenses,Job Expenses,Expenses
+507,7,Cost of Labor,Cost of Labor,Expenses
+508,7,Installation,Installation,Expenses
+509,7,Maintenance and Repairs,Maintenance and Repairs,Expenses
+510,7,Equipment Repairs,Equipment Repairs,Expenses
+511,7,Gas and Electric,Gas and Electric,Expenses
+512,7,Telephone,Telephone,Expenses
+513,7,Purchases,Purchases,Expenses
+514,7,Ethical Hacking Training,Ethical Hacking Training,Income
+515,7,Computer operation training,Computer operation training,Income
+516,7,Local area network management training,Local area network management training,Income
+517,7,Design income,Design income,Income
+518,7,Other Income,Other Income,Income
+519,7,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+520,7,Billable Expense Income,Billable Expense Income,Income
+521,7,Discounts given,Discounts given,Income
+522,7,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+523,7,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+524,7,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+525,7,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+526,7,Services,Services,Income
+527,7,Retained Earnings,Retained Earnings,Equity
+528,7,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+529,7,Undeposited Funds,Undeposited Funds,Other Current Assets
+530,7,Equipment Rental,Equipment Rental,Expenses
+531,7,Fees Billed,Fees Billed,Income
+532,7,Refunds-Allowances,Refunds-Allowances,Income
+533,7,Job Materials,Job Materials,Expenses
+534,7,Decks and Patios,Decks and Patios,Expenses
+535,7,Computer software and software application training,Computer software and software application training,Income
+536,7,Computer Repair and Maintainenance,Computer Repair and Maintainenance,Income
+537,7,Artificial Intelligence Courses,Artificial Intelligence Courses,Income
+538,7,Permits,Permits,Expenses
+539,7,Accounting,Accounting,Expenses
+540,8,Bookkeeper,Bookkeeper,Expenses
+541,8,Lawyer,Lawyer,Expenses
+542,8,Maintenance and Repair,Maintenance and Repair,Expenses
+543,8,Building Repairs,Building Repairs,Expenses
+544,8,Computer Repairs,Computer Repairs,Expenses
+545,8,Advertising,Advertising,Expenses
+546,8,Bank Charges,Bank Charges,Expenses
+547,8,Commissions & fees,Commissions & fees,Expenses
+548,8,Dues & Subscriptions,Dues & Subscriptions,Expenses
+549,8,Insurance,Insurance,Expenses
+550,8,Legal & Professional Fees,Legal & Professional Fees,Expenses
+551,8,Meals and Entertainment,Meals and Entertainment,Expenses
+552,8,Miscellaneous,Miscellaneous,Other Expense
+553,8,Office Expenses,Office Expenses,Expenses
+554,8,Promotional,Promotional,Expenses
+555,8,Rent or Lease,Rent or Lease,Expenses
+556,8,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+557,8,Stationery & Printing,Stationery & Printing,Expenses
+558,8,Supplies,Supplies,Expenses
+559,8,Taxes & Licenses,Taxes & Licenses,Expenses
+560,8,Travel,Travel,Expenses
+561,8,Travel Meals,Travel Meals,Expenses
+562,8,Utilities,Utilities,Expenses
+563,8,Interest Earned,Interest Earned,Other Income
+564,8,Other Portfolio Income,Other Portfolio Income,Other Income
+565,8,Penalties & Settlements,Penalties & Settlements,Other Expense
+566,8,Disposal Fees,Disposal Fees,Expenses
+567,8,Equipment Rental,Equipment Rental,Expenses
+568,8,Uncategorized Income,Uncategorized Income,Income
+569,8,Uncategorized Expense,Uncategorized Expense,Expenses
+570,8,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+571,8,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+572,8,Providing financial planning services,Providing financial planning services,Income
+573,8,Checking,Checking,Bank
+574,8,Savings,Savings,Bank
+575,8,Truck,Truck,Fixed Assets
+576,8,Original Cost,Original Cost,Fixed Assets
+577,8,Depreciation,Depreciation,Fixed Assets
+578,8,Depreciation,Depreciation,Other Expense
+579,8,Mastercard,Mastercard,Credit Card
+580,8,Visa,Visa,Credit Card
+581,8,Loan Payable,Loan Payable,Other Current Liabilities
+582,8,Notes Payable,Notes Payable,Long Term Liabilities
+583,8,Providing dealing services,Providing dealing services,Income
+584,8,Job Materials,Job Materials,Income
+585,8,Decks and Patios,Decks and Patios,Income
+586,8,Providing support services for financial,Providing support services for financial,Income
+587,8,Providing financing related to securities,Providing financing related to securities,Income
+588,8,Providing support for money investment securities,Providing support for money investment securities,Income
+589,8,Labor,Labor,Income
+590,8,Installation,Installation,Income
+591,8,Maintenance and Repair,Maintenance and Repair,Income
+592,8,Providing financial investment management services,Providing financial investment management services,Income
+593,8,Automobile,Automobile,Expenses
+594,8,Fuel,Fuel,Expenses
+595,8,Workers Compensation,Workers Compensation,Expenses
+596,8,Job Expenses,Job Expenses,Expenses
+597,8,Cost of Labor,Cost of Labor,Expenses
+598,8,Installation,Installation,Expenses
+599,8,Maintenance and Repairs,Maintenance and Repairs,Expenses
+600,8,Equipment Repairs,Equipment Repairs,Expenses
+601,8,Gas and Electric,Gas and Electric,Expenses
+602,8,Telephone,Telephone,Expenses
+603,8,Purchases,Purchases,Expenses
+604,8,Providing support for money management,Providing support for money management,Income
+605,8,Providing trust and fiduciary services,Providing trust and fiduciary services,Income
+606,8,Providing brokerage services,Providing brokerage services,Income
+607,8,Design income,Design income,Income
+608,8,Other Income,Other Income,Income
+609,8,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+610,8,Billable Expense Income,Billable Expense Income,Income
+611,8,Discounts given,Discounts given,Income
+612,8,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+613,8,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+614,8,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+615,8,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+616,8,Services,Services,Income
+617,8,Retained Earnings,Retained Earnings,Equity
+618,8,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+619,8,Undeposited Funds,Undeposited Funds,Other Current Assets
+620,8,Equipment Rental,Equipment Rental,Expenses
+621,8,Fees Billed,Fees Billed,Income
+622,8,Refunds-Allowances,Refunds-Allowances,Income
+623,8,Job Materials,Job Materials,Expenses
+624,8,Decks and Patios,Decks and Patios,Expenses
+625,8,Providing support services for commodity markets,Providing support services for commodity markets,Income
+626,8,Providing financing related to securities,Providing financing related to securities,Income
+627,8,Providing support for money investment securities,Providing support for money investment securities,Income
+628,8,Permits,Permits,Expenses
+629,8,Accounting,Accounting,Expenses
+630,9,Bookkeeper,Bookkeeper,Expenses
+631,9,Lawyer,Lawyer,Expenses
+632,9,Maintenance and Repair,Maintenance and Repair,Expenses
+633,9,Building Repairs,Building Repairs,Expenses
+634,9,Computer Repairs,Computer Repairs,Expenses
+635,9,Advertising,Advertising,Expenses
+636,9,Bank Charges,Bank Charges,Expenses
+637,9,Commissions & fees,Commissions & fees,Expenses
+638,9,Dues & Subscriptions,Dues & Subscriptions,Expenses
+639,9,Insurance,Insurance,Expenses
+640,9,Legal & Professional Fees,Legal & Professional Fees,Expenses
+641,9,Meals and Entertainment,Meals and Entertainment,Expenses
+642,9,Miscellaneous,Miscellaneous,Other Expense
+643,9,Office Expenses,Office Expenses,Expenses
+644,9,Promotional,Promotional,Expenses
+645,9,Rent or Lease,Rent or Lease,Expenses
+646,9,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+647,9,Stationery & Printing,Stationery & Printing,Expenses
+648,9,Supplies,Supplies,Expenses
+649,9,Taxes & Licenses,Taxes & Licenses,Expenses
+650,9,Travel,Travel,Expenses
+651,9,Travel Meals,Travel Meals,Expenses
+652,9,Utilities,Utilities,Expenses
+653,9,Interest Earned,Interest Earned,Other Income
+654,9,Other Portfolio Income,Other Portfolio Income,Other Income
+655,9,Penalties & Settlements,Penalties & Settlements,Other Expense
+656,9,Disposal Fees,Disposal Fees,Expenses
+657,9,Equipment Rental,Equipment Rental,Expenses
+658,9,Uncategorized Income,Uncategorized Income,Income
+659,9,Uncategorized Expense,Uncategorized Expense,Expenses
+660,9,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+661,9,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+662,9,Youth community center services,Youth community center services,Income
+663,9,Checking,Checking,Bank
+664,9,Savings,Savings,Bank
+665,9,Truck,Truck,Fixed Assets
+666,9,Original Cost,Original Cost,Fixed Assets
+667,9,Depreciation,Depreciation,Fixed Assets
+668,9,Depreciation,Depreciation,Other Expense
+669,9,Mastercard,Mastercard,Credit Card
+670,9,Visa,Visa,Credit Card
+671,9,Loan Payable,Loan Payable,Other Current Liabilities
+672,9,Notes Payable,Notes Payable,Long Term Liabilities
+673,9,Child abuse prevention services,Child abuse prevention services,Income
+674,9,Job Materials,Job Materials,Income
+675,9,Decks and Patios,Decks and Patios,Income
+676,9,Abandoned infant assistance,Abandoned infant assistance,Income
+677,9,Teen outreach services,Teen outreach services,Income
+678,9,Children and youth recreational programs,Children and youth recreational programs,Income
+679,9,Labor,Labor,Income
+680,9,Installation,Installation,Income
+681,9,Maintenance and Repair,Maintenance and Repair,Income
+682,9,Self-help programs for teens,Self-help programs for teens,Income
+683,9,Automobile,Automobile,Expenses
+684,9,Fuel,Fuel,Expenses
+685,9,Workers Compensation,Workers Compensation,Expenses
+686,9,Job Expenses,Job Expenses,Expenses
+687,9,Cost of Labor,Cost of Labor,Expenses
+688,9,Installation,Installation,Expenses
+689,9,Maintenance and Repairs,Maintenance and Repairs,Expenses
+690,9,Equipment Repairs,Equipment Repairs,Expenses
+691,9,Gas and Electric,Gas and Electric,Expenses
+692,9,Telephone,Telephone,Expenses
+693,9,Purchases,Purchases,Expenses
+694,9,Youth guidance services,Youth guidance services,Income
+695,9,Adoption placement services,Adoption placement services,Income
+696,9,Child guidance services,Child guidance services,Income
+697,9,Design income,Design income,Income
+698,9,Other Income,Other Income,Income
+699,9,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+700,9,Billable Expense Income,Billable Expense Income,Income
+701,9,Discounts given,Discounts given,Income
+702,9,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+703,9,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+704,9,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+705,9,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+706,9,Services,Services,Income
+707,9,Retained Earnings,Retained Earnings,Equity
+708,9,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+709,9,Undeposited Funds,Undeposited Funds,Other Current Assets
+710,9,Equipment Rental,Equipment Rental,Expenses
+711,9,Fees Billed,Fees Billed,Income
+712,9,Refunds-Allowances,Refunds-Allowances,Income
+713,9,Job Materials,Job Materials,Expenses
+714,9,Decks and Patios,Decks and Patios,Expenses
+715,9,Foster care placement services,Foster care placement services,Income
+716,9,Teen outreach services,Teen outreach services,Income
+717,9,Children and youth recreational programs,Children and youth recreational programs,Income
+718,9,Permits,Permits,Expenses
+719,9,Accounting,Accounting,Expenses
+720,10,Bookkeeper,Bookkeeper,Expenses
+721,10,Lawyer,Lawyer,Expenses
+722,10,Maintenance and Repair,Maintenance and Repair,Expenses
+723,10,Building Repairs,Building Repairs,Expenses
+724,10,Computer Repairs,Computer Repairs,Expenses
+725,10,Advertising,Advertising,Expenses
+726,10,Bank Charges,Bank Charges,Expenses
+727,10,Commissions & fees,Commissions & fees,Expenses
+728,10,Dues & Subscriptions,Dues & Subscriptions,Expenses
+729,10,Insurance,Insurance,Expenses
+730,10,Legal & Professional Fees,Legal & Professional Fees,Expenses
+731,10,Meals and Entertainment,Meals and Entertainment,Expenses
+732,10,Miscellaneous,Miscellaneous,Other Expense
+733,10,Office Expenses,Office Expenses,Expenses
+734,10,Promotional,Promotional,Expenses
+735,10,Rent or Lease,Rent or Lease,Expenses
+736,10,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+737,10,Stationery & Printing,Stationery & Printing,Expenses
+738,10,Supplies,Supplies,Expenses
+739,10,Taxes & Licenses,Taxes & Licenses,Expenses
+740,10,Travel,Travel,Expenses
+741,10,Travel Meals,Travel Meals,Expenses
+742,10,Utilities,Utilities,Expenses
+743,10,Interest Earned,Interest Earned,Other Income
+744,10,Other Portfolio Income,Other Portfolio Income,Other Income
+745,10,Penalties & Settlements,Penalties & Settlements,Other Expense
+746,10,Disposal Fees,Disposal Fees,Expenses
+747,10,Equipment Rental,Equipment Rental,Expenses
+748,10,Uncategorized Income,Uncategorized Income,Income
+749,10,Uncategorized Expense,Uncategorized Expense,Expenses
+750,10,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+751,10,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+752,10,Database management,Database management,Income
+753,10,Checking,Checking,Bank
+754,10,Savings,Savings,Bank
+755,10,Truck,Truck,Fixed Assets
+756,10,Original Cost,Original Cost,Fixed Assets
+757,10,Depreciation,Depreciation,Fixed Assets
+758,10,Depreciation,Depreciation,Other Expense
+759,10,Mastercard,Mastercard,Credit Card
+760,10,Visa,Visa,Credit Card
+761,10,Loan Payable,Loan Payable,Other Current Liabilities
+762,10,Notes Payable,Notes Payable,Long Term Liabilities
+763,10,Data processing,Data processing,Income
+764,10,Job Materials,Job Materials,Income
+765,10,Decks and Patios,Decks and Patios,Income
+766,10,Application service provider services,Application service provider services,Income
+767,10,Business process management,Business process management,Income
+768,10,Application service provisioning,Application service provisioning,Income
+769,10,Labor,Labor,Income
+770,10,Installation,Installation,Income
+771,10,Maintenance and Repair,Maintenance and Repair,Income
+772,10,Web hosting,Web hosting,Income
+773,10,Automobile,Automobile,Expenses
+774,10,Fuel,Fuel,Expenses
+775,10,Workers Compensation,Workers Compensation,Expenses
+776,10,Job Expenses,Job Expenses,Expenses
+777,10,Cost of Labor,Cost of Labor,Expenses
+778,10,Installation,Installation,Expenses
+779,10,Maintenance and Repairs,Maintenance and Repairs,Expenses
+780,10,Equipment Repairs,Equipment Repairs,Expenses
+781,10,Gas and Electric,Gas and Electric,Expenses
+782,10,Telephone,Telephone,Expenses
+783,10,Purchases,Purchases,Expenses
+784,10,Data storage and management services,Data storage and management services,Income
+785,10,Application hosting,Application hosting,Income
+786,10,Data processing computer services,Data processing computer services,Income
+787,10,Design income,Design income,Income
+788,10,Other Income,Other Income,Income
+789,10,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+790,10,Billable Expense Income,Billable Expense Income,Income
+791,10,Discounts given,Discounts given,Income
+792,10,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+793,10,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+794,10,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+795,10,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+796,10,Services,Services,Income
+797,10,Retained Earnings,Retained Earnings,Equity
+798,10,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+799,10,Undeposited Funds,Undeposited Funds,Other Current Assets
+800,10,Equipment Rental,Equipment Rental,Expenses
+801,10,Fees Billed,Fees Billed,Income
+802,10,Refunds-Allowances,Refunds-Allowances,Income
+803,10,Job Materials,Job Materials,Expenses
+804,10,Decks and Patios,Decks and Patios,Expenses
+805,10,Data entry services,Data entry services,Income
+806,10,Business process management,Business process management,Income
+807,10,Application service provisioning,Application service provisioning,Income
+808,10,Permits,Permits,Expenses
+809,10,Accounting,Accounting,Expenses
+810,11,Bookkeeper,Bookkeeper,Expenses
+811,11,Lawyer,Lawyer,Expenses
+812,11,Maintenance and Repair,Maintenance and Repair,Expenses
+813,11,Building Repairs,Building Repairs,Expenses
+814,11,Computer Repairs,Computer Repairs,Expenses
+815,11,Advertising,Advertising,Expenses
+816,11,Bank Charges,Bank Charges,Expenses
+817,11,Commissions & fees,Commissions & fees,Expenses
+818,11,Dues & Subscriptions,Dues & Subscriptions,Expenses
+819,11,Insurance,Insurance,Expenses
+820,11,Legal & Professional Fees,Legal & Professional Fees,Expenses
+821,11,Meals and Entertainment,Meals and Entertainment,Expenses
+822,11,Miscellaneous,Miscellaneous,Other Expense
+823,11,Office Expenses,Office Expenses,Expenses
+824,11,Promotional,Promotional,Expenses
+825,11,Rent or Lease,Rent or Lease,Expenses
+826,11,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+827,11,Stationery & Printing,Stationery & Printing,Expenses
+828,11,Supplies,Supplies,Expenses
+829,11,Taxes & Licenses,Taxes & Licenses,Expenses
+830,11,Travel,Travel,Expenses
+831,11,Travel Meals,Travel Meals,Expenses
+832,11,Utilities,Utilities,Expenses
+833,11,Interest Earned,Interest Earned,Other Income
+834,11,Other Portfolio Income,Other Portfolio Income,Other Income
+835,11,Penalties & Settlements,Penalties & Settlements,Other Expense
+836,11,Disposal Fees,Disposal Fees,Expenses
+837,11,Equipment Rental,Equipment Rental,Expenses
+838,11,Uncategorized Income,Uncategorized Income,Income
+839,11,Uncategorized Expense,Uncategorized Expense,Expenses
+840,11,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+841,11,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+842,11,Nitrogen manufacturing,Nitrogen manufacturing,Income
+843,11,Checking,Checking,Bank
+844,11,Savings,Savings,Bank
+845,11,Truck,Truck,Fixed Assets
+846,11,Original Cost,Original Cost,Fixed Assets
+847,11,Depreciation,Depreciation,Fixed Assets
+848,11,Depreciation,Depreciation,Other Expense
+849,11,Mastercard,Mastercard,Credit Card
+850,11,Visa,Visa,Credit Card
+851,11,Loan Payable,Loan Payable,Other Current Liabilities
+852,11,Notes Payable,Notes Payable,Long Term Liabilities
+853,11,Helium manufacturing,Helium manufacturing,Income
+854,11,Job Materials,Job Materials,Income
+855,11,Decks and Patios,Decks and Patios,Income
+856,11,Manufacturing industrial inorganic gases,Manufacturing industrial inorganic gases,Income
+857,11,Acetylene manufacturing,Acetylene manufacturing,Income
+858,11,Industrial manufacturing,Industrial manufacturing,Income
+859,11,Labor,Labor,Income
+860,11,Installation,Installation,Income
+861,11,Maintenance and Repair,Maintenance and Repair,Income
+862,11,Carbon dioxide manufacturing,Carbon dioxide manufacturing,Income
+863,11,Automobile,Automobile,Expenses
+864,11,Fuel,Fuel,Expenses
+865,11,Workers Compensation,Workers Compensation,Expenses
+866,11,Job Expenses,Job Expenses,Expenses
+867,11,Cost of Labor,Cost of Labor,Expenses
+868,11,Installation,Installation,Expenses
+869,11,Maintenance and Repairs,Maintenance and Repairs,Expenses
+870,11,Equipment Repairs,Equipment Repairs,Expenses
+871,11,Gas and Electric,Gas and Electric,Expenses
+872,11,Telephone,Telephone,Expenses
+873,11,Purchases,Purchases,Expenses
+874,11,Fluorocarbon gases manufacturing,Fluorocarbon gases manufacturing,Income
+875,11,Manufacturing industrial organic gases,Manufacturing industrial organic gases,Income
+876,11,Oxygen manufacturing,Oxygen manufacturing,Income
+877,11,Design income,Design income,Income
+878,11,Other Income,Other Income,Income
+879,11,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+880,11,Billable Expense Income,Billable Expense Income,Income
+881,11,Discounts given,Discounts given,Income
+882,11,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+883,11,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+884,11,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+885,11,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+886,11,Services,Services,Income
+887,11,Retained Earnings,Retained Earnings,Equity
+888,11,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+889,11,Undeposited Funds,Undeposited Funds,Other Current Assets
+890,11,Equipment Rental,Equipment Rental,Expenses
+891,11,Fees Billed,Fees Billed,Income
+892,11,Refunds-Allowances,Refunds-Allowances,Income
+893,11,Job Materials,Job Materials,Expenses
+894,11,Decks and Patios,Decks and Patios,Expenses
+895,11,Hydrogen manufacturing,Hydrogen manufacturing,Income
+896,11,Acetylene manufacturing,Acetylene manufacturing,Income
+897,11,Industrial manufacturing,Industrial manufacturing,Income
+898,11,Permits,Permits,Expenses
+899,11,Accounting,Accounting,Expenses
+900,12,Bookkeeper,Bookkeeper,Expenses
+901,12,Lawyer,Lawyer,Expenses
+902,12,Maintenance and Repair,Maintenance and Repair,Expenses
+903,12,Building Repairs,Building Repairs,Expenses
+904,12,Computer Repairs,Computer Repairs,Expenses
+905,12,Advertising,Advertising,Expenses
+906,12,Bank Charges,Bank Charges,Expenses
+907,12,Commissions & fees,Commissions & fees,Expenses
+908,12,Dues & Subscriptions,Dues & Subscriptions,Expenses
+909,12,Insurance,Insurance,Expenses
+910,12,Legal & Professional Fees,Legal & Professional Fees,Expenses
+911,12,Meals and Entertainment,Meals and Entertainment,Expenses
+912,12,Miscellaneous,Miscellaneous,Other Expense
+913,12,Office Expenses,Office Expenses,Expenses
+914,12,Promotional,Promotional,Expenses
+915,12,Rent or Lease,Rent or Lease,Expenses
+916,12,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+917,12,Stationery & Printing,Stationery & Printing,Expenses
+918,12,Supplies,Supplies,Expenses
+919,12,Taxes & Licenses,Taxes & Licenses,Expenses
+920,12,Travel,Travel,Expenses
+921,12,Travel Meals,Travel Meals,Expenses
+922,12,Utilities,Utilities,Expenses
+923,12,Interest Earned,Interest Earned,Other Income
+924,12,Other Portfolio Income,Other Portfolio Income,Other Income
+925,12,Penalties & Settlements,Penalties & Settlements,Other Expense
+926,12,Disposal Fees,Disposal Fees,Expenses
+927,12,Equipment Rental,Equipment Rental,Expenses
+928,12,Uncategorized Income,Uncategorized Income,Income
+929,12,Uncategorized Expense,Uncategorized Expense,Expenses
+930,12,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+931,12,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+932,12,Acidizing and chemically treating wells,Acidizing and chemically treating wells,Income
+933,12,Checking,Checking,Bank
+934,12,Savings,Savings,Bank
+935,12,Truck,Truck,Fixed Assets
+936,12,Original Cost,Original Cost,Fixed Assets
+937,12,Depreciation,Depreciation,Fixed Assets
+938,12,Depreciation,Depreciation,Other Expense
+939,12,Mastercard,Mastercard,Credit Card
+940,12,Visa,Visa,Credit Card
+941,12,Loan Payable,Loan Payable,Other Current Liabilities
+942,12,Notes Payable,Notes Payable,Long Term Liabilities
+943,12,Perforating well casings,Perforating well casings,Income
+944,12,Job Materials,Job Materials,Income
+945,12,Decks and Patios,Decks and Patios,Income
+946,12,Surveying wells,Surveying wells,Income
+947,12,Metal ore exploration,Metal ore exploration,Income
+948,12,Contract mining,Contract mining,Income
+949,12,Labor,Labor,Income
+950,12,Installation,Installation,Income
+951,12,Maintenance and Repair,Maintenance and Repair,Income
+952,12,Coal exploration,Coal exploration,Income
+953,12,Automobile,Automobile,Expenses
+954,12,Fuel,Fuel,Expenses
+955,12,Workers Compensation,Workers Compensation,Expenses
+956,12,Job Expenses,Job Expenses,Expenses
+957,12,Cost of Labor,Cost of Labor,Expenses
+958,12,Installation,Installation,Expenses
+959,12,Maintenance and Repairs,Maintenance and Repairs,Expenses
+960,12,Equipment Repairs,Equipment Repairs,Expenses
+961,12,Gas and Electric,Gas and Electric,Expenses
+962,12,Telephone,Telephone,Expenses
+963,12,Purchases,Purchases,Expenses
+964,12,Nonmetallic mineral ore exploration,Nonmetallic mineral ore exploration,Income
+965,12,Drilling oil and gas wells,Drilling oil and gas wells,Income
+966,12,Cementing wells,Cementing wells,Income
+967,12,Design income,Design income,Income
+968,12,Other Income,Other Income,Income
+969,12,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+970,12,Billable Expense Income,Billable Expense Income,Income
+971,12,Discounts given,Discounts given,Income
+972,12,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+973,12,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+974,12,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+975,12,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+976,12,Services,Services,Income
+977,12,Retained Earnings,Retained Earnings,Equity
+978,12,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+979,12,Undeposited Funds,Undeposited Funds,Other Current Assets
+980,12,Equipment Rental,Equipment Rental,Expenses
+981,12,Fees Billed,Fees Billed,Income
+982,12,Refunds-Allowances,Refunds-Allowances,Income
+983,12,Job Materials,Job Materials,Expenses
+984,12,Decks and Patios,Decks and Patios,Expenses
+985,12,"Running, cutting and pulling casings, tubes and rods","Running, cutting and pulling casings, tubes and rods",Income
+986,12,Metal ore exploration,Metal ore exploration,Income
+987,12,Contract mining,Contract mining,Income
+988,12,Permits,Permits,Expenses
+989,12,Accounting,Accounting,Expenses
+990,13,Bookkeeper,Bookkeeper,Expenses
+991,13,Lawyer,Lawyer,Expenses
+992,13,Maintenance and Repair,Maintenance and Repair,Expenses
+993,13,Building Repairs,Building Repairs,Expenses
+994,13,Computer Repairs,Computer Repairs,Expenses
+995,13,Advertising,Advertising,Expenses
+996,13,Bank Charges,Bank Charges,Expenses
+997,13,Commissions & fees,Commissions & fees,Expenses
+998,13,Dues & Subscriptions,Dues & Subscriptions,Expenses
+999,13,Insurance,Insurance,Expenses
+1000,13,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1001,13,Meals and Entertainment,Meals and Entertainment,Expenses
+1002,13,Miscellaneous,Miscellaneous,Other Expense
+1003,13,Office Expenses,Office Expenses,Expenses
+1004,13,Promotional,Promotional,Expenses
+1005,13,Rent or Lease,Rent or Lease,Expenses
+1006,13,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1007,13,Stationery & Printing,Stationery & Printing,Expenses
+1008,13,Supplies,Supplies,Expenses
+1009,13,Taxes & Licenses,Taxes & Licenses,Expenses
+1010,13,Travel,Travel,Expenses
+1011,13,Travel Meals,Travel Meals,Expenses
+1012,13,Utilities,Utilities,Expenses
+1013,13,Interest Earned,Interest Earned,Other Income
+1014,13,Other Portfolio Income,Other Portfolio Income,Other Income
+1015,13,Penalties & Settlements,Penalties & Settlements,Other Expense
+1016,13,Disposal Fees,Disposal Fees,Expenses
+1017,13,Equipment Rental,Equipment Rental,Expenses
+1018,13,Uncategorized Income,Uncategorized Income,Income
+1019,13,Uncategorized Expense,Uncategorized Expense,Expenses
+1020,13,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1021,13,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1022,13,Photography,Photography,Income
+1023,13,Checking,Checking,Bank
+1024,13,Savings,Savings,Bank
+1025,13,Truck,Truck,Fixed Assets
+1026,13,Original Cost,Original Cost,Fixed Assets
+1027,13,Depreciation,Depreciation,Fixed Assets
+1028,13,Depreciation,Depreciation,Other Expense
+1029,13,Mastercard,Mastercard,Credit Card
+1030,13,Visa,Visa,Credit Card
+1031,13,Loan Payable,Loan Payable,Other Current Liabilities
+1032,13,Notes Payable,Notes Payable,Long Term Liabilities
+1033,13,Flowers,Flowers,Income
+1034,13,Job Materials,Job Materials,Income
+1035,13,Decks and Patios,Decks and Patios,Income
+1036,13,Food & drink,Food & drink,Income
+1037,13,Transportation,Transportation,Income
+1038,13,Party favors,Party favors,Income
+1039,13,Labor,Labor,Income
+1040,13,Installation,Installation,Income
+1041,13,Maintenance and Repair,Maintenance and Repair,Income
+1042,13,Musicians,Musicians,Income
+1043,13,Automobile,Automobile,Expenses
+1044,13,Fuel,Fuel,Expenses
+1045,13,Workers Compensation,Workers Compensation,Expenses
+1046,13,Job Expenses,Job Expenses,Expenses
+1047,13,Cost of Labor,Cost of Labor,Expenses
+1048,13,Installation,Installation,Expenses
+1049,13,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1050,13,Equipment Repairs,Equipment Repairs,Expenses
+1051,13,Gas and Electric,Gas and Electric,Expenses
+1052,13,Telephone,Telephone,Expenses
+1053,13,Purchases,Purchases,Expenses
+1054,13,Invitations,Invitations,Income
+1055,13,Attire and accessories,Attire and accessories,Income
+1056,13,Coordinators,Coordinators,Income
+1057,13,Design income,Design income,Income
+1058,13,Other Income,Other Income,Income
+1059,13,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1060,13,Billable Expense Income,Billable Expense Income,Income
+1061,13,Discounts given,Discounts given,Income
+1062,13,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1063,13,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1064,13,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1065,13,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1066,13,Services,Services,Income
+1067,13,Retained Earnings,Retained Earnings,Equity
+1068,13,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1069,13,Undeposited Funds,Undeposited Funds,Other Current Assets
+1070,13,Equipment Rental,Equipment Rental,Expenses
+1071,13,Fees Billed,Fees Billed,Income
+1072,13,Refunds-Allowances,Refunds-Allowances,Income
+1073,13,Job Materials,Job Materials,Expenses
+1074,13,Decks and Patios,Decks and Patios,Expenses
+1075,13,Ceremony & reception venue,Ceremony & reception venue,Income
+1076,13,Transportation,Transportation,Income
+1077,13,Party favors,Party favors,Income
+1078,13,Permits,Permits,Expenses
+1079,13,Accounting,Accounting,Expenses
+1080,14,Bookkeeper,Bookkeeper,Expenses
+1081,14,Lawyer,Lawyer,Expenses
+1082,14,Maintenance and Repair,Maintenance and Repair,Expenses
+1083,14,Building Repairs,Building Repairs,Expenses
+1084,14,Computer Repairs,Computer Repairs,Expenses
+1085,14,Advertising,Advertising,Expenses
+1086,14,Bank Charges,Bank Charges,Expenses
+1087,14,Commissions & fees,Commissions & fees,Expenses
+1088,14,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1089,14,Insurance,Insurance,Expenses
+1090,14,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1091,14,Meals and Entertainment,Meals and Entertainment,Expenses
+1092,14,Miscellaneous,Miscellaneous,Other Expense
+1093,14,Office Expenses,Office Expenses,Expenses
+1094,14,Promotional,Promotional,Expenses
+1095,14,Rent or Lease,Rent or Lease,Expenses
+1096,14,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1097,14,Stationery & Printing,Stationery & Printing,Expenses
+1098,14,Supplies,Supplies,Expenses
+1099,14,Taxes & Licenses,Taxes & Licenses,Expenses
+1100,14,Travel,Travel,Expenses
+1101,14,Travel Meals,Travel Meals,Expenses
+1102,14,Utilities,Utilities,Expenses
+1103,14,Interest Earned,Interest Earned,Other Income
+1104,14,Other Portfolio Income,Other Portfolio Income,Other Income
+1105,14,Penalties & Settlements,Penalties & Settlements,Other Expense
+1106,14,Disposal Fees,Disposal Fees,Expenses
+1107,14,Equipment Rental,Equipment Rental,Expenses
+1108,14,Uncategorized Income,Uncategorized Income,Income
+1109,14,Uncategorized Expense,Uncategorized Expense,Expenses
+1110,14,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1111,14,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1112,14,Project planning and economic assessments,Project planning and economic assessments,Income
+1113,14,Checking,Checking,Bank
+1114,14,Savings,Savings,Bank
+1115,14,Truck,Truck,Fixed Assets
+1116,14,Original Cost,Original Cost,Fixed Assets
+1117,14,Depreciation,Depreciation,Fixed Assets
+1118,14,Depreciation,Depreciation,Other Expense
+1119,14,Mastercard,Mastercard,Credit Card
+1120,14,Visa,Visa,Credit Card
+1121,14,Loan Payable,Loan Payable,Other Current Liabilities
+1122,14,Notes Payable,Notes Payable,Long Term Liabilities
+1123,14,Process management,Process management,Income
+1124,14,Job Materials,Job Materials,Income
+1125,14,Decks and Patios,Decks and Patios,Income
+1126,14,Design and management services,Design and management services,Income
+1127,14,Feasibility studies,Feasibility studies,Income
+1128,14,Quality management accreditation,Quality management accreditation,Income
+1129,14,Labor,Labor,Income
+1130,14,Installation,Installation,Income
+1131,14,Maintenance and Repair,Maintenance and Repair,Income
+1132,14,Asset management,Asset management,Income
+1133,14,Automobile,Automobile,Expenses
+1134,14,Fuel,Fuel,Expenses
+1135,14,Workers Compensation,Workers Compensation,Expenses
+1136,14,Job Expenses,Job Expenses,Expenses
+1137,14,Cost of Labor,Cost of Labor,Expenses
+1138,14,Installation,Installation,Expenses
+1139,14,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1140,14,Equipment Repairs,Equipment Repairs,Expenses
+1141,14,Gas and Electric,Gas and Electric,Expenses
+1142,14,Telephone,Telephone,Expenses
+1143,14,Purchases,Purchases,Expenses
+1144,14,Quality management assessment,Quality management assessment,Income
+1145,14,Design and management services ,Design and management services ,Income
+1146,14,Construction management services,Construction management services,Income
+1147,14,Design income,Design income,Income
+1148,14,Other Income,Other Income,Income
+1149,14,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1150,14,Billable Expense Income,Billable Expense Income,Income
+1151,14,Discounts given,Discounts given,Income
+1152,14,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1153,14,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1154,14,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1155,14,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1156,14,Services,Services,Income
+1157,14,Retained Earnings,Retained Earnings,Equity
+1158,14,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1159,14,Undeposited Funds,Undeposited Funds,Other Current Assets
+1160,14,Equipment Rental,Equipment Rental,Expenses
+1161,14,Fees Billed,Fees Billed,Income
+1162,14,Refunds-Allowances,Refunds-Allowances,Income
+1163,14,Job Materials,Job Materials,Expenses
+1164,14,Decks and Patios,Decks and Patios,Expenses
+1165,14,Design and management services,Design and management services,Income
+1166,14,Feasibility studies,Feasibility studies,Income
+1167,14,Quality management accreditation,Quality management accreditation,Income
+1168,14,Permits,Permits,Expenses
+1169,14,Accounting,Accounting,Expenses
+1170,15,Bookkeeper,Bookkeeper,Expenses
+1171,15,Lawyer,Lawyer,Expenses
+1172,15,Maintenance and Repair,Maintenance and Repair,Expenses
+1173,15,Building Repairs,Building Repairs,Expenses
+1174,15,Computer Repairs,Computer Repairs,Expenses
+1175,15,Advertising,Advertising,Expenses
+1176,15,Bank Charges,Bank Charges,Expenses
+1177,15,Commissions & fees,Commissions & fees,Expenses
+1178,15,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1179,15,Insurance,Insurance,Expenses
+1180,15,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1181,15,Meals and Entertainment,Meals and Entertainment,Expenses
+1182,15,Miscellaneous,Miscellaneous,Other Expense
+1183,15,Office Expenses,Office Expenses,Expenses
+1184,15,Promotional,Promotional,Expenses
+1185,15,Rent or Lease,Rent or Lease,Expenses
+1186,15,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1187,15,Stationery & Printing,Stationery & Printing,Expenses
+1188,15,Supplies,Supplies,Expenses
+1189,15,Taxes & Licenses,Taxes & Licenses,Expenses
+1190,15,Travel,Travel,Expenses
+1191,15,Travel Meals,Travel Meals,Expenses
+1192,15,Utilities,Utilities,Expenses
+1193,15,Interest Earned,Interest Earned,Other Income
+1194,15,Other Portfolio Income,Other Portfolio Income,Other Income
+1195,15,Penalties & Settlements,Penalties & Settlements,Other Expense
+1196,15,Disposal Fees,Disposal Fees,Expenses
+1197,15,Equipment Rental,Equipment Rental,Expenses
+1198,15,Uncategorized Income,Uncategorized Income,Income
+1199,15,Uncategorized Expense,Uncategorized Expense,Expenses
+1200,15,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1201,15,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1202,15,Towboat and tugboat rental or leasing,Towboat and tugboat rental or leasing,Income
+1203,15,Checking,Checking,Bank
+1204,15,Savings,Savings,Bank
+1205,15,Truck,Truck,Fixed Assets
+1206,15,Original Cost,Original Cost,Fixed Assets
+1207,15,Depreciation,Depreciation,Fixed Assets
+1208,15,Depreciation,Depreciation,Other Expense
+1209,15,Mastercard,Mastercard,Credit Card
+1210,15,Visa,Visa,Credit Card
+1211,15,Loan Payable,Loan Payable,Other Current Liabilities
+1212,15,Notes Payable,Notes Payable,Long Term Liabilities
+1213,15,Tanker rental or leasing,Tanker rental or leasing,Income
+1214,15,Job Materials,Job Materials,Income
+1215,15,Decks and Patios,Decks and Patios,Income
+1216,15,Barge rental or leasing,Barge rental or leasing,Income
+1217,15,Heavy construction equipment rental,Heavy construction equipment rental,Income
+1218,15,Oil field machinery and equipment rental or leasing,Oil field machinery and equipment rental or leasing,Income
+1219,15,Labor,Labor,Income
+1220,15,Installation,Installation,Income
+1221,15,Maintenance and Repair,Maintenance and Repair,Income
+1222,15,Forestry and logging machinery and equipment rental or leasing,Forestry and logging machinery and equipment rental or leasing,Income
+1223,15,Automobile,Automobile,Expenses
+1224,15,Fuel,Fuel,Expenses
+1225,15,Workers Compensation,Workers Compensation,Expenses
+1226,15,Job Expenses,Job Expenses,Expenses
+1227,15,Cost of Labor,Cost of Labor,Expenses
+1228,15,Installation,Installation,Expenses
+1229,15,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1230,15,Equipment Repairs,Equipment Repairs,Expenses
+1231,15,Gas and Electric,Gas and Electric,Expenses
+1232,15,Telephone,Telephone,Expenses
+1233,15,Purchases,Purchases,Expenses
+1234,15,Mining machinery and equipment rental or leasing,Mining machinery and equipment rental or leasing,Income
+1235,15,Aircraft rental or leasing,Aircraft rental or leasing,Income
+1236,15,Railcar rental or leasing,Railcar rental or leasing,Income
+1237,15,Design income,Design income,Income
+1238,15,Other Income,Other Income,Income
+1239,15,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1240,15,Billable Expense Income,Billable Expense Income,Income
+1241,15,Discounts given,Discounts given,Income
+1242,15,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1243,15,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1244,15,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1245,15,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1246,15,Services,Services,Income
+1247,15,Retained Earnings,Retained Earnings,Equity
+1248,15,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1249,15,Undeposited Funds,Undeposited Funds,Other Current Assets
+1250,15,Equipment Rental,Equipment Rental,Expenses
+1251,15,Fees Billed,Fees Billed,Income
+1252,15,Refunds-Allowances,Refunds-Allowances,Income
+1253,15,Job Materials,Job Materials,Expenses
+1254,15,Decks and Patios,Decks and Patios,Expenses
+1255,15,"Boat, ship and steamship rental or leasing","Boat, ship and steamship rental or leasing",Income
+1256,15,Heavy construction equipment rental,Heavy construction equipment rental,Income
+1257,15,Oil field machinery and equipment rental or leasing,Oil field machinery and equipment rental or leasing,Income
+1258,15,Permits,Permits,Expenses
+1259,15,Accounting,Accounting,Expenses
+1260,16,Bookkeeper,Bookkeeper,Expenses
+1261,16,Lawyer,Lawyer,Expenses
+1262,16,Maintenance and Repair,Maintenance and Repair,Expenses
+1263,16,Building Repairs,Building Repairs,Expenses
+1264,16,Computer Repairs,Computer Repairs,Expenses
+1265,16,Advertising,Advertising,Expenses
+1266,16,Bank Charges,Bank Charges,Expenses
+1267,16,Commissions & fees,Commissions & fees,Expenses
+1268,16,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1269,16,Insurance,Insurance,Expenses
+1270,16,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1271,16,Meals and Entertainment,Meals and Entertainment,Expenses
+1272,16,Miscellaneous,Miscellaneous,Other Expense
+1273,16,Office Expenses,Office Expenses,Expenses
+1274,16,Promotional,Promotional,Expenses
+1275,16,Rent or Lease,Rent or Lease,Expenses
+1276,16,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1277,16,Stationery & Printing,Stationery & Printing,Expenses
+1278,16,Supplies,Supplies,Expenses
+1279,16,Taxes & Licenses,Taxes & Licenses,Expenses
+1280,16,Travel,Travel,Expenses
+1281,16,Travel Meals,Travel Meals,Expenses
+1282,16,Utilities,Utilities,Expenses
+1283,16,Interest Earned,Interest Earned,Other Income
+1284,16,Other Portfolio Income,Other Portfolio Income,Other Income
+1285,16,Penalties & Settlements,Penalties & Settlements,Other Expense
+1286,16,Disposal Fees,Disposal Fees,Expenses
+1287,16,Equipment Rental,Equipment Rental,Expenses
+1288,16,Uncategorized Income,Uncategorized Income,Income
+1289,16,Uncategorized Expense,Uncategorized Expense,Expenses
+1290,16,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1291,16,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1292,16,Fishing supply retailing,Fishing supply retailing,Income
+1293,16,Checking,Checking,Bank
+1294,16,Savings,Savings,Bank
+1295,16,Truck,Truck,Fixed Assets
+1296,16,Original Cost,Original Cost,Fixed Assets
+1297,16,Depreciation,Depreciation,Fixed Assets
+1298,16,Depreciation,Depreciation,Other Expense
+1299,16,Mastercard,Mastercard,Credit Card
+1300,16,Visa,Visa,Credit Card
+1301,16,Loan Payable,Loan Payable,Other Current Liabilities
+1302,16,Notes Payable,Notes Payable,Long Term Liabilities
+1303,16,Exercise equipment retailing,Exercise equipment retailing,Income
+1304,16,Job Materials,Job Materials,Income
+1305,16,Decks and Patios,Decks and Patios,Income
+1306,16,Bicycle retailing,Bicycle retailing,Income
+1307,16,Saddlery retailing,Saddlery retailing,Income
+1308,16,Motorbike ,Motorbike ,Income
+1309,16,Labor,Labor,Income
+1310,16,Installation,Installation,Income
+1311,16,Maintenance and Repair,Maintenance and Repair,Income
+1312,16,Golf equipment and supply retailing,Golf equipment and supply retailing,Income
+1313,16,Automobile,Automobile,Expenses
+1314,16,Fuel,Fuel,Expenses
+1315,16,Workers Compensation,Workers Compensation,Expenses
+1316,16,Job Expenses,Job Expenses,Expenses
+1317,16,Cost of Labor,Cost of Labor,Expenses
+1318,16,Installation,Installation,Expenses
+1319,16,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1320,16,Equipment Repairs,Equipment Repairs,Expenses
+1321,16,Gas and Electric,Gas and Electric,Expenses
+1322,16,Telephone,Telephone,Expenses
+1323,16,Purchases,Purchases,Expenses
+1324,16,Other sporting goods retailing,Other sporting goods retailing,Income
+1325,16,Athletic uniforms retailing,Athletic uniforms retailing,Income
+1326,16,Diving equipment retailing,Diving equipment retailing,Income
+1327,16,Design income,Design income,Income
+1328,16,Other Income,Other Income,Income
+1329,16,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1330,16,Billable Expense Income,Billable Expense Income,Income
+1331,16,Discounts given,Discounts given,Income
+1332,16,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1333,16,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1334,16,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1335,16,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1336,16,Services,Services,Income
+1337,16,Retained Earnings,Retained Earnings,Equity
+1338,16,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1339,16,Undeposited Funds,Undeposited Funds,Other Current Assets
+1340,16,Equipment Rental,Equipment Rental,Expenses
+1341,16,Fees Billed,Fees Billed,Income
+1342,16,Refunds-Allowances,Refunds-Allowances,Income
+1343,16,Job Materials,Job Materials,Expenses
+1344,16,Decks and Patios,Decks and Patios,Expenses
+1345,16,Bowling equipment and supply retailing,Bowling equipment and supply retailing,Income
+1346,16,Saddlery retailing,Saddlery retailing,Income
+1347,16,Motorbike ,Motorbike ,Income
+1348,16,Permits,Permits,Expenses
+1349,16,Accounting,Accounting,Expenses
+1350,17,Bookkeeper,Bookkeeper,Expenses
+1351,17,Lawyer,Lawyer,Expenses
+1352,17,Maintenance and Repair,Maintenance and Repair,Expenses
+1353,17,Building Repairs,Building Repairs,Expenses
+1354,17,Computer Repairs,Computer Repairs,Expenses
+1355,17,Advertising,Advertising,Expenses
+1356,17,Bank Charges,Bank Charges,Expenses
+1357,17,Commissions & fees,Commissions & fees,Expenses
+1358,17,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1359,17,Insurance,Insurance,Expenses
+1360,17,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1361,17,Meals and Entertainment,Meals and Entertainment,Expenses
+1362,17,Miscellaneous,Miscellaneous,Other Expense
+1363,17,Office Expenses,Office Expenses,Expenses
+1364,17,Promotional,Promotional,Expenses
+1365,17,Rent or Lease,Rent or Lease,Expenses
+1366,17,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1367,17,Stationery & Printing,Stationery & Printing,Expenses
+1368,17,Supplies,Supplies,Expenses
+1369,17,Taxes & Licenses,Taxes & Licenses,Expenses
+1370,17,Travel,Travel,Expenses
+1371,17,Travel Meals,Travel Meals,Expenses
+1372,17,Utilities,Utilities,Expenses
+1373,17,Interest Earned,Interest Earned,Other Income
+1374,17,Other Portfolio Income,Other Portfolio Income,Other Income
+1375,17,Penalties & Settlements,Penalties & Settlements,Other Expense
+1376,17,Disposal Fees,Disposal Fees,Expenses
+1377,17,Equipment Rental,Equipment Rental,Expenses
+1378,17,Uncategorized Income,Uncategorized Income,Income
+1379,17,Uncategorized Expense,Uncategorized Expense,Expenses
+1380,17,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1381,17,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1382,17,Providing independent operation of railroad terminals,Providing independent operation of railroad terminals,Income
+1383,17,Checking,Checking,Bank
+1384,17,Savings,Savings,Bank
+1385,17,Truck,Truck,Fixed Assets
+1386,17,Original Cost,Original Cost,Fixed Assets
+1387,17,Depreciation,Depreciation,Fixed Assets
+1388,17,Depreciation,Depreciation,Other Expense
+1389,17,Mastercard,Mastercard,Credit Card
+1390,17,Visa,Visa,Credit Card
+1391,17,Loan Payable,Loan Payable,Other Current Liabilities
+1392,17,Notes Payable,Notes Payable,Long Term Liabilities
+1393,17,Providing railroad switching services,Providing railroad switching services,Income
+1394,17,Job Materials,Job Materials,Income
+1395,17,Decks and Patios,Decks and Patios,Income
+1396,17,Providing grain leveling and trimming in railroad cars,Providing grain leveling and trimming in railroad cars,Income
+1397,17,Maintenance and repair work,Maintenance and repair work,Income
+1398,17,Rail transportation support and other products,Rail transportation support and other products,Income
+1399,17,Labor,Labor,Income
+1400,17,Installation,Installation,Income
+1401,17,Maintenance and Repair,Maintenance and Repair,Income
+1402,17,Providing shunting trailers in rail terminals,Providing shunting trailers in rail terminals,Income
+1403,17,Automobile,Automobile,Expenses
+1404,17,Fuel,Fuel,Expenses
+1405,17,Workers Compensation,Workers Compensation,Expenses
+1406,17,Job Expenses,Job Expenses,Expenses
+1407,17,Cost of Labor,Cost of Labor,Expenses
+1408,17,Installation,Installation,Expenses
+1409,17,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1410,17,Equipment Repairs,Equipment Repairs,Expenses
+1411,17,Gas and Electric,Gas and Electric,Expenses
+1412,17,Telephone,Telephone,Expenses
+1413,17,Purchases,Purchases,Expenses
+1414,17,Packing services for goods,Packing services for goods,Income
+1415,17,Providing freight car cleaning services,Providing freight car cleaning services,Income
+1416,17,"Repairing locomotives and railcars (except factory conversion, overhaul and rebuilding)","Repairing locomotives and railcars (except factory conversion, overhaul and rebuilding)",Income
+1417,17,Design income,Design income,Income
+1418,17,Other Income,Other Income,Income
+1419,17,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1420,17,Billable Expense Income,Billable Expense Income,Income
+1421,17,Discounts given,Discounts given,Income
+1422,17,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1423,17,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1424,17,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1425,17,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1426,17,Services,Services,Income
+1427,17,Retained Earnings,Retained Earnings,Equity
+1428,17,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1429,17,Undeposited Funds,Undeposited Funds,Other Current Assets
+1430,17,Equipment Rental,Equipment Rental,Expenses
+1431,17,Fees Billed,Fees Billed,Income
+1432,17,Refunds-Allowances,Refunds-Allowances,Income
+1433,17,Job Materials,Job Materials,Expenses
+1434,17,Decks and Patios,Decks and Patios,Expenses
+1435,17,Providing loading and unloading services at rail terminals,Providing loading and unloading services at rail terminals,Income
+1436,17,Maintenance and repair work,Maintenance and repair work,Income
+1437,17,Rail transportation support and other products,Rail transportation support and other products,Income
+1438,17,Permits,Permits,Expenses
+1439,17,Accounting,Accounting,Expenses
+1440,18,Bookkeeper,Bookkeeper,Expenses
+1441,18,Lawyer,Lawyer,Expenses
+1442,18,Maintenance and Repair,Maintenance and Repair,Expenses
+1443,18,Building Repairs,Building Repairs,Expenses
+1444,18,Computer Repairs,Computer Repairs,Expenses
+1445,18,Advertising,Advertising,Expenses
+1446,18,Bank Charges,Bank Charges,Expenses
+1447,18,Commissions & fees,Commissions & fees,Expenses
+1448,18,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1449,18,Insurance,Insurance,Expenses
+1450,18,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1451,18,Meals and Entertainment,Meals and Entertainment,Expenses
+1452,18,Miscellaneous,Miscellaneous,Other Expense
+1453,18,Office Expenses,Office Expenses,Expenses
+1454,18,Promotional,Promotional,Expenses
+1455,18,Rent or Lease,Rent or Lease,Expenses
+1456,18,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1457,18,Stationery & Printing,Stationery & Printing,Expenses
+1458,18,Supplies,Supplies,Expenses
+1459,18,Taxes & Licenses,Taxes & Licenses,Expenses
+1460,18,Travel,Travel,Expenses
+1461,18,Travel Meals,Travel Meals,Expenses
+1462,18,Utilities,Utilities,Expenses
+1463,18,Interest Earned,Interest Earned,Other Income
+1464,18,Other Portfolio Income,Other Portfolio Income,Other Income
+1465,18,Penalties & Settlements,Penalties & Settlements,Other Expense
+1466,18,Disposal Fees,Disposal Fees,Expenses
+1467,18,Equipment Rental,Equipment Rental,Expenses
+1468,18,Uncategorized Income,Uncategorized Income,Income
+1469,18,Uncategorized Expense,Uncategorized Expense,Expenses
+1470,18,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1471,18,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1472,18,Other nonfossil-fuel power generation,Other nonfossil-fuel power generation,Income
+1473,18,Checking,Checking,Bank
+1474,18,Savings,Savings,Bank
+1475,18,Truck,Truck,Fixed Assets
+1476,18,Original Cost,Original Cost,Fixed Assets
+1477,18,Depreciation,Depreciation,Fixed Assets
+1478,18,Depreciation,Depreciation,Other Expense
+1479,18,Mastercard,Mastercard,Credit Card
+1480,18,Visa,Visa,Credit Card
+1481,18,Loan Payable,Loan Payable,Other Current Liabilities
+1482,18,Notes Payable,Notes Payable,Long Term Liabilities
+1483,18,Other renewable-fueled power generation,Other renewable-fueled power generation,Income
+1484,18,Job Materials,Job Materials,Income
+1485,18,Decks and Patios,Decks and Patios,Income
+1486,18,Wood- and wood waste-fueled power generation,Wood- and wood waste-fueled power generation,Income
+1487,18,Wind Power generation,Wind Power generation,Income
+1488,18,Other non-renewable power generation,Other non-renewable power generation,Income
+1489,18,Labor,Labor,Income
+1490,18,Installation,Installation,Income
+1491,18,Maintenance and Repair,Maintenance and Repair,Income
+1492,18,Other nonnuclear power generation,Other nonnuclear power generation,Income
+1493,18,Automobile,Automobile,Expenses
+1494,18,Fuel,Fuel,Expenses
+1495,18,Workers Compensation,Workers Compensation,Expenses
+1496,18,Job Expenses,Job Expenses,Expenses
+1497,18,Cost of Labor,Cost of Labor,Expenses
+1498,18,Installation,Installation,Expenses
+1499,18,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1500,18,Equipment Repairs,Equipment Repairs,Expenses
+1501,18,Gas and Electric,Gas and Electric,Expenses
+1502,18,Telephone,Telephone,Expenses
+1503,18,Purchases,Purchases,Expenses
+1504,18,Coal Power generation,Coal Power generation,Income
+1505,18,Hydroelectric power generation,Hydroelectric power generation,Income
+1506,18,Geothermal-fueled power generation,Geothermal-fueled power generation,Income
+1507,18,Design income,Design income,Income
+1508,18,Other Income,Other Income,Income
+1509,18,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1510,18,Billable Expense Income,Billable Expense Income,Income
+1511,18,Discounts given,Discounts given,Income
+1512,18,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1513,18,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1514,18,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1515,18,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1516,18,Services,Services,Income
+1517,18,Retained Earnings,Retained Earnings,Equity
+1518,18,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1519,18,Undeposited Funds,Undeposited Funds,Other Current Assets
+1520,18,Equipment Rental,Equipment Rental,Expenses
+1521,18,Fees Billed,Fees Billed,Income
+1522,18,Refunds-Allowances,Refunds-Allowances,Income
+1523,18,Job Materials,Job Materials,Expenses
+1524,18,Decks and Patios,Decks and Patios,Expenses
+1525,18,Biogenic municipal waste-fueled power generation,Biogenic municipal waste-fueled power generation,Income
+1526,18,Wind Power generation,Wind Power generation,Income
+1527,18,Other non-renewable power generation,Other non-renewable power generation,Income
+1528,18,Permits,Permits,Expenses
+1529,18,Accounting,Accounting,Expenses
+1530,19,Bookkeeper,Bookkeeper,Expenses
+1531,19,Lawyer,Lawyer,Expenses
+1532,19,Maintenance and Repair,Maintenance and Repair,Expenses
+1533,19,Building Repairs,Building Repairs,Expenses
+1534,19,Computer Repairs,Computer Repairs,Expenses
+1535,19,Advertising,Advertising,Expenses
+1536,19,Bank Charges,Bank Charges,Expenses
+1537,19,Commissions & fees,Commissions & fees,Expenses
+1538,19,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1539,19,Insurance,Insurance,Expenses
+1540,19,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1541,19,Meals and Entertainment,Meals and Entertainment,Expenses
+1542,19,Miscellaneous,Miscellaneous,Other Expense
+1543,19,Office Expenses,Office Expenses,Expenses
+1544,19,Promotional,Promotional,Expenses
+1545,19,Rent or Lease,Rent or Lease,Expenses
+1546,19,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1547,19,Stationery & Printing,Stationery & Printing,Expenses
+1548,19,Supplies,Supplies,Expenses
+1549,19,Taxes & Licenses,Taxes & Licenses,Expenses
+1550,19,Travel,Travel,Expenses
+1551,19,Travel Meals,Travel Meals,Expenses
+1552,19,Utilities,Utilities,Expenses
+1553,19,Interest Earned,Interest Earned,Other Income
+1554,19,Other Portfolio Income,Other Portfolio Income,Other Income
+1555,19,Penalties & Settlements,Penalties & Settlements,Other Expense
+1556,19,Disposal Fees,Disposal Fees,Expenses
+1557,19,Equipment Rental,Equipment Rental,Expenses
+1558,19,Uncategorized Income,Uncategorized Income,Income
+1559,19,Uncategorized Expense,Uncategorized Expense,Expenses
+1560,19,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1561,19,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1562,19,Wholesaling marine supplies (except pleasure),Wholesaling marine supplies (except pleasure),Income
+1563,19,Checking,Checking,Bank
+1564,19,Savings,Savings,Bank
+1565,19,Truck,Truck,Fixed Assets
+1566,19,Original Cost,Original Cost,Fixed Assets
+1567,19,Depreciation,Depreciation,Fixed Assets
+1568,19,Depreciation,Depreciation,Other Expense
+1569,19,Mastercard,Mastercard,Credit Card
+1570,19,Visa,Visa,Credit Card
+1571,19,Loan Payable,Loan Payable,Other Current Liabilities
+1572,19,Notes Payable,Notes Payable,Long Term Liabilities
+1573,19,Wholesaling locomotives,Wholesaling locomotives,Income
+1574,19,Job Materials,Job Materials,Income
+1575,19,Decks and Patios,Decks and Patios,Income
+1576,19,Wholesaling aircraft engines and parts,Wholesaling aircraft engines and parts,Income
+1577,19,Wholesaling railroad cars,Wholesaling railroad cars,Income
+1578,19,Wholesaling ships,Wholesaling ships,Income
+1579,19,Labor,Labor,Income
+1580,19,Installation,Installation,Income
+1581,19,Maintenance and Repair,Maintenance and Repair,Income
+1582,19,Wholesaling navigational instruments (except electronic),Wholesaling navigational instruments (except electronic),Income
+1583,19,Automobile,Automobile,Expenses
+1584,19,Fuel,Fuel,Expenses
+1585,19,Workers Compensation,Workers Compensation,Expenses
+1586,19,Job Expenses,Job Expenses,Expenses
+1587,19,Cost of Labor,Cost of Labor,Expenses
+1588,19,Installation,Installation,Expenses
+1589,19,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1590,19,Equipment Repairs,Equipment Repairs,Expenses
+1591,19,Gas and Electric,Gas and Electric,Expenses
+1592,19,Telephone,Telephone,Expenses
+1593,19,Purchases,Purchases,Expenses
+1594,19,Wholesaling railroad equipment and supplies,Wholesaling railroad equipment and supplies,Income
+1595,19,Wholesaling aeronautical equipment and supplies,Wholesaling aeronautical equipment and supplies,Income
+1596,19,Wholesaling boats (except pleasure),Wholesaling boats (except pleasure),Income
+1597,19,Design income,Design income,Income
+1598,19,Other Income,Other Income,Income
+1599,19,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1600,19,Billable Expense Income,Billable Expense Income,Income
+1601,19,Discounts given,Discounts given,Income
+1602,19,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1603,19,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1604,19,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1605,19,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1606,19,Services,Services,Income
+1607,19,Retained Earnings,Retained Earnings,Equity
+1608,19,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1609,19,Undeposited Funds,Undeposited Funds,Other Current Assets
+1610,19,Equipment Rental,Equipment Rental,Expenses
+1611,19,Fees Billed,Fees Billed,Income
+1612,19,Refunds-Allowances,Refunds-Allowances,Income
+1613,19,Job Materials,Job Materials,Expenses
+1614,19,Decks and Patios,Decks and Patios,Expenses
+1615,19,Wholesaling aircraft,Wholesaling aircraft,Income
+1616,19,Wholesaling railroad cars,Wholesaling railroad cars,Income
+1617,19,Wholesaling ships,Wholesaling ships,Income
+1618,19,Permits,Permits,Expenses
+1619,19,Accounting,Accounting,Expenses
+1620,20,Bookkeeper,Bookkeeper,Expenses
+1621,20,Lawyer,Lawyer,Expenses
+1622,20,Maintenance and Repair,Maintenance and Repair,Expenses
+1623,20,Building Repairs,Building Repairs,Expenses
+1624,20,Computer Repairs,Computer Repairs,Expenses
+1625,20,Advertising,Advertising,Expenses
+1626,20,Bank Charges,Bank Charges,Expenses
+1627,20,Commissions & fees,Commissions & fees,Expenses
+1628,20,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1629,20,Insurance,Insurance,Expenses
+1630,20,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1631,20,Meals and Entertainment,Meals and Entertainment,Expenses
+1632,20,Miscellaneous,Miscellaneous,Other Expense
+1633,20,Office Expenses,Office Expenses,Expenses
+1634,20,Promotional,Promotional,Expenses
+1635,20,Rent or Lease,Rent or Lease,Expenses
+1636,20,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1637,20,Stationery & Printing,Stationery & Printing,Expenses
+1638,20,Supplies,Supplies,Expenses
+1639,20,Taxes & Licenses,Taxes & Licenses,Expenses
+1640,20,Travel,Travel,Expenses
+1641,20,Travel Meals,Travel Meals,Expenses
+1642,20,Utilities,Utilities,Expenses
+1643,20,Interest Earned,Interest Earned,Other Income
+1644,20,Other Portfolio Income,Other Portfolio Income,Other Income
+1645,20,Penalties & Settlements,Penalties & Settlements,Other Expense
+1646,20,Disposal Fees,Disposal Fees,Expenses
+1647,20,Equipment Rental,Equipment Rental,Expenses
+1648,20,Uncategorized Income,Uncategorized Income,Income
+1649,20,Uncategorized Expense,Uncategorized Expense,Expenses
+1650,20,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1651,20,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1652,20,Offering macro funds,Offering macro funds,Income
+1653,20,Checking,Checking,Bank
+1654,20,Savings,Savings,Bank
+1655,20,Truck,Truck,Fixed Assets
+1656,20,Original Cost,Original Cost,Fixed Assets
+1657,20,Depreciation,Depreciation,Fixed Assets
+1658,20,Depreciation,Depreciation,Other Expense
+1659,20,Mastercard,Mastercard,Credit Card
+1660,20,Visa,Visa,Credit Card
+1661,20,Loan Payable,Loan Payable,Other Current Liabilities
+1662,20,Notes Payable,Notes Payable,Long Term Liabilities
+1663,20,Offering multi-strategy funds,Offering multi-strategy funds,Income
+1664,20,Job Materials,Job Materials,Income
+1665,20,Decks and Patios,Decks and Patios,Income
+1666,20,Offering fixed income funds,Offering fixed income funds,Income
+1667,20,Offering equity long-only,Offering equity long-only,Income
+1668,20,Offering equity market neutral funds,Offering equity market neutral funds,Income
+1669,20,Labor,Labor,Income
+1670,20,Installation,Installation,Income
+1671,20,Maintenance and Repair,Maintenance and Repair,Income
+1672,20,Offering distressed securities funds,Offering distressed securities funds,Income
+1673,20,Automobile,Automobile,Expenses
+1674,20,Fuel,Fuel,Expenses
+1675,20,Workers Compensation,Workers Compensation,Expenses
+1676,20,Job Expenses,Job Expenses,Expenses
+1677,20,Cost of Labor,Cost of Labor,Expenses
+1678,20,Installation,Installation,Expenses
+1679,20,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1680,20,Equipment Repairs,Equipment Repairs,Expenses
+1681,20,Gas and Electric,Gas and Electric,Expenses
+1682,20,Telephone,Telephone,Expenses
+1683,20,Purchases,Purchases,Expenses
+1684,20,Offering equity long/short ,Offering equity long/short ,Income
+1685,20,Offering equity long bias,Offering equity long bias,Income
+1686,20,Offering event-driven funds,Offering event-driven funds,Income
+1687,20,Design income,Design income,Income
+1688,20,Other Income,Other Income,Income
+1689,20,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1690,20,Billable Expense Income,Billable Expense Income,Income
+1691,20,Discounts given,Discounts given,Income
+1692,20,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1693,20,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1694,20,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1695,20,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1696,20,Services,Services,Income
+1697,20,Retained Earnings,Retained Earnings,Equity
+1698,20,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1699,20,Undeposited Funds,Undeposited Funds,Other Current Assets
+1700,20,Equipment Rental,Equipment Rental,Expenses
+1701,20,Fees Billed,Fees Billed,Income
+1702,20,Refunds-Allowances,Refunds-Allowances,Income
+1703,20,Job Materials,Job Materials,Expenses
+1704,20,Decks and Patios,Decks and Patios,Expenses
+1705,20,Offering emerging market funds,Offering emerging market funds,Income
+1706,20,Offering equity long-only,Offering equity long-only,Income
+1707,20,Offering equity market neutral funds,Offering equity market neutral funds,Income
+1708,20,Permits,Permits,Expenses
+1709,20,Accounting,Accounting,Expenses
+1710,21,Bookkeeper,Bookkeeper,Expenses
+1711,21,Lawyer,Lawyer,Expenses
+1712,21,Maintenance and Repair,Maintenance and Repair,Expenses
+1713,21,Building Repairs,Building Repairs,Expenses
+1714,21,Computer Repairs,Computer Repairs,Expenses
+1715,21,Advertising,Advertising,Expenses
+1716,21,Bank Charges,Bank Charges,Expenses
+1717,21,Commissions & fees,Commissions & fees,Expenses
+1718,21,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1719,21,Insurance,Insurance,Expenses
+1720,21,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1721,21,Meals and Entertainment,Meals and Entertainment,Expenses
+1722,21,Miscellaneous,Miscellaneous,Other Expense
+1723,21,Office Expenses,Office Expenses,Expenses
+1724,21,Promotional,Promotional,Expenses
+1725,21,Rent or Lease,Rent or Lease,Expenses
+1726,21,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1727,21,Stationery & Printing,Stationery & Printing,Expenses
+1728,21,Supplies,Supplies,Expenses
+1729,21,Taxes & Licenses,Taxes & Licenses,Expenses
+1730,21,Travel,Travel,Expenses
+1731,21,Travel Meals,Travel Meals,Expenses
+1732,21,Utilities,Utilities,Expenses
+1733,21,Interest Earned,Interest Earned,Other Income
+1734,21,Other Portfolio Income,Other Portfolio Income,Other Income
+1735,21,Penalties & Settlements,Penalties & Settlements,Other Expense
+1736,21,Disposal Fees,Disposal Fees,Expenses
+1737,21,Equipment Rental,Equipment Rental,Expenses
+1738,21,Uncategorized Income,Uncategorized Income,Income
+1739,21,Uncategorized Expense,Uncategorized Expense,Expenses
+1740,21,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1741,21,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1742,21,Providing 24-hour home care,Providing 24-hour home care,Income
+1743,21,Checking,Checking,Bank
+1744,21,Savings,Savings,Bank
+1745,21,Truck,Truck,Fixed Assets
+1746,21,Original Cost,Original Cost,Fixed Assets
+1747,21,Depreciation,Depreciation,Fixed Assets
+1748,21,Depreciation,Depreciation,Other Expense
+1749,21,Mastercard,Mastercard,Credit Card
+1750,21,Visa,Visa,Credit Card
+1751,21,Loan Payable,Loan Payable,Other Current Liabilities
+1752,21,Notes Payable,Notes Payable,Long Term Liabilities
+1753,21,Counseling,Counseling,Income
+1754,21,Job Materials,Job Materials,Income
+1755,21,Decks and Patios,Decks and Patios,Income
+1756,21,Providing homemaker and companion services,Providing homemaker and companion services,Income
+1757,21,Dietary and nutritional services,Dietary and nutritional services,Income
+1758,21,Home therapy services,Home therapy services,Income
+1759,21,Labor,Labor,Income
+1760,21,Installation,Installation,Income
+1761,21,Maintenance and Repair,Maintenance and Repair,Income
+1762,21,Occupational and vocational therapy,Occupational and vocational therapy,Income
+1763,21,Automobile,Automobile,Expenses
+1764,21,Fuel,Fuel,Expenses
+1765,21,Workers Compensation,Workers Compensation,Expenses
+1766,21,Job Expenses,Job Expenses,Expenses
+1767,21,Cost of Labor,Cost of Labor,Expenses
+1768,21,Installation,Installation,Expenses
+1769,21,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1770,21,Equipment Repairs,Equipment Repairs,Expenses
+1771,21,Gas and Electric,Gas and Electric,Expenses
+1772,21,Telephone,Telephone,Expenses
+1773,21,Purchases,Purchases,Expenses
+1774,21,Intravenous therapy,Intravenous therapy,Income
+1775,21,Providing personal care,Providing personal care,Income
+1776,21,Medication dispensing,Medication dispensing,Income
+1777,21,Design income,Design income,Income
+1778,21,Other Income,Other Income,Income
+1779,21,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1780,21,Billable Expense Income,Billable Expense Income,Income
+1781,21,Discounts given,Discounts given,Income
+1782,21,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1783,21,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1784,21,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1785,21,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1786,21,Services,Services,Income
+1787,21,Retained Earnings,Retained Earnings,Equity
+1788,21,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1789,21,Undeposited Funds,Undeposited Funds,Other Current Assets
+1790,21,Equipment Rental,Equipment Rental,Expenses
+1791,21,Fees Billed,Fees Billed,Income
+1792,21,Refunds-Allowances,Refunds-Allowances,Income
+1793,21,Job Materials,Job Materials,Expenses
+1794,21,Decks and Patios,Decks and Patios,Expenses
+1795,21,Physical therapy,Physical therapy,Income
+1796,21,Dietary and nutritional services,Dietary and nutritional services,Income
+1797,21,Home therapy services,Home therapy services,Income
+1798,21,Permits,Permits,Expenses
+1799,21,Accounting,Accounting,Expenses
+1800,22,Bookkeeper,Bookkeeper,Expenses
+1801,22,Lawyer,Lawyer,Expenses
+1802,22,Maintenance and Repair,Maintenance and Repair,Expenses
+1803,22,Building Repairs,Building Repairs,Expenses
+1804,22,Computer Repairs,Computer Repairs,Expenses
+1805,22,Advertising,Advertising,Expenses
+1806,22,Bank Charges,Bank Charges,Expenses
+1807,22,Commissions & fees,Commissions & fees,Expenses
+1808,22,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1809,22,Insurance,Insurance,Expenses
+1810,22,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1811,22,Meals and Entertainment,Meals and Entertainment,Expenses
+1812,22,Miscellaneous,Miscellaneous,Other Expense
+1813,22,Office Expenses,Office Expenses,Expenses
+1814,22,Promotional,Promotional,Expenses
+1815,22,Rent or Lease,Rent or Lease,Expenses
+1816,22,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1817,22,Stationery & Printing,Stationery & Printing,Expenses
+1818,22,Supplies,Supplies,Expenses
+1819,22,Taxes & Licenses,Taxes & Licenses,Expenses
+1820,22,Travel,Travel,Expenses
+1821,22,Travel Meals,Travel Meals,Expenses
+1822,22,Utilities,Utilities,Expenses
+1823,22,Interest Earned,Interest Earned,Other Income
+1824,22,Other Portfolio Income,Other Portfolio Income,Other Income
+1825,22,Penalties & Settlements,Penalties & Settlements,Other Expense
+1826,22,Disposal Fees,Disposal Fees,Expenses
+1827,22,Equipment Rental,Equipment Rental,Expenses
+1828,22,Uncategorized Income,Uncategorized Income,Income
+1829,22,Uncategorized Expense,Uncategorized Expense,Expenses
+1830,22,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1831,22,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1832,22,Dance performances,Dance performances,Income
+1833,22,Checking,Checking,Bank
+1834,22,Savings,Savings,Bank
+1835,22,Truck,Truck,Fixed Assets
+1836,22,Original Cost,Original Cost,Fixed Assets
+1837,22,Depreciation,Depreciation,Fixed Assets
+1838,22,Depreciation,Depreciation,Other Expense
+1839,22,Mastercard,Mastercard,Credit Card
+1840,22,Visa,Visa,Credit Card
+1841,22,Loan Payable,Loan Payable,Other Current Liabilities
+1842,22,Notes Payable,Notes Payable,Long Term Liabilities
+1843,22,Popular music shows,Popular music shows,Income
+1844,22,Job Materials,Job Materials,Income
+1845,22,Decks and Patios,Decks and Patios,Income
+1846,22,Opera performances,Opera performances,Income
+1847,22,Gifts and grants,Gifts and grants,Income
+1848,22,License fees,License fees,Income
+1849,22,Labor,Labor,Income
+1850,22,Installation,Installation,Income
+1851,22,Maintenance and Repair,Maintenance and Repair,Income
+1852,22,Appearances and speeches,Appearances and speeches,Income
+1853,22,Automobile,Automobile,Expenses
+1854,22,Fuel,Fuel,Expenses
+1855,22,Workers Compensation,Workers Compensation,Expenses
+1856,22,Job Expenses,Job Expenses,Expenses
+1857,22,Cost of Labor,Cost of Labor,Expenses
+1858,22,Installation,Installation,Expenses
+1859,22,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1860,22,Equipment Repairs,Equipment Repairs,Expenses
+1861,22,Gas and Electric,Gas and Electric,Expenses
+1862,22,Telephone,Telephone,Expenses
+1863,22,Purchases,Purchases,Expenses
+1864,22,Food and beverage sales,Food and beverage sales,Income
+1865,22,Musical performances,Musical performances,Income
+1866,22,Symphony performances,Symphony performances,Income
+1867,22,Design income,Design income,Income
+1868,22,Other Income,Other Income,Income
+1869,22,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1870,22,Billable Expense Income,Billable Expense Income,Income
+1871,22,Discounts given,Discounts given,Income
+1872,22,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1873,22,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1874,22,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1875,22,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1876,22,Services,Services,Income
+1877,22,Retained Earnings,Retained Earnings,Equity
+1878,22,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1879,22,Undeposited Funds,Undeposited Funds,Other Current Assets
+1880,22,Equipment Rental,Equipment Rental,Expenses
+1881,22,Fees Billed,Fees Billed,Income
+1882,22,Refunds-Allowances,Refunds-Allowances,Income
+1883,22,Job Materials,Job Materials,Expenses
+1884,22,Decks and Patios,Decks and Patios,Expenses
+1885,22,Non-musical performances,Non-musical performances,Income
+1886,22,Gifts and grants,Gifts and grants,Income
+1887,22,License fees,License fees,Income
+1888,22,Permits,Permits,Expenses
+1889,22,Accounting,Accounting,Expenses
+1890,23,Bookkeeper,Bookkeeper,Expenses
+1891,23,Lawyer,Lawyer,Expenses
+1892,23,Maintenance and Repair,Maintenance and Repair,Expenses
+1893,23,Building Repairs,Building Repairs,Expenses
+1894,23,Computer Repairs,Computer Repairs,Expenses
+1895,23,Advertising,Advertising,Expenses
+1896,23,Bank Charges,Bank Charges,Expenses
+1897,23,Commissions & fees,Commissions & fees,Expenses
+1898,23,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1899,23,Insurance,Insurance,Expenses
+1900,23,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1901,23,Meals and Entertainment,Meals and Entertainment,Expenses
+1902,23,Miscellaneous,Miscellaneous,Other Expense
+1903,23,Office Expenses,Office Expenses,Expenses
+1904,23,Promotional,Promotional,Expenses
+1905,23,Rent or Lease,Rent or Lease,Expenses
+1906,23,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1907,23,Stationery & Printing,Stationery & Printing,Expenses
+1908,23,Supplies,Supplies,Expenses
+1909,23,Taxes & Licenses,Taxes & Licenses,Expenses
+1910,23,Travel,Travel,Expenses
+1911,23,Travel Meals,Travel Meals,Expenses
+1912,23,Utilities,Utilities,Expenses
+1913,23,Interest Earned,Interest Earned,Other Income
+1914,23,Other Portfolio Income,Other Portfolio Income,Other Income
+1915,23,Penalties & Settlements,Penalties & Settlements,Other Expense
+1916,23,Disposal Fees,Disposal Fees,Expenses
+1917,23,Equipment Rental,Equipment Rental,Expenses
+1918,23,Uncategorized Income,Uncategorized Income,Income
+1919,23,Uncategorized Expense,Uncategorized Expense,Expenses
+1920,23,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+1921,23,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+1922,23,Manufacturing eucalyptus oil,Manufacturing eucalyptus oil,Income
+1923,23,Checking,Checking,Bank
+1924,23,Savings,Savings,Bank
+1925,23,Truck,Truck,Fixed Assets
+1926,23,Original Cost,Original Cost,Fixed Assets
+1927,23,Depreciation,Depreciation,Fixed Assets
+1928,23,Depreciation,Depreciation,Other Expense
+1929,23,Mastercard,Mastercard,Credit Card
+1930,23,Visa,Visa,Credit Card
+1931,23,Loan Payable,Loan Payable,Other Current Liabilities
+1932,23,Notes Payable,Notes Payable,Long Term Liabilities
+1933,23,Manufacturing peppermint oil,Manufacturing peppermint oil,Income
+1934,23,Job Materials,Job Materials,Income
+1935,23,Decks and Patios,Decks and Patios,Income
+1936,23,Manufacturing lemon oil,Manufacturing lemon oil,Income
+1937,23,Manufacturing other essential oils,Manufacturing other essential oils,Income
+1938,23,Manufacturing other Synthetic Oils,Manufacturing other Synthetic Oils,Income
+1939,23,Labor,Labor,Income
+1940,23,Installation,Installation,Income
+1941,23,Maintenance and Repair,Maintenance and Repair,Income
+1942,23,Manufacturing spearmint oil,Manufacturing spearmint oil,Income
+1943,23,Automobile,Automobile,Expenses
+1944,23,Fuel,Fuel,Expenses
+1945,23,Workers Compensation,Workers Compensation,Expenses
+1946,23,Job Expenses,Job Expenses,Expenses
+1947,23,Cost of Labor,Cost of Labor,Expenses
+1948,23,Installation,Installation,Expenses
+1949,23,Maintenance and Repairs,Maintenance and Repairs,Expenses
+1950,23,Equipment Repairs,Equipment Repairs,Expenses
+1951,23,Gas and Electric,Gas and Electric,Expenses
+1952,23,Telephone,Telephone,Expenses
+1953,23,Purchases,Purchases,Expenses
+1954,23,Manufacturing other Natural oils,Manufacturing other Natural oils,Income
+1955,23,Manufacturing grapefruit oil,Manufacturing grapefruit oil,Income
+1956,23,Manufacturing citronella oil,Manufacturing citronella oil,Income
+1957,23,Design income,Design income,Income
+1958,23,Other Income,Other Income,Income
+1959,23,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+1960,23,Billable Expense Income,Billable Expense Income,Income
+1961,23,Discounts given,Discounts given,Income
+1962,23,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+1963,23,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+1964,23,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+1965,23,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+1966,23,Services,Services,Income
+1967,23,Retained Earnings,Retained Earnings,Equity
+1968,23,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+1969,23,Undeposited Funds,Undeposited Funds,Other Current Assets
+1970,23,Equipment Rental,Equipment Rental,Expenses
+1971,23,Fees Billed,Fees Billed,Income
+1972,23,Refunds-Allowances,Refunds-Allowances,Income
+1973,23,Job Materials,Job Materials,Expenses
+1974,23,Decks and Patios,Decks and Patios,Expenses
+1975,23,Manufacturing orange oil,Manufacturing orange oil,Income
+1976,23,Manufacturing other essential oils,Manufacturing other essential oils,Income
+1977,23,Manufacturing other Synthetic Oils,Manufacturing other Synthetic Oils,Income
+1978,23,Permits,Permits,Expenses
+1979,23,Accounting,Accounting,Expenses
+1980,24,Bookkeeper,Bookkeeper,Expenses
+1981,24,Lawyer,Lawyer,Expenses
+1982,24,Maintenance and Repair,Maintenance and Repair,Expenses
+1983,24,Building Repairs,Building Repairs,Expenses
+1984,24,Computer Repairs,Computer Repairs,Expenses
+1985,24,Advertising,Advertising,Expenses
+1986,24,Bank Charges,Bank Charges,Expenses
+1987,24,Commissions & fees,Commissions & fees,Expenses
+1988,24,Dues & Subscriptions,Dues & Subscriptions,Expenses
+1989,24,Insurance,Insurance,Expenses
+1990,24,Legal & Professional Fees,Legal & Professional Fees,Expenses
+1991,24,Meals and Entertainment,Meals and Entertainment,Expenses
+1992,24,Miscellaneous,Miscellaneous,Other Expense
+1993,24,Office Expenses,Office Expenses,Expenses
+1994,24,Promotional,Promotional,Expenses
+1995,24,Rent or Lease,Rent or Lease,Expenses
+1996,24,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+1997,24,Stationery & Printing,Stationery & Printing,Expenses
+1998,24,Supplies,Supplies,Expenses
+1999,24,Taxes & Licenses,Taxes & Licenses,Expenses
+2000,24,Travel,Travel,Expenses
+2001,24,Travel Meals,Travel Meals,Expenses
+2002,24,Utilities,Utilities,Expenses
+2003,24,Interest Earned,Interest Earned,Other Income
+2004,24,Other Portfolio Income,Other Portfolio Income,Other Income
+2005,24,Penalties & Settlements,Penalties & Settlements,Other Expense
+2006,24,Disposal Fees,Disposal Fees,Expenses
+2007,24,Equipment Rental,Equipment Rental,Expenses
+2008,24,Uncategorized Income,Uncategorized Income,Income
+2009,24,Uncategorized Expense,Uncategorized Expense,Expenses
+2010,24,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+2011,24,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+2012,24,Transportation services,Transportation services,Income
+2013,24,Checking,Checking,Bank
+2014,24,Savings,Savings,Bank
+2015,24,Truck,Truck,Fixed Assets
+2016,24,Original Cost,Original Cost,Fixed Assets
+2017,24,Depreciation,Depreciation,Fixed Assets
+2018,24,Depreciation,Depreciation,Other Expense
+2019,24,Mastercard,Mastercard,Credit Card
+2020,24,Visa,Visa,Credit Card
+2021,24,Loan Payable,Loan Payable,Other Current Liabilities
+2022,24,Notes Payable,Notes Payable,Long Term Liabilities
+2023,24,Meal services,Meal services,Income
+2024,24,Job Materials,Job Materials,Income
+2025,24,Decks and Patios,Decks and Patios,Income
+2026,24,Daily living assistance,Daily living assistance,Income
+2027,24,Medical services,Medical services,Income
+2028,24,Home-care Service,Home-care Service,Income
+2029,24,Labor,Labor,Income
+2030,24,Installation,Installation,Income
+2031,24,Maintenance and Repair,Maintenance and Repair,Income
+2032,24,Social activities,Social activities,Income
+2033,24,Automobile,Automobile,Expenses
+2034,24,Fuel,Fuel,Expenses
+2035,24,Workers Compensation,Workers Compensation,Expenses
+2036,24,Job Expenses,Job Expenses,Expenses
+2037,24,Cost of Labor,Cost of Labor,Expenses
+2038,24,Installation,Installation,Expenses
+2039,24,Maintenance and Repairs,Maintenance and Repairs,Expenses
+2040,24,Equipment Repairs,Equipment Repairs,Expenses
+2041,24,Gas and Electric,Gas and Electric,Expenses
+2042,24,Telephone,Telephone,Expenses
+2043,24,Purchases,Purchases,Expenses
+2044,24,Social Service,Social Service,Income
+2045,24,Care-planning services,Care-planning services,Income
+2046,24,Therapeutic services,Therapeutic services,Income
+2047,24,Design income,Design income,Income
+2048,24,Other Income,Other Income,Income
+2049,24,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+2050,24,Billable Expense Income,Billable Expense Income,Income
+2051,24,Discounts given,Discounts given,Income
+2052,24,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+2053,24,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+2054,24,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+2055,24,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+2056,24,Services,Services,Income
+2057,24,Retained Earnings,Retained Earnings,Equity
+2058,24,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+2059,24,Undeposited Funds,Undeposited Funds,Other Current Assets
+2060,24,Equipment Rental,Equipment Rental,Expenses
+2061,24,Fees Billed,Fees Billed,Income
+2062,24,Refunds-Allowances,Refunds-Allowances,Income
+2063,24,Job Materials,Job Materials,Expenses
+2064,24,Decks and Patios,Decks and Patios,Expenses
+2065,24,Nursing and health services,Nursing and health services,Income
+2066,24,Medical services,Medical services,Income
+2067,24,Home-care Service,Home-care Service,Income
+2068,24,Permits,Permits,Expenses
+2069,24,Accounting,Accounting,Expenses
+2070,25,Bookkeeper,Bookkeeper,Expenses
+2071,25,Lawyer,Lawyer,Expenses
+2072,25,Maintenance and Repair,Maintenance and Repair,Expenses
+2073,25,Building Repairs,Building Repairs,Expenses
+2074,25,Computer Repairs,Computer Repairs,Expenses
+2075,25,Advertising,Advertising,Expenses
+2076,25,Bank Charges,Bank Charges,Expenses
+2077,25,Commissions & fees,Commissions & fees,Expenses
+2078,25,Dues & Subscriptions,Dues & Subscriptions,Expenses
+2079,25,Insurance,Insurance,Expenses
+2080,25,Legal & Professional Fees,Legal & Professional Fees,Expenses
+2081,25,Meals and Entertainment,Meals and Entertainment,Expenses
+2082,25,Miscellaneous,Miscellaneous,Other Expense
+2083,25,Office Expenses,Office Expenses,Expenses
+2084,25,Promotional,Promotional,Expenses
+2085,25,Rent or Lease,Rent or Lease,Expenses
+2086,25,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+2087,25,Stationery & Printing,Stationery & Printing,Expenses
+2088,25,Supplies,Supplies,Expenses
+2089,25,Taxes & Licenses,Taxes & Licenses,Expenses
+2090,25,Travel,Travel,Expenses
+2091,25,Travel Meals,Travel Meals,Expenses
+2092,25,Utilities,Utilities,Expenses
+2093,25,Interest Earned,Interest Earned,Other Income
+2094,25,Other Portfolio Income,Other Portfolio Income,Other Income
+2095,25,Penalties & Settlements,Penalties & Settlements,Other Expense
+2096,25,Disposal Fees,Disposal Fees,Expenses
+2097,25,Equipment Rental,Equipment Rental,Expenses
+2098,25,Uncategorized Income,Uncategorized Income,Income
+2099,25,Uncategorized Expense,Uncategorized Expense,Expenses
+2100,25,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+2101,25,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+2102,25,Baby accessories,Baby accessories,Income
+2103,25,Checking,Checking,Bank
+2104,25,Savings,Savings,Bank
+2105,25,Truck,Truck,Fixed Assets
+2106,25,Original Cost,Original Cost,Fixed Assets
+2107,25,Depreciation,Depreciation,Fixed Assets
+2108,25,Depreciation,Depreciation,Other Expense
+2109,25,Mastercard,Mastercard,Credit Card
+2110,25,Visa,Visa,Credit Card
+2111,25,Loan Payable,Loan Payable,Other Current Liabilities
+2112,25,Notes Payable,Notes Payable,Long Term Liabilities
+2113,25,Baby formula and food,Baby formula and food,Income
+2114,25,Job Materials,Job Materials,Income
+2115,25,Decks and Patios,Decks and Patios,Income
+2116,25,Baby car seats,Baby car seats,Income
+2117,25,Baby carriers,Baby carriers,Income
+2118,25,Baby clothing and footwear,Baby clothing and footwear,Income
+2119,25,Labor,Labor,Income
+2120,25,Installation,Installation,Income
+2121,25,Maintenance and Repair,Maintenance and Repair,Income
+2122,25,Diapers,Diapers,Income
+2123,25,Automobile,Automobile,Expenses
+2124,25,Fuel,Fuel,Expenses
+2125,25,Workers Compensation,Workers Compensation,Expenses
+2126,25,Job Expenses,Job Expenses,Expenses
+2127,25,Cost of Labor,Cost of Labor,Expenses
+2128,25,Installation,Installation,Expenses
+2129,25,Maintenance and Repairs,Maintenance and Repairs,Expenses
+2130,25,Equipment Repairs,Equipment Repairs,Expenses
+2131,25,Gas and Electric,Gas and Electric,Expenses
+2132,25,Telephone,Telephone,Expenses
+2133,25,Purchases,Purchases,Expenses
+2134,25,Baby strollers,Baby strollers,Income
+2135,25,Baby furniture,Baby furniture,Income
+2136,25,Baby apparel and shoes,Baby apparel and shoes,Income
+2137,25,Design income,Design income,Income
+2138,25,Other Income,Other Income,Income
+2139,25,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+2140,25,Billable Expense Income,Billable Expense Income,Income
+2141,25,Discounts given,Discounts given,Income
+2142,25,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+2143,25,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+2144,25,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+2145,25,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+2146,25,Services,Services,Income
+2147,25,Retained Earnings,Retained Earnings,Equity
+2148,25,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+2149,25,Undeposited Funds,Undeposited Funds,Other Current Assets
+2150,25,Equipment Rental,Equipment Rental,Expenses
+2151,25,Fees Billed,Fees Billed,Income
+2152,25,Refunds-Allowances,Refunds-Allowances,Income
+2153,25,Job Materials,Job Materials,Expenses
+2154,25,Decks and Patios,Decks and Patios,Expenses
+2155,25,Baby toys,Baby toys,Income
+2156,25,Baby carriers,Baby carriers,Income
+2157,25,Baby clothing and footwear,Baby clothing and footwear,Income
+2158,25,Permits,Permits,Expenses
+2159,25,Accounting,Accounting,Expenses
+2160,26,Bookkeeper,Bookkeeper,Expenses
+2161,26,Lawyer,Lawyer,Expenses
+2162,26,Maintenance and Repair,Maintenance and Repair,Expenses
+2163,26,Building Repairs,Building Repairs,Expenses
+2164,26,Computer Repairs,Computer Repairs,Expenses
+2165,26,Advertising,Advertising,Expenses
+2166,26,Bank Charges,Bank Charges,Expenses
+2167,26,Commissions & fees,Commissions & fees,Expenses
+2168,26,Dues & Subscriptions,Dues & Subscriptions,Expenses
+2169,26,Insurance,Insurance,Expenses
+2170,26,Legal & Professional Fees,Legal & Professional Fees,Expenses
+2171,26,Meals and Entertainment,Meals and Entertainment,Expenses
+2172,26,Miscellaneous,Miscellaneous,Other Expense
+2173,26,Office Expenses,Office Expenses,Expenses
+2174,26,Promotional,Promotional,Expenses
+2175,26,Rent or Lease,Rent or Lease,Expenses
+2176,26,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+2177,26,Stationery & Printing,Stationery & Printing,Expenses
+2178,26,Supplies,Supplies,Expenses
+2179,26,Taxes & Licenses,Taxes & Licenses,Expenses
+2180,26,Travel,Travel,Expenses
+2181,26,Travel Meals,Travel Meals,Expenses
+2182,26,Utilities,Utilities,Expenses
+2183,26,Interest Earned,Interest Earned,Other Income
+2184,26,Other Portfolio Income,Other Portfolio Income,Other Income
+2185,26,Penalties & Settlements,Penalties & Settlements,Other Expense
+2186,26,Disposal Fees,Disposal Fees,Expenses
+2187,26,Equipment Rental,Equipment Rental,Expenses
+2188,26,Uncategorized Income,Uncategorized Income,Income
+2189,26,Uncategorized Expense,Uncategorized Expense,Expenses
+2190,26,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+2191,26,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+2192,26,Retailing home office furniture,Retailing home office furniture,Income
+2193,26,Checking,Checking,Bank
+2194,26,Savings,Savings,Bank
+2195,26,Truck,Truck,Fixed Assets
+2196,26,Original Cost,Original Cost,Fixed Assets
+2197,26,Depreciation,Depreciation,Fixed Assets
+2198,26,Depreciation,Depreciation,Other Expense
+2199,26,Mastercard,Mastercard,Credit Card
+2200,26,Visa,Visa,Credit Card
+2201,26,Loan Payable,Loan Payable,Other Current Liabilities
+2202,26,Notes Payable,Notes Payable,Long Term Liabilities
+2203,26,Retailing entertainment furniture,Retailing entertainment furniture,Income
+2204,26,Job Materials,Job Materials,Income
+2205,26,Decks and Patios,Decks and Patios,Income
+2206,26,Retailing bedding,Retailing bedding,Income
+2207,26,Retailing Chairs,Retailing Chairs,Income
+2208,26,Retailing Wardrobe,Retailing Wardrobe,Income
+2209,26,Labor,Labor,Income
+2210,26,Installation,Installation,Income
+2211,26,Maintenance and Repair,Maintenance and Repair,Income
+2212,26,Retailing youth furniture,Retailing youth furniture,Income
+2213,26,Automobile,Automobile,Expenses
+2214,26,Fuel,Fuel,Expenses
+2215,26,Workers Compensation,Workers Compensation,Expenses
+2216,26,Job Expenses,Job Expenses,Expenses
+2217,26,Cost of Labor,Cost of Labor,Expenses
+2218,26,Installation,Installation,Expenses
+2219,26,Maintenance and Repairs,Maintenance and Repairs,Expenses
+2220,26,Equipment Repairs,Equipment Repairs,Expenses
+2221,26,Gas and Electric,Gas and Electric,Expenses
+2222,26,Telephone,Telephone,Expenses
+2223,26,Purchases,Purchases,Expenses
+2224,26,Retailing Sleepers,Retailing Sleepers,Income
+2225,26,Retailing stationary sofas/sofa-sleepers,Retailing stationary sofas/sofa-sleepers,Income
+2226,26,Retailing formal dining furniture,Retailing formal dining furniture,Income
+2227,26,Design income,Design income,Income
+2228,26,Other Income,Other Income,Income
+2229,26,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+2230,26,Billable Expense Income,Billable Expense Income,Income
+2231,26,Discounts given,Discounts given,Income
+2232,26,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+2233,26,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+2234,26,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+2235,26,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+2236,26,Services,Services,Income
+2237,26,Retained Earnings,Retained Earnings,Equity
+2238,26,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+2239,26,Undeposited Funds,Undeposited Funds,Other Current Assets
+2240,26,Equipment Rental,Equipment Rental,Expenses
+2241,26,Fees Billed,Fees Billed,Income
+2242,26,Refunds-Allowances,Refunds-Allowances,Income
+2243,26,Job Materials,Job Materials,Expenses
+2244,26,Decks and Patios,Decks and Patios,Expenses
+2245,26,Retailing master bedroom furniture,Retailing master bedroom furniture,Income
+2246,26,Retailing Chairs,Retailing Chairs,Income
+2247,26,Retailing Wardrobe,Retailing Wardrobe,Income
+2248,26,Permits,Permits,Expenses
+2249,26,Accounting,Accounting,Expenses
+2250,27,Bookkeeper,Bookkeeper,Expenses
+2251,27,Lawyer,Lawyer,Expenses
+2252,27,Maintenance and Repair,Maintenance and Repair,Expenses
+2253,27,Building Repairs,Building Repairs,Expenses
+2254,27,Computer Repairs,Computer Repairs,Expenses
+2255,27,Advertising,Advertising,Expenses
+2256,27,Bank Charges,Bank Charges,Expenses
+2257,27,Commissions & fees,Commissions & fees,Expenses
+2258,27,Dues & Subscriptions,Dues & Subscriptions,Expenses
+2259,27,Insurance,Insurance,Expenses
+2260,27,Legal & Professional Fees,Legal & Professional Fees,Expenses
+2261,27,Meals and Entertainment,Meals and Entertainment,Expenses
+2262,27,Miscellaneous,Miscellaneous,Other Expense
+2263,27,Office Expenses,Office Expenses,Expenses
+2264,27,Promotional,Promotional,Expenses
+2265,27,Rent or Lease,Rent or Lease,Expenses
+2266,27,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+2267,27,Stationery & Printing,Stationery & Printing,Expenses
+2268,27,Supplies,Supplies,Expenses
+2269,27,Taxes & Licenses,Taxes & Licenses,Expenses
+2270,27,Travel,Travel,Expenses
+2271,27,Travel Meals,Travel Meals,Expenses
+2272,27,Utilities,Utilities,Expenses
+2273,27,Interest Earned,Interest Earned,Other Income
+2274,27,Other Portfolio Income,Other Portfolio Income,Other Income
+2275,27,Penalties & Settlements,Penalties & Settlements,Other Expense
+2276,27,Disposal Fees,Disposal Fees,Expenses
+2277,27,Equipment Rental,Equipment Rental,Expenses
+2278,27,Uncategorized Income,Uncategorized Income,Income
+2279,27,Uncategorized Expense,Uncategorized Expense,Expenses
+2280,27,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+2281,27,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+2282,27,Providing other outdoor maintenance services,Providing other outdoor maintenance services,Income
+2283,27,Checking,Checking,Bank
+2284,27,Savings,Savings,Bank
+2285,27,Truck,Truck,Fixed Assets
+2286,27,Original Cost,Original Cost,Fixed Assets
+2287,27,Depreciation,Depreciation,Fixed Assets
+2288,27,Depreciation,Depreciation,Other Expense
+2289,27,Mastercard,Mastercard,Credit Card
+2290,27,Visa,Visa,Credit Card
+2291,27,Loan Payable,Loan Payable,Other Current Liabilities
+2292,27,Notes Payable,Notes Payable,Long Term Liabilities
+2293,27,Chimney sweep services,Chimney sweep services,Income
+2294,27,Job Materials,Job Materials,Income
+2295,27,Decks and Patios,Decks and Patios,Income
+2296,27,Drain cleaning,Drain cleaning,Income
+2297,27,Ventilation cleaning,Ventilation cleaning,Income
+2298,27,Swimming pool Cleaning,Swimming pool Cleaning,Income
+2299,27,Labor,Labor,Income
+2300,27,Installation,Installation,Income
+2301,27,Maintenance and Repair,Maintenance and Repair,Income
+2302,27,Duct and gutter cleaning,Duct and gutter cleaning,Income
+2303,27,Automobile,Automobile,Expenses
+2304,27,Fuel,Fuel,Expenses
+2305,27,Workers Compensation,Workers Compensation,Expenses
+2306,27,Job Expenses,Job Expenses,Expenses
+2307,27,Cost of Labor,Cost of Labor,Expenses
+2308,27,Installation,Installation,Expenses
+2309,27,Maintenance and Repairs,Maintenance and Repairs,Expenses
+2310,27,Equipment Repairs,Equipment Repairs,Expenses
+2311,27,Gas and Electric,Gas and Electric,Expenses
+2312,27,Telephone,Telephone,Expenses
+2313,27,Purchases,Purchases,Expenses
+2314,27,Snow removal services,Snow removal services,Income
+2315,27,Window washing,Window washing,Income
+2316,27,Parking lot and driveway washing,Parking lot and driveway washing,Income
+2317,27,Design income,Design income,Income
+2318,27,Other Income,Other Income,Income
+2319,27,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+2320,27,Billable Expense Income,Billable Expense Income,Income
+2321,27,Discounts given,Discounts given,Income
+2322,27,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+2323,27,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+2324,27,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+2325,27,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+2326,27,Services,Services,Income
+2327,27,Retained Earnings,Retained Earnings,Equity
+2328,27,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+2329,27,Undeposited Funds,Undeposited Funds,Other Current Assets
+2330,27,Equipment Rental,Equipment Rental,Expenses
+2331,27,Fees Billed,Fees Billed,Income
+2332,27,Refunds-Allowances,Refunds-Allowances,Income
+2333,27,Job Materials,Job Materials,Expenses
+2334,27,Decks and Patios,Decks and Patios,Expenses
+2335,27,Pool maintenance,Pool maintenance,Income
+2336,27,Ventilation cleaning,Ventilation cleaning,Income
+2337,27,Swimming pool Cleaning,Swimming pool Cleaning,Income
+2338,27,Permits,Permits,Expenses
+2339,27,Accounting,Accounting,Expenses
+2340,28,Bookkeeper,Bookkeeper,Expenses
+2341,28,Lawyer,Lawyer,Expenses
+2342,28,Maintenance and Repair,Maintenance and Repair,Expenses
+2343,28,Building Repairs,Building Repairs,Expenses
+2344,28,Computer Repairs,Computer Repairs,Expenses
+2345,28,Advertising,Advertising,Expenses
+2346,28,Bank Charges,Bank Charges,Expenses
+2347,28,Commissions & fees,Commissions & fees,Expenses
+2348,28,Dues & Subscriptions,Dues & Subscriptions,Expenses
+2349,28,Insurance,Insurance,Expenses
+2350,28,Legal & Professional Fees,Legal & Professional Fees,Expenses
+2351,28,Meals and Entertainment,Meals and Entertainment,Expenses
+2352,28,Miscellaneous,Miscellaneous,Other Expense
+2353,28,Office Expenses,Office Expenses,Expenses
+2354,28,Promotional,Promotional,Expenses
+2355,28,Rent or Lease,Rent or Lease,Expenses
+2356,28,Repair & Maintenance (deleted),Repair & Maintenance (deleted),Expenses
+2357,28,Stationery & Printing,Stationery & Printing,Expenses
+2358,28,Supplies,Supplies,Expenses
+2359,28,Taxes & Licenses,Taxes & Licenses,Expenses
+2360,28,Travel,Travel,Expenses
+2361,28,Travel Meals,Travel Meals,Expenses
+2362,28,Utilities,Utilities,Expenses
+2363,28,Interest Earned,Interest Earned,Other Income
+2364,28,Other Portfolio Income,Other Portfolio Income,Other Income
+2365,28,Penalties & Settlements,Penalties & Settlements,Other Expense
+2366,28,Disposal Fees,Disposal Fees,Expenses
+2367,28,Equipment Rental,Equipment Rental,Expenses
+2368,28,Uncategorized Income,Uncategorized Income,Income
+2369,28,Uncategorized Expense,Uncategorized Expense,Expenses
+2370,28,Uncategorized Asset,Uncategorized Asset,Other Current Assets
+2371,28,Accounts Payable (A/P),Accounts Payable (A/P),Accounts payable (A/P)
+2372,28,Development of other voice and speech recognition products,Development of other voice and speech recognition products,Income
+2373,28,Checking,Checking,Bank
+2374,28,Savings,Savings,Bank
+2375,28,Truck,Truck,Fixed Assets
+2376,28,Original Cost,Original Cost,Fixed Assets
+2377,28,Depreciation,Depreciation,Fixed Assets
+2378,28,Depreciation,Depreciation,Other Expense
+2379,28,Mastercard,Mastercard,Credit Card
+2380,28,Visa,Visa,Credit Card
+2381,28,Loan Payable,Loan Payable,Other Current Liabilities
+2382,28,Notes Payable,Notes Payable,Long Term Liabilities
+2383,28,Development of software products for automobiles,Development of software products for automobiles,Income
+2384,28,Job Materials,Job Materials,Income
+2385,28,Decks and Patios,Decks and Patios,Income
+2386,28,Development of software products for Tablets,Development of software products for Tablets,Income
+2387,28,Recognition software for IT and telecommunications,Recognition software for IT and telecommunications,Income
+2388,28,Recognition software for the auto sector,Recognition software for the auto sector,Income
+2389,28,Labor,Labor,Income
+2390,28,Installation,Installation,Income
+2391,28,Maintenance and Repair,Maintenance and Repair,Income
+2392,28,Recognition software for government and legal purposes,Recognition software for government and legal purposes,Income
+2393,28,Automobile,Automobile,Expenses
+2394,28,Fuel,Fuel,Expenses
+2395,28,Workers Compensation,Workers Compensation,Expenses
+2396,28,Job Expenses,Job Expenses,Expenses
+2397,28,Cost of Labor,Cost of Labor,Expenses
+2398,28,Installation,Installation,Expenses
+2399,28,Maintenance and Repairs,Maintenance and Repairs,Expenses
+2400,28,Equipment Repairs,Equipment Repairs,Expenses
+2401,28,Gas and Electric,Gas and Electric,Expenses
+2402,28,Telephone,Telephone,Expenses
+2403,28,Purchases,Purchases,Expenses
+2404,28,Recognition software for healthcare,Recognition software for healthcare,Income
+2405,28,Development of software products for PCs,Development of software products for PCs,Income
+2406,28,Development of software products for mobile devices,Development of software products for mobile devices,Income
+2407,28,Design income,Design income,Income
+2408,28,Other Income,Other Income,Income
+2409,28,Accounts Receivable (A/R),Accounts Receivable (A/R),Accounts receivable (A/R)
+2410,28,Billable Expense Income,Billable Expense Income,Income
+2411,28,Discounts given,Discounts given,Income
+2412,28,Unapplied Cash Payment Income,Unapplied Cash Payment Income,Income
+2413,28,Unapplied Cash Bill Payment Expense,Unapplied Cash Bill Payment Expense,Expenses
+2414,28,Arizona Dept. of Revenue Payable,Arizona Dept. of Revenue Payable,Other Current Liabilities
+2415,28,Board of Equalization Payable,Board of Equalization Payable,Other Current Liabilities
+2416,28,Services,Services,Income
+2417,28,Retained Earnings,Retained Earnings,Equity
+2418,28,Prepaid Expenses,Prepaid Expenses,Other Current Assets
+2419,28,Undeposited Funds,Undeposited Funds,Other Current Assets
+2420,28,Equipment Rental,Equipment Rental,Expenses
+2421,28,Fees Billed,Fees Billed,Income
+2422,28,Refunds-Allowances,Refunds-Allowances,Income
+2423,28,Job Materials,Job Materials,Expenses
+2424,28,Decks and Patios,Decks and Patios,Expenses
+2425,28,Development of software products for Macs,Development of software products for Macs,Income
+2426,28,Recognition software for IT and telecommunications,Recognition software for IT and telecommunications,Income
+2427,28,Recognition software for the auto sector,Recognition software for the auto sector,Income
+2428,28,Permits,Permits,Expenses
+2429,28,Accounting,Accounting,Expenses

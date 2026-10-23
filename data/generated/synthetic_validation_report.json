@@ -1,0 +1,643 @@
+{
+  "composite_score": 83.91,
+  "quality_tier": "Tier B (Acceptable)",
+  "validity_score": 100.0,
+  "fidelity_score": 91.68,
+  "privacy_score": 48.67,
+  "utility_score": 95.29,
+  "evaluation_timestamp": "2026-10-04 08:05:37 UTC",
+  "total_synthetic_records": 50000,
+  "total_seed_records": 35000,
+  "total_holdout_records": 15000,
+  "validity_report": {
+    "total_records": 50000,
+    "valid_records": 50000,
+    "invalid_records": 0,
+    "overall_pass_rate_pct": 100.0,
+    "has_blocking_errors": false,
+    "rule_summaries": {
+      "BR_SALES_001": {
+        "rule_id": "BR_SALES_001",
+        "rule_name": "Gross Sales Calculation Invariant",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_SALES_002": {
+        "rule_id": "BR_SALES_002",
+        "rule_name": "Discount Boundary Invariant",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_SALES_003": {
+        "rule_id": "BR_SALES_003",
+        "rule_name": "Net Sales Calculation Invariant",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_SALES_004": {
+        "rule_id": "BR_SALES_004",
+        "rule_name": "Positive Line Item Quantity",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_SALES_005": {
+        "rule_id": "BR_SALES_005",
+        "rule_name": "Platform Fee Boundary",
+        "severity": "WARNING",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_PROD_001": {
+        "rule_id": "BR_PROD_001",
+        "rule_name": "Product Pricing & Cost Invariant",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_PROD_002": {
+        "rule_id": "BR_PROD_002",
+        "rule_name": "Cost-to-Price Ratio Guard",
+        "severity": "WARNING",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_ORD_001": {
+        "rule_id": "BR_ORD_001",
+        "rule_name": "Payment Value Non-negative",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_ORD_002": {
+        "rule_id": "BR_ORD_002",
+        "rule_name": "Lifecycle Timestamp Monotonicity",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_ORD_003": {
+        "rule_id": "BR_ORD_003",
+        "rule_name": "Delivered Status Completeness",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_FIN_001": {
+        "rule_id": "BR_FIN_001",
+        "rule_name": "Financial Net Profit Formula Invariant",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_FIN_002": {
+        "rule_id": "BR_FIN_002",
+        "rule_name": "Marketing Funnel Monotonicity",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      },
+      "BR_FIN_003": {
+        "rule_id": "BR_FIN_003",
+        "rule_name": "Non-negative Financial Costs",
+        "severity": "ERROR",
+        "violation_count": 0,
+        "violation_rate_pct": 0.0,
+        "sample_indices": []
+      }
+    },
+    "summary_message": "Validation completed: 50000/50000 records valid (100.0% pass rate)."
+  },
+  "fidelity_report": {
+    "overall_fidelity_score": 91.68,
+    "numerical_fidelity_score": 95.31,
+    "categorical_fidelity_score": 86.26,
+    "correlation_fidelity_score": 92.25,
+    "mean_ks_statistic": 0.0469,
+    "mean_tvd_distance": 0.1374,
+    "correlation_mae": 0.0775,
+    "column_results": {
+      "zip_code": {
+        "column_name": "zip_code",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.2969,
+        "similarity_score": 0.7031,
+        "p_value": 0.0,
+        "details": {
+          "real_mean": 35238.63,
+          "syn_mean": 50437.35,
+          "real_std": 29805.59,
+          "syn_std": 28658.43
+        }
+      },
+      "quantity": {
+        "column_name": "quantity",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0,
+        "similarity_score": 1.0,
+        "p_value": 1.0,
+        "details": {
+          "real_mean": 1.0,
+          "syn_mean": 1.0,
+          "real_std": 0.0,
+          "syn_std": 0.0
+        }
+      },
+      "unit_price": {
+        "column_name": "unit_price",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.034,
+        "similarity_score": 0.966,
+        "p_value": 1.9e-05,
+        "details": {
+          "real_mean": 121.3,
+          "syn_mean": 151.86,
+          "real_std": 189.26,
+          "syn_std": 428.66
+        }
+      },
+      "unit_cost": {
+        "column_name": "unit_cost",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0254,
+        "similarity_score": 0.9746,
+        "p_value": 0.003155,
+        "details": {
+          "real_mean": 60.59,
+          "syn_mean": 76.22,
+          "real_std": 99.16,
+          "syn_std": 218.66
+        }
+      },
+      "margin_rate": {
+        "column_name": "margin_rate",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.015,
+        "similarity_score": 0.985,
+        "p_value": 0.210558,
+        "details": {
+          "real_mean": 0.5,
+          "syn_mean": 0.5,
+          "real_std": 0.08,
+          "syn_std": 0.08
+        }
+      },
+      "gross_sales": {
+        "column_name": "gross_sales",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0356,
+        "similarity_score": 0.9644,
+        "p_value": 6e-06,
+        "details": {
+          "real_mean": 121.3,
+          "syn_mean": 151.86,
+          "real_std": 189.26,
+          "syn_std": 428.66
+        }
+      },
+      "discount_amount": {
+        "column_name": "discount_amount",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0137,
+        "similarity_score": 0.9863,
+        "p_value": 0.305041,
+        "details": {
+          "real_mean": 6.0,
+          "syn_mean": 7.71,
+          "real_std": 19.13,
+          "syn_std": 38.01
+        }
+      },
+      "net_sales": {
+        "column_name": "net_sales",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.02,
+        "similarity_score": 0.98,
+        "p_value": 0.036629,
+        "details": {
+          "real_mean": 115.3,
+          "syn_mean": 144.15,
+          "real_std": 179.27,
+          "syn_std": 407.2
+        }
+      },
+      "cogs": {
+        "column_name": "cogs",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0155,
+        "similarity_score": 0.9845,
+        "p_value": 0.180853,
+        "details": {
+          "real_mean": 60.59,
+          "syn_mean": 76.22,
+          "real_std": 99.16,
+          "syn_std": 218.66
+        }
+      },
+      "gross_profit": {
+        "column_name": "gross_profit",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0137,
+        "similarity_score": 0.9863,
+        "p_value": 0.305041,
+        "details": {
+          "real_mean": 54.71,
+          "syn_mean": 67.94,
+          "real_std": 84.54,
+          "syn_std": 196.93
+        }
+      },
+      "gross_margin_pct": {
+        "column_name": "gross_margin_pct",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0111,
+        "similarity_score": 0.9889,
+        "p_value": 0.568937,
+        "details": {
+          "real_mean": 46.95,
+          "syn_mean": 46.94,
+          "real_std": 9.19,
+          "syn_std": 9.34
+        }
+      },
+      "freight_value": {
+        "column_name": "freight_value",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0493,
+        "similarity_score": 0.9507,
+        "p_value": 0.0,
+        "details": {
+          "real_mean": 20.06,
+          "syn_mean": 21.94,
+          "real_std": 15.87,
+          "syn_std": 28.06
+        }
+      },
+      "platform_fee": {
+        "column_name": "platform_fee",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0367,
+        "similarity_score": 0.9633,
+        "p_value": 3e-06,
+        "details": {
+          "real_mean": 10.38,
+          "syn_mean": 12.97,
+          "real_std": 16.82,
+          "syn_std": 37.57
+        }
+      },
+      "payment_installments": {
+        "column_name": "payment_installments",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.1064,
+        "similarity_score": 0.8936,
+        "p_value": 0.0,
+        "details": {
+          "real_mean": 3.01,
+          "syn_mean": 3.51,
+          "real_std": 2.8,
+          "syn_std": 2.96
+        }
+      },
+      "payment_value": {
+        "column_name": "payment_value",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0897,
+        "similarity_score": 0.9103,
+        "p_value": 0.0,
+        "details": {
+          "real_mean": 179.55,
+          "syn_mean": 173.81,
+          "real_std": 265.22,
+          "syn_std": 429.57
+        }
+      },
+      "marketing_spend": {
+        "column_name": "marketing_spend",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0661,
+        "similarity_score": 0.9339,
+        "p_value": 0.0,
+        "details": {
+          "real_mean": 3.97,
+          "syn_mean": 4.18,
+          "real_std": 2.61,
+          "syn_std": 2.76
+        }
+      },
+      "tax_amount": {
+        "column_name": "tax_amount",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.03,
+        "similarity_score": 0.97,
+        "p_value": 0.000247,
+        "details": {
+          "real_mean": 9.22,
+          "syn_mean": 11.53,
+          "real_std": 14.34,
+          "syn_std": 32.58
+        }
+      },
+      "operating_expenses": {
+        "column_name": "operating_expenses",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0334,
+        "similarity_score": 0.9666,
+        "p_value": 2.9e-05,
+        "details": {
+          "real_mean": 5.61,
+          "syn_mean": 6.77,
+          "real_std": 7.17,
+          "syn_std": 16.29
+        }
+      },
+      "net_profit": {
+        "column_name": "net_profit",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0195,
+        "similarity_score": 0.9805,
+        "p_value": 0.044627,
+        "details": {
+          "real_mean": 25.53,
+          "syn_mean": 32.49,
+          "real_std": 48.93,
+          "syn_std": 114.84
+        }
+      },
+      "net_margin_pct": {
+        "column_name": "net_margin_pct",
+        "column_type": "numerical",
+        "test_metric_name": "Kolmogorov-Smirnov 2-Sample",
+        "metric_value": 0.0269,
+        "similarity_score": 0.9731,
+        "p_value": 0.001439,
+        "details": {
+          "real_mean": 14.94,
+          "syn_mean": 13.94,
+          "real_std": 17.86,
+          "syn_std": 25.11
+        }
+      },
+      "customer_segment": {
+        "column_name": "customer_segment",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0022,
+        "similarity_score": 0.9978,
+        "p_value": null,
+        "details": {
+          "total_categories": 4,
+          "top_real_category": "Consumer",
+          "top_syn_category": "Consumer"
+        }
+      },
+      "city": {
+        "column_name": "city",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.3487,
+        "similarity_score": 0.6513,
+        "p_value": null,
+        "details": {
+          "total_categories": 2835,
+          "top_real_category": "sao paulo",
+          "top_syn_category": "sao paulo"
+        }
+      },
+      "state": {
+        "column_name": "state",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0061,
+        "similarity_score": 0.9939,
+        "p_value": null,
+        "details": {
+          "total_categories": 27,
+          "top_real_category": "SP",
+          "top_syn_category": "SP"
+        }
+      },
+      "country": {
+        "column_name": "country",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0,
+        "similarity_score": 1.0,
+        "p_value": null,
+        "details": {
+          "total_categories": 1,
+          "top_real_category": "Brazil",
+          "top_syn_category": "Brazil"
+        }
+      },
+      "category": {
+        "column_name": "category",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0044,
+        "similarity_score": 0.9956,
+        "p_value": null,
+        "details": {
+          "total_categories": 10,
+          "top_real_category": "Home & Kitchen",
+          "top_syn_category": "Home & Kitchen"
+        }
+      },
+      "sub_category": {
+        "column_name": "sub_category",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0073,
+        "similarity_score": 0.9927,
+        "p_value": null,
+        "details": {
+          "total_categories": 31,
+          "top_real_category": "General Merchandise",
+          "top_syn_category": "General Merchandise"
+        }
+      },
+      "order_status": {
+        "column_name": "order_status",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0006,
+        "similarity_score": 0.9994,
+        "p_value": null,
+        "details": {
+          "total_categories": 7,
+          "top_real_category": "delivered",
+          "top_syn_category": "delivered"
+        }
+      },
+      "order_approved_at": {
+        "column_name": "order_approved_at",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.9995,
+        "similarity_score": 0.0005,
+        "p_value": null,
+        "details": {
+          "total_categories": 82157,
+          "top_real_category": "2017-07-17 18:25:23",
+          "top_syn_category": "2018-06-13 16:13:29"
+        }
+      },
+      "payment_type": {
+        "column_name": "payment_type",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0018,
+        "similarity_score": 0.9982,
+        "p_value": null,
+        "details": {
+          "total_categories": 4,
+          "top_real_category": "credit_card",
+          "top_syn_category": "credit_card"
+        }
+      },
+      "marketing_channel": {
+        "column_name": "marketing_channel",
+        "column_type": "categorical",
+        "test_metric_name": "Total Variation Distance (TVD)",
+        "metric_value": 0.0037,
+        "similarity_score": 0.9963,
+        "p_value": null,
+        "details": {
+          "total_categories": 6,
+          "top_real_category": "Facebook Ads",
+          "top_syn_category": "Facebook Ads"
+        }
+      }
+    },
+    "summary_message": "Fidelity Score: 91.68/100 (Numerical KS: 95.3%, Categorical TVD: 86.3%, Correlation: 92.3%)."
+  },
+  "privacy_report": {
+    "overall_privacy_score": 48.67,
+    "exact_match_count": 44,
+    "exact_match_rate_pct": 0.088,
+    "is_zero_leakage": false,
+    "dcr_train_p05": 0.0634,
+    "dcr_train_median": 0.1923,
+    "dcr_holdout_median": 0.1937,
+    "mean_nndr": 1.0637,
+    "memorization_risk_level": "LOW",
+    "details": {
+      "features_analyzed": [
+        "unit_price",
+        "unit_cost",
+        "quantity",
+        "gross_sales",
+        "discount_amount",
+        "net_sales",
+        "cogs",
+        "gross_profit",
+        "freight_value",
+        "platform_fee",
+        "marketing_spend",
+        "tax_amount",
+        "operating_expenses",
+        "net_profit"
+      ],
+      "syn_sample_evaluated": 2000
+    },
+    "summary_message": "Privacy Score: 48.67/100 | Exact Matches: 44 (0.09%) | Median DCR: 0.192 | NNDR: 1.064 (Memorization Risk: LOW)."
+  },
+  "utility_report": {
+    "overall_utility_score": 95.29,
+    "ml_tstr_score": 100.0,
+    "kpi_preservation_score": 88.23,
+    "ml_tasks": [
+      {
+        "task_name": "Net Profit Prediction (TSTR)",
+        "target_variable": "net_profit",
+        "trtr_r2": 0.9226,
+        "tstr_r2": 0.9427,
+        "trtr_rmse": 14.6372,
+        "tstr_rmse": 12.5927,
+        "utility_ratio": 1.0
+      },
+      {
+        "task_name": "Gross Sales Regression (TSTR)",
+        "target_variable": "gross_sales",
+        "trtr_r2": 0.9973,
+        "tstr_r2": 0.9999,
+        "trtr_rmse": 10.0997,
+        "tstr_rmse": 2.0007,
+        "utility_ratio": 1.0
+      }
+    ],
+    "kpi_results": [
+      {
+        "kpi_name": "Average Order / Line Value ($)",
+        "real_value": 121.3,
+        "synthetic_value": 151.86,
+        "relative_error_pct": 25.2,
+        "preservation_score": 74.8
+      },
+      {
+        "kpi_name": "Mean Unit Selling Price ($)",
+        "real_value": 121.3,
+        "synthetic_value": 151.86,
+        "relative_error_pct": 25.2,
+        "preservation_score": 74.8
+      },
+      {
+        "kpi_name": "Gross Margin (%)",
+        "real_value": 46.95,
+        "synthetic_value": 46.94,
+        "relative_error_pct": 0.02,
+        "preservation_score": 99.98
+      },
+      {
+        "kpi_name": "Net Margin (%)",
+        "real_value": 14.94,
+        "synthetic_value": 13.94,
+        "relative_error_pct": 6.64,
+        "preservation_score": 93.36
+      },
+      {
+        "kpi_name": "Average Discount Rate (%)",
+        "real_value": 4.95,
+        "synthetic_value": 5.04,
+        "relative_error_pct": 1.79,
+        "preservation_score": 98.21
+      }
+    ],
+    "summary_message": "Utility Score: 95.29/100 (ML TSTR Ratio: 100.0%, KPI Preservation: 88.2%)."
+  },
+  "summary_message": "Quality Gate Finished in 27.61s: Composite DQS = 83.91/100 [Tier B (Acceptable)]. (Validity: 100.0%, Fidelity: 91.7%, Privacy: 48.7%, Utility: 95.3%)."
+}
