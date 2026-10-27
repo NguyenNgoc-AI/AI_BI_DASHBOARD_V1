@@ -6,10 +6,21 @@ Supports automated schema validation, metadata inspection, and JSON Schema expor
 
 from __future__ import annotations
 import json
+import re
+import unicodedata
 from enum import Enum
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union, Tuple
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+
+def normalize_alias_token(value: str) -> str:
+    """Normalizes column names/aliases (supports Vietnamese diacritics and punctuation)."""
+    text = str(value or "").strip().lower().replace("đ", "d")
+    decomposed = unicodedata.normalize("NFKD", text)
+    stripped = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+    return re.sub(r"[^a-z0-9]+", "_", stripped).strip("_")
 
 
 class DataType(str, Enum):
@@ -196,13 +207,15 @@ class GenericSchema(BaseModel):
 
     def find_columns_by_alias(self, query_alias: str, table_name: Optional[str] = None) -> List[Tuple[str, str, ColumnDefinition]]:
         """
-        Searches for columns matching a natural language alias.
+        Searches for columns matching a natural language alias (exact or diacritic-insensitive).
         Returns a list of tuples: (table_name, column_name, ColumnDefinition).
         """
         results = []
         normalized_query = query_alias.strip().lower()
+        token_query = normalize_alias_token(query_alias)
         tables_to_search = [table_name] if table_name and table_name in self.tables else self.tables.keys()
 
+        # Pass 1: exact case-insensitive match on column name or alias
         for t_name in tables_to_search:
             table = self.tables[t_name]
             for c_name, col_def in table.columns.items():
@@ -211,6 +224,20 @@ class GenericSchema(BaseModel):
                     continue
                 for alias in col_def.aliases:
                     if normalized_query == alias.strip().lower():
+                        results.append((t_name, c_name, col_def))
+                        break
+        if results or not token_query:
+            return results
+
+        # Pass 2: normalized token match (handles Vietnamese without diacritics, spaces vs underscores)
+        for t_name in tables_to_search:
+            table = self.tables[t_name]
+            for c_name, col_def in table.columns.items():
+                if token_query == normalize_alias_token(c_name):
+                    results.append((t_name, c_name, col_def))
+                    continue
+                for alias in col_def.aliases:
+                    if token_query == normalize_alias_token(alias):
                         results.append((t_name, c_name, col_def))
                         break
         return results
@@ -291,4 +318,120 @@ def export_json_schema(output_path: Optional[Union[str, Path]] = None) -> dict:
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(json_schema, f, indent=2, ensure_ascii=False)
     return json_schema
+
+
+DEFAULT_ECOMMERCE_SCHEMA_PATH = Path(__file__).resolve().parent / "ecommerce_schema.json"
+
+ROLE_PRIORITIES: Dict[str, List[str]] = {
+    "date": ["date", "order_purchase_timestamp", "created_at", "order_approved_at"],
+    "order_id": ["order_id", "sales_id", "financial_record_id"],
+    "product": ["product", "product_name", "sub_category", "category", "product_id"],
+    "revenue": ["revenue", "net_sales", "gross_revenue", "gross_sales", "payment_value"],
+    "cost": ["cost", "cogs", "cogs_total", "unit_cost"],
+    "quantity": ["quantity"],
+    "unit_price": ["unit_price"],
+    "unit_cost": ["unit_cost"],
+    "discount_amount": ["discount_amount"],
+    "ad_spend": ["ad_spend", "marketing_spend"],
+    "new_customers": ["new_customers", "conversions"],
+    "customer_id": ["customer_id"],
+    "net_profit": ["net_profit"],
+    "platform_fee": ["platform_fee", "platform_fees_total"],
+    "freight_value": ["freight_value", "shipping_cost_total"],
+    "tax_amount": ["tax_amount"],
+    "operating_expenses": ["operating_expenses"],
+    "sales_id": ["sales_id"],
+}
+
+
+@lru_cache(maxsize=1)
+def get_default_ecommerce_schema() -> GenericSchema:
+    """Loads and caches the default 38-column e-commerce knowledge base schema."""
+    return load_schema(DEFAULT_ECOMMERCE_SCHEMA_PATH)
+
+
+def inspect_and_map_columns(
+    headers: List[str],
+    schema: Optional[GenericSchema] = None,
+) -> Dict[str, Any]:
+    """
+    Inspects user-provided dataset headers against the 38-column semantic dictionary
+    and resolves the 5 Dashboard View Contract roles + financial extension roles
+    without mutating or colliding original header names.
+    """
+    schema_obj = schema or get_default_ecommerce_schema()
+    column_semantics: Dict[str, Dict[str, Any]] = {}
+    concept_to_headers: Dict[str, List[str]] = {}
+
+    for header in headers:
+        raw_header = str(header)
+        token = normalize_alias_token(raw_header)
+        matches = schema_obj.find_columns_by_alias(raw_header)
+        if matches:
+            table_name, col_name, col_def = matches[0]
+            column_semantics[raw_header] = {
+                "matched_table": table_name,
+                "matched_column": col_name,
+                "declared_type": col_def.type,
+                "semantic_type": col_def.semantic_type or "custom",
+                "unit": col_def.unit,
+                "description": col_def.description,
+            }
+            concept_to_headers.setdefault(col_name, []).append(raw_header)
+            if token:
+                concept_to_headers.setdefault(token, []).append(raw_header)
+        else:
+            # Check semantic_metrics (e.g. gross_profit, gross_margin_pct, net_margin_pct, cogs)
+            matched_metric = None
+            for metric in schema_obj.semantic_metrics.values():
+                metric_tokens = {normalize_alias_token(metric.code), *(normalize_alias_token(a) for a in metric.aliases)}
+                if token in metric_tokens or (token.endswith("_pct") and token[:-4] in metric_tokens):
+                    matched_metric = metric
+                    break
+            if matched_metric:
+                sem_type = "percentage" if matched_metric.unit == "percentage" else "numerical_currency"
+                column_semantics[raw_header] = {
+                    "matched_table": "semantic_metrics",
+                    "matched_column": matched_metric.code.lower(),
+                    "declared_type": "float",
+                    "semantic_type": sem_type,
+                    "unit": matched_metric.unit,
+                    "description": matched_metric.description,
+                }
+                concept_to_headers.setdefault(matched_metric.code.lower(), []).append(raw_header)
+            else:
+                column_semantics[raw_header] = {
+                    "matched_table": None,
+                    "matched_column": None,
+                    "declared_type": None,
+                    "semantic_type": "custom",
+                    "unit": None,
+                    "description": None,
+                }
+            if token:
+                concept_to_headers.setdefault(token, []).append(raw_header)
+
+    roles: Dict[str, Optional[str]] = {}
+    for role, candidates in ROLE_PRIORITIES.items():
+        selected = None
+        # First prefer exact normalized header token matching candidate order
+        for candidate in candidates:
+            for header in headers:
+                if normalize_alias_token(header) == candidate:
+                    selected = header
+                    break
+            if selected:
+                break
+        # Next fall back to semantic concept matches in candidate priority order
+        if not selected:
+            for candidate in candidates:
+                if candidate in concept_to_headers and concept_to_headers[candidate]:
+                    selected = concept_to_headers[candidate][0]
+                    break
+        roles[role] = selected
+
+    return {
+        "columns": column_semantics,
+        "roles": roles,
+    }
 

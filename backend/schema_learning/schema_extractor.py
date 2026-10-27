@@ -1,8 +1,10 @@
-"""Infer simple column types and numeric correlations."""
+"""Infer column types, semantic metadata (38-column knowledge base), and numeric correlations."""
 
-from datetime import date
+from datetime import date, datetime
 import math
 from typing import Any
+
+from semantic.schema_definition import inspect_and_map_columns
 
 
 def infer_value_type(value: Any) -> str:
@@ -14,11 +16,17 @@ def infer_value_type(value: Any) -> str:
         return "integer"
     if isinstance(value, float):
         return "float"
+    text = str(value).strip()
     try:
-        date.fromisoformat(str(value))
+        date.fromisoformat(text)
         return "date"
     except ValueError:
-        return "string"
+        try:
+            normalized = text[:-1] + "+00:00" if text.endswith(("Z", "z")) else text
+            datetime.fromisoformat(normalized)
+            return "date"
+        except ValueError:
+            return "string"
 
 
 def infer_column_type(values: list[Any]) -> str:
@@ -40,11 +48,22 @@ def pearson_correlation(xs: list[float], ys: list[float]) -> float | None:
 
 
 def infer_relationships(rows: list[dict]) -> list[dict]:
-    numeric = sorted({key for row in rows for key, value in row.items() if isinstance(value, (int, float)) and not isinstance(value, bool)})
+    numeric = [
+        key
+        for key in (list(dict.fromkeys(k for row in rows for k in row.keys())) if rows else [])
+        if any(isinstance(row.get(key), (int, float)) and not isinstance(row.get(key), bool) for row in rows)
+    ]
     relationships = []
     for index, left in enumerate(numeric):
         for right in numeric[index + 1 :]:
-            pairs = [(float(row[left]), float(row[right])) for row in rows if isinstance(row.get(left), (int, float)) and isinstance(row.get(right), (int, float))]
+            pairs = [
+                (float(row[left]), float(row[right]))
+                for row in rows
+                if isinstance(row.get(left), (int, float))
+                and not isinstance(row.get(left), bool)
+                and isinstance(row.get(right), (int, float))
+                and not isinstance(row.get(right), bool)
+            ]
             value = pearson_correlation([x for x, _ in pairs], [y for _, y in pairs]) if pairs else None
             if value is not None:
                 relationships.append({"left": left, "right": right, "type": "correlation", "value": value})
@@ -52,12 +71,17 @@ def infer_relationships(rows: list[dict]) -> list[dict]:
 
 
 def infer_schema(rows: list[dict]) -> dict:
-    columns = sorted(set().union(*(row.keys() for row in rows))) if rows else []
+    columns = list(dict.fromkeys(key for row in rows for key in row.keys())) if rows else []
+    semantic_info = inspect_and_map_columns(columns)["columns"] if columns else {}
     return {
         "columns": {
             column: {
                 "type": infer_column_type([row.get(column) for row in rows]),
                 "nullable": any(row.get(column) in (None, "") for row in rows),
+                "semantic_type": semantic_info.get(column, {}).get("semantic_type", "custom"),
+                "matched_column": semantic_info.get(column, {}).get("matched_column"),
+                "matched_table": semantic_info.get(column, {}).get("matched_table"),
+                "unit": semantic_info.get(column, {}).get("unit"),
             }
             for column in columns
         },

@@ -93,6 +93,18 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(analysis.status_code, 200, analysis.text)
         self.assertEqual(analysis.json()["kpis"]["net_profit"], 160)
 
+        seed_path = Path(__file__).resolve().parent.parent / "data" / "datasets" / "ecommerce_seed.csv"
+        with open(seed_path, "r", encoding="utf-8") as f:
+            seed_sample = "".join(next(f) for _ in range(3)).encode("utf-8")
+        seed_analysis = self.client.post(
+            "/datasets/analyze?filename=ecommerce_seed.csv",
+            content=seed_sample,
+            headers={**self.user["headers"], "Content-Type": "application/octet-stream"},
+        )
+        self.assertEqual(seed_analysis.status_code, 200, seed_analysis.text)
+        self.assertEqual(seed_analysis.json()["dataset"]["columns"], 38)
+        self.assertAlmostEqual(seed_analysis.json()["kpis"]["net_profit"], 17.5, places=2)
+
         profile = self.client.post("/datasets/profile", json={"rows": ROWS}, headers=self.user["headers"])
         quality = self.client.post("/datasets/quality", json={"rows": ROWS}, headers=self.user["headers"])
         schema = self.client.post("/datasets/schema", json={"rows": ROWS}, headers=self.user["headers"])

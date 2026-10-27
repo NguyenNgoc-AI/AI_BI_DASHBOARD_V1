@@ -15,7 +15,7 @@ from backend.chatbot.llm_router import DeterministicAdapter, LLMRouter
 from backend.config import settings
 from backend.chatbot.text_to_sql import execute_read_only, question_to_sql, validate_select_sql
 from backend.dashboard_engine.chart_generator import revenue_by_date
-from backend.dashboard_engine.data_pipeline import ingest
+from backend.dashboard_engine.data_pipeline import build_canonical_view, ingest
 from backend.dashboard_engine.kpi_calculator import calculate_kpis
 from backend.dashboard_engine.report_exporter import export_report
 from backend.eda.profiling import profile_dataset
@@ -39,6 +39,41 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(profile_dataset(self.rows)["row_count"], 3)
         self.assertEqual(check_quality(self.rows)["score"], 1.0)
         self.assertEqual(infer_schema(self.rows)["columns"]["revenue"]["type"], "float")
+
+    def test_38_column_seed_and_vietnamese_headers_preserve_columns(self):
+        seed_path = Path(__file__).resolve().parent.parent / "data" / "datasets" / "ecommerce_seed.csv"
+        with open(seed_path, "r", encoding="utf-8") as f:
+            sample_lines = [next(f) for _ in range(6)]
+        seed_bytes = "".join(sample_lines).encode("utf-8")
+        seed_rows = ingest(seed_bytes, "ecommerce_seed.csv")
+        self.assertEqual(len(seed_rows), 5)
+        expected_headers = sample_lines[0].strip().split(",")
+        self.assertEqual(list(seed_rows[0].keys()), expected_headers)
+        schema = infer_schema(seed_rows)
+        self.assertEqual(list(schema["columns"].keys()), expected_headers)
+        self.assertEqual(schema["columns"]["net_sales"]["semantic_type"], "numerical_currency")
+        # Row 1 has gross_profit=36.63 but net_profit=11.01; verify KPI uses true net_profit
+        single_row_kpis = calculate_kpis(seed_rows[:1])
+        self.assertAlmostEqual(single_row_kpis["total_revenue"], 85.98, places=2)
+        self.assertAlmostEqual(single_row_kpis["total_cost"], 49.35, places=2)
+        self.assertAlmostEqual(single_row_kpis["net_profit"], 11.01, places=2)
+
+        vi_csv = (
+            "Ngày bán,Mã đơn hàng,Tên sản phẩm,Doanh thu thuần,Giá vốn\n"
+            "2026-10-01 14:30:00,DH-01,Áo khoác Gió,350000,200000\n"
+            "2026-10-02 09:15:00,DH-02,Quần Jean,450000,250000\n"
+        ).encode("utf-8")
+        vi_rows = ingest(vi_csv, "ban_hang.csv")
+        self.assertEqual(
+            list(vi_rows[0].keys()),
+            ["Ngày bán", "Mã đơn hàng", "Tên sản phẩm", "Doanh thu thuần", "Giá vốn"],
+        )
+        vi_kpis = calculate_kpis(vi_rows)
+        self.assertEqual(vi_kpis["total_revenue"], 800000.0)
+        self.assertEqual(vi_kpis["net_profit"], 350000.0)
+        view = build_canonical_view(vi_rows)
+        self.assertEqual(view[0]["date"], "2026-10-01")
+        self.assertEqual(view[0]["product"], "Áo khoác Gió")
 
     def test_ingest_json_and_reject_bad_data(self):
         content = json.dumps(self.rows).encode()

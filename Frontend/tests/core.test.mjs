@@ -29,6 +29,26 @@ test("JSON accepts array/envelope and rejects nested/empty/duplicate columns", (
   assert.throws(() => parseDataset("a,b\n1", "x.csv"));
   assert.throws(() => parseDataset('a\n"open', "x.csv"));
 });
+test("Vietnamese headers and 38-column schema preserve exact keys and support filtering", () => {
+  const viRows = parseDataset(
+    "Ngày bán,Mã đơn hàng,Tên sản phẩm,Doanh thu,Giá vốn\n2026-10-01 14:22:10,DH01,Tai nghe,500000,300000\n2026-10-05 09:00:00,DH02,Bàn phím,700000,400000",
+    "vi.csv",
+  );
+  assert.deepEqual(Object.keys(viRows[0]), [
+    "Ngày bán",
+    "Mã đơn hàng",
+    "Tên sản phẩm",
+    "Doanh thu",
+    "Giá vốn",
+  ]);
+  assert.equal(viRows[0].date, "2026-10-01");
+  assert.equal(viRows[0].order_id, "DH01");
+  assert.equal(viRows[0].product, "Tai nghe");
+  assert.deepEqual(
+    filterRows(viRows, { from: "2026-10-01", to: "2026-10-02", product: "Tai nghe" }),
+    [viRows[0]],
+  );
+});
 test("untrusted content is escaped", () =>
   assert.equal(escapeHtml("<script>\"&'"), "&lt;script&gt;&quot;&amp;&#39;"));
 test("filters preserve source and include boundaries", () => {

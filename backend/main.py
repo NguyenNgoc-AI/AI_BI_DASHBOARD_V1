@@ -38,7 +38,13 @@ from backend.chatbot.rag_engine import answer_dashboard_question, build_dashboar
 from backend.chatbot.text_to_sql import question_to_sql, validate_select_sql
 from backend.config import settings
 from backend.dashboard_engine.chart_generator import generate_charts
-from backend.dashboard_engine.data_pipeline import coerce_ecommerce_types, ingest, validate_required_columns
+from backend.dashboard_engine.data_pipeline import (
+    REQUIRED_COLUMNS,
+    build_canonical_view,
+    coerce_ecommerce_types,
+    ingest,
+    validate_required_columns,
+)
 from backend.dashboard_engine.kpi_calculator import calculate_kpis
 from backend.dashboard_engine.report_exporter import build_report_payload, export_report
 from backend.eda.profiling import profile_dataset
@@ -335,13 +341,15 @@ def admin_only(user: dict = Depends(current_user)) -> dict:
 
 
 def analyze(rows: list[dict]) -> dict:
-    schema = infer_schema(rows)
-    profile = profile_dataset(rows)
-    quality = check_quality(rows)
-    kpis = calculate_kpis(rows)
-    charts = generate_charts(rows)
+    raw_rows = coerce_ecommerce_types(rows)
+    view_rows = build_canonical_view(raw_rows)
+    schema = infer_schema(raw_rows)
+    profile = profile_dataset(raw_rows)
+    quality = check_quality(raw_rows)
+    kpis = calculate_kpis(view_rows)
+    charts = generate_charts(view_rows)
     return {
-        "dataset": {"rows": len(rows), "columns": len(schema["columns"])},
+        "dataset": {"rows": len(raw_rows), "columns": len(schema["columns"])},
         "schema": schema,
         "profile": profile,
         "quality": quality,
@@ -538,12 +546,12 @@ def schema_relations(payload: TablesRequest, _user: dict = Depends(current_user)
 
 @app.post("/dashboard/kpis", response_model=KpiResponse, responses=DATA_RESPONSES)
 def dashboard_kpis(payload: DatasetRequest, _user: dict = Depends(current_user)) -> dict:
-    return calculate_kpis(canonical_rows(payload.rows))
+    return calculate_kpis(build_canonical_view(payload.rows))
 
 
 @app.post("/dashboard/charts", response_model=list[dict[str, JsonValue]], responses=DATA_RESPONSES)
 def dashboard_charts(payload: DatasetRequest, _user: dict = Depends(current_user)) -> list[dict]:
-    return generate_charts(canonical_rows(payload.rows))
+    return generate_charts(build_canonical_view(payload.rows))
 
 
 @app.post(
@@ -594,7 +602,7 @@ def chat_sql(payload: ChatRequest, _user: dict = Depends(current_user)) -> dict[
     router = LLMRouter()
     sql = question_to_sql(payload.question, schema, router if settings.llm_provider != "deterministic" else None)
     return {
-        "sql": validate_select_sql(sql, {"sales"}, set(schema["columns"])),
+        "sql": validate_select_sql(sql, {"sales"}, set(schema["columns"]) | REQUIRED_COLUMNS),
         "provider": router.used_provider,
         "fallback_reason": router.fallback_reason,
     }

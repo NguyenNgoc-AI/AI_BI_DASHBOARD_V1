@@ -111,7 +111,7 @@
           "nullable": false,
           "semantic_type": "text",
           "description": "Commercial title or name of the product.",
-          "aliases": ["product_name", "title", "item_name", "tên sản phẩm", "tên mặt hàng", "tên hàng hóa"],
+          "aliases": ["product_name", "product", "title", "item_name", "sản phẩm", "tên sản phẩm", "tên mặt hàng", "tên hàng hóa", "mặt hàng"],
           "example": "Wireless Noise Canceling Headphones"
         },
         "category": {
@@ -157,7 +157,7 @@
           "semantic_type": "numerical_currency",
           "unit": "USD",
           "description": "Cost of Goods Sold (COGS) / acquisition cost per unit.",
-          "aliases": ["unit_cost", "cogs", "cost", "giá vốn", "giá nhập", "chi phí sản xuất", "đơn giá vốn", "chi phí sản phẩm"],
+          "aliases": ["unit_cost", "cogs", "cost", "giá vốn", "chi phí", "giá nhập", "chi phí sản xuất", "đơn giá vốn", "chi phí sản phẩm"],
           "example": 45.50
         },
         "margin_rate": {
@@ -241,7 +241,7 @@
           "nullable": false,
           "semantic_type": "timestamp",
           "description": "Timestamp when the customer placed the order.",
-          "aliases": ["order_purchase_timestamp", "order_date", "purchase_date", "ngày đặt hàng", "thời gian mua", "ngày mua", "thời điểm đặt"],
+          "aliases": ["order_purchase_timestamp", "order_date", "purchase_date", "ngày đặt hàng", "ngày bán", "thời gian mua", "ngày mua", "thời điểm đặt"],
           "example": "2023-05-12 14:22:10"
         },
         "order_approved_at": {
@@ -422,7 +422,7 @@
           "semantic_type": "numerical_currency",
           "unit": "USD",
           "description": "Net sales revenue after discount deduction (gross_sales - discount_amount).",
-          "aliases": ["net_sales", "net_revenue", "doanh số thuần", "doanh thu thuần", "doanh thu sau giảm giá"],
+          "aliases": ["net_sales", "net_revenue", "revenue", "doanh thu", "doanh số", "doanh số thuần", "doanh thu thuần", "doanh thu sau giảm giá", "thành tiền"],
           "example": 94.99
         }
       }
@@ -453,7 +453,7 @@
           "nullable": false,
           "semantic_type": "date",
           "description": "Accounting / campaign reporting date.",
-          "aliases": ["date", "report_date", "ngày ghi nhận", "ngày báo cáo", "ngày chi phí", "ngày tài chính"],
+          "aliases": ["date", "report_date", "ngày", "ngày bán", "ngày ghi nhận", "ngày báo cáo", "ngày chi phí", "ngày tài chính"],
           "example": "2023-05-12"
         },
         "order_id": {
@@ -512,7 +512,7 @@
           "nullable": true,
           "semantic_type": "numerical_quantity",
           "description": "Number of customer conversion events or completed purchase orders attributed to channel.",
-          "aliases": ["conversions", "lượt chuyển đổi", "số đơn chuyển đổi", "khách mua thành công"],
+          "aliases": ["conversions", "new_customers", "khách hàng mới", "khách mới", "lượt chuyển đổi", "số đơn chuyển đổi", "khách mua thành công"],
           "example": 18
         },
         "gross_revenue": {
