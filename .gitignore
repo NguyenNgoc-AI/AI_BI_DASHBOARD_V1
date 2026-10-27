@@ -1,28 +1,10 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Caches and environments
+*.db
 .pytest_cache/
 .venv/
-env/
-venv/
-ENV/
-
-# Database & Environment variables
-*.db
 .env
 .env.*
 !.env.example
-
-# Node / Frontend
-node_modules/
-dist/
-.DS_Store
-*.local
-
-# IDE & temporary
-.vscode/
-.idea/
 tmp/
+node_modules/

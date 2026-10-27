@@ -46,7 +46,6 @@ from backend.eda.quality_checker import check_quality
 from backend.schema_learning.schema_extractor import infer_database_schema, infer_schema
 from backend.synthetic_generator.pipeline import generate_synthetic_dataset
 from backend.synthetic_generator.validator import validate_synthetic
-from backend.synthetic_generator.api.router import synthetic_router
 
 
 @asynccontextmanager
@@ -64,7 +63,6 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Authorization", "Content-Type", "X-Filename", "X-Request-ID"],
 )
-app.include_router(synthetic_router)
 
 
 class StrictModel(BaseModel):

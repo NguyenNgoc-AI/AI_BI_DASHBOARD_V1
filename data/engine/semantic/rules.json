@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "rules_metadata": {
+    "name": "ecommerce_declarative_business_rules",
+    "version": "1.0.0",
+    "domain": "Retail & E-Commerce Business Intelligence",
+    "description": "Declarative Business Rules Specification classifying Hard Constraints (100% mandatory mathematical invariants and temporal monotonicity) and Soft Constraints (recommended business boundaries and statistical thresholds).",
+    "created_at": "2026-10-07",
+    "author": "Code Candy Team - AI BI Dashboard"
+  },
+  "hard_constraints": [
+    {
+      "rule_id": "HR_SALES_001",
+      "name": "Gross Sales Mathematical Invariant",
+      "table": "sales",
+      "severity": "ERROR",
+      "expression": "abs(gross_sales - (quantity * unit_price)) <= 0.05",
+      "target_column": "gross_sales",
+      "repair_formula": "quantity * unit_price",
+      "tolerance": 0.05,
+      "description": "Gross sales must strictly equal quantity multiplied by unit selling price.",
+      "error_message": "gross_sales does not equal quantity * unit_price"
+    },
+    {
+      "rule_id": "HR_SALES_002",
+      "name": "Discount Amount Range Boundary",
+      "table": "sales",
+      "severity": "ERROR",
+      "expression": "discount_amount >= 0 and discount_amount <= (gross_sales + 0.01)",
+      "target_column": "discount_amount",
+      "repair_formula": "clip(discount_amount, 0, gross_sales)",
+      "tolerance": 0.01,
+      "description": "Discount amount cannot be negative and cannot exceed gross sales.",
+      "error_message": "discount_amount is negative or exceeds gross_sales"
+    },
+    {
+      "rule_id": "HR_SALES_003",
+      "name": "Net Sales Mathematical Invariant",
+      "table": "sales",
+      "severity": "ERROR",
+      "expression": "abs(net_sales - (gross_sales - discount_amount)) <= 0.05",
+      "target_column": "net_sales",
+      "repair_formula": "gross_sales - discount_amount",
+      "tolerance": 0.05,
+      "description": "Net sales must strictly equal gross sales minus promotional discount amount.",
+      "error_message": "net_sales does not equal gross_sales - discount_amount"
+    },
+    {
+      "rule_id": "HR_SALES_004",
+      "name": "Positive Line Item Quantity",
+      "table": "sales",
+      "severity": "ERROR",
+      "expression": "quantity >= 1",
+      "target_column": "quantity",
+      "repair_formula": "maximum(quantity, 1)",
+      "tolerance": 0.0,
+      "description": "Quantity purchased must be a positive integer >= 1.",
+      "error_message": "quantity is less than 1"
+    },
+    {
+      "rule_id": "HR_SALES_005",
+      "name": "Non-Negative Unit Price",
+      "table": "sales",
+      "severity": "ERROR",
+      "expression": "unit_price >= 0",
+      "target_column": "unit_price",
+      "repair_formula": "maximum(unit_price, 0)",
+      "tolerance": 0.0,
+      "description": "Unit selling price must be non-negative.",
+      "error_message": "unit_price is negative"
+    },
+    {
+      "rule_id": "HR_PROD_001",
+      "name": "Product Price and Cost Non-Negative",
+      "table": "products",
+      "severity": "ERROR",
+      "expression": "unit_price >= 0 and unit_cost >= 0",
+      "target_column": null,
+      "repair_formula": null,
+      "tolerance": 0.0,
+      "description": "Product retail price and unit cost of goods sold (COGS) must be non-negative.",
+      "error_message": "unit_price or unit_cost is negative"
+    },
+    {
+      "rule_id": "HR_PROD_002",
+      "name": "Margin Rate Formula Invariant",
+      "table": "products",
+      "severity": "ERROR",
+      "expression": "abs(margin_rate - ((unit_price - unit_cost) / where(unit_price == 0, 1, unit_price))) <= 0.02",
+      "target_column": "margin_rate",
+      "repair_formula": "(unit_price - unit_cost) / where(unit_price == 0, 1, unit_price)",
+      "tolerance": 0.02,
+      "description": "Margin rate must equal (unit_price - unit_cost) / unit_price.",
+      "error_message": "margin_rate is inconsistent with unit_price and unit_cost"
+    },
+    {
+      "rule_id": "HR_ORD_001",
+      "name": "Order Payment Value Non-Negative",
+      "table": "orders",
+      "severity": "ERROR",
+      "expression": "payment_value >= 0",
+      "target_column": "payment_value",
+      "repair_formula": "maximum(payment_value, 0)",
+      "tolerance": 0.0,
+      "description": "Total payment amount for an order must be non-negative.",
+      "error_message": "payment_value cannot be negative"
+    },
+    {
+      "rule_id": "HR_ORD_002",
+      "name": "Delivery Date Monotonicity",
+      "table": "orders",
+      "severity": "ERROR",
+      "expression": "order_purchase_timestamp <= order_delivered_customer_date",
+      "target_column": null,
+      "repair_formula": null,
+      "tolerance": 0.0,
+      "description": "Delivered customer timestamp must be chronological after order purchase timestamp.",
+      "error_message": "order_delivered_customer_date is earlier than order_purchase_timestamp"
+    },
+    {
+      "rule_id": "HR_FIN_001",
+      "name": "Consolidated Net Profit Formula Invariant",
+      "table": "financials",
+      "severity": "ERROR",
+      "expression": "abs(net_profit - (gross_revenue - (cogs_total + marketing_spend + platform_fees_total + shipping_cost_total + tax_amount + operating_expenses))) <= 0.10",
+      "target_column": "net_profit",
+      "repair_formula": "gross_revenue - (cogs_total + marketing_spend + platform_fees_total + shipping_cost_total + tax_amount + operating_expenses)",
+      "tolerance": 0.10,
+      "description": "Net profit must equal gross revenue minus the sum of all direct and indirect expenses.",
+      "error_message": "net_profit does not equal gross_revenue minus total operating and direct expenses"
+    },
+    {
+      "rule_id": "HR_FIN_002",
+      "name": "Marketing Funnel Volume Monotonicity",
+      "table": "financials",
+      "severity": "ERROR",
+      "expression": "impressions >= clicks and clicks >= conversions and conversions >= 0",
+      "target_column": null,
+      "repair_formula": null,
+      "tolerance": 0.0,
+      "description": "Marketing ad funnel volumes must satisfy impressions >= clicks >= conversions >= 0.",
+      "error_message": "Marketing funnel ordering violated (expected impressions >= clicks >= conversions >= 0)"
+    },
+    {
+      "rule_id": "HR_FIN_003",
+      "name": "Financial Expense Components Non-Negative",
+      "table": "financials",
+      "severity": "ERROR",
+      "expression": "gross_revenue >= 0 and cogs_total >= 0 and marketing_spend >= 0 and platform_fees_total >= 0 and shipping_cost_total >= 0 and tax_amount >= 0 and operating_expenses >= 0",
+      "target_column": null,
+      "repair_formula": null,
+      "tolerance": 0.0,
+      "description": "Gross revenue and all individual expense categories must be non-negative.",
+      "error_message": "One or more financial ledger figures are negative"
+    }
+  ],
+  "soft_constraints": [
+    {
+      "rule_id": "SR_SALES_001",
+      "name": "Marketplace Commission Ratio Guard",
+      "table": "sales",
+      "severity": "WARNING",
+      "expression": "platform_fee <= 0.35 * gross_sales",
+      "description": "Marketplace commission fees typically do not exceed 35% of gross sales.",
+      "error_message": "High platform fee detected (> 35% of gross sales)"
+    },
+    {
+      "rule_id": "SR_SALES_002",
+      "name": "High Promotional Discount Warning",
+      "table": "sales",
+      "severity": "WARNING",
+      "expression": "discount_amount <= 0.60 * gross_sales",
+      "description": "Promotional discounts exceeding 60% of gross sales may indicate extreme liquidation or margin compression.",
+      "error_message": "Extremely high discount applied (> 60% of gross sales)"
+    },
+    {
+      "rule_id": "SR_PROD_001",
+      "name": "Extreme Loss Leader Guard",
+      "table": "products",
+      "severity": "WARNING",
+      "expression": "unit_cost <= 1.50 * unit_price",
+      "description": "Product cost of goods sold should not exceed 150% of retail selling price.",
+      "error_message": "Product unit cost exceeds 150% of selling price"
+    },
+    {
+      "rule_id": "SR_PROD_002",
+      "name": "Target Minimum Profit Margin",
+      "table": "products",
+      "severity": "WARNING",
+      "expression": "margin_rate >= 0.05",
+      "description": "Product margin is recommended to stay above 5% baseline.",
+      "error_message": "Product margin rate is below 5%"
+    },
+    {
+      "rule_id": "SR_FIN_001",
+      "name": "Plausible Click-Through Rate (CTR) Boundary",
+      "table": "financials",
+      "severity": "WARNING",
+      "expression": "clicks <= 0.35 * impressions",
+      "description": "Digital ad Click-Through Rate (CTR) is expected to be under 35%.",
+      "error_message": "Unusually high CTR detected (> 35%)"
+    },
+    {
+      "rule_id": "SR_FIN_002",
+      "name": "Plausible Conversion Rate (CR) Boundary",
+      "table": "financials",
+      "severity": "WARNING",
+      "expression": "conversions <= 0.50 * clicks",
+      "description": "Ad click-to-conversion rate is expected to be under 50%.",
+      "error_message": "Unusually high Conversion Rate detected (> 50%)"
+    },
+    {
+      "rule_id": "SR_FIN_003",
+      "name": "Healthy COGS-to-Revenue Proportion",
+      "table": "financials",
+      "severity": "WARNING",
+      "expression": "cogs_total <= 0.90 * gross_revenue",
+      "description": "Total COGS should ideally remain under 90% of gross revenue for profitability.",
+      "error_message": "COGS exceeds 90% of periodic gross revenue"
+    }
+  ]
+}
+
