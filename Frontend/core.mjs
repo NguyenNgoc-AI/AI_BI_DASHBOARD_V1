@@ -42,12 +42,16 @@ const ROLE_ALIASES = {
   date: [
     "date",
     "order_purchase_timestamp",
+    "invoice_date",
+    "invoicedate",
+    "transaction_date",
     "order_date",
     "purchase_date",
     "report_date",
     "created_at",
     "ngay_ban",
     "ngay_dat_hang",
+    "ngay_hoa_don",
     "ngay_mua",
     "thoi_gian_mua",
     "ngay_ghi_nhan",
@@ -56,23 +60,30 @@ const ROLE_ALIASES = {
   ],
   order_id: [
     "order_id",
+    "invoice_no",
+    "invoiceno",
+    "invoice",
     "sales_id",
     "order_item_id",
-    "invoice_no",
     "financial_record_id",
     "ma_don_hang",
     "ma_don",
     "so_don_hang",
+    "so_hoa_don",
     "id_don_hang",
     "ma_dong_ban",
   ],
   product: [
     "product",
     "product_name",
+    "description",
+    "product_description",
     "sub_category",
     "subcategory",
     "category",
     "product_id",
+    "stock_code",
+    "stockcode",
     "sku",
     "item_name",
     "title",
@@ -81,6 +92,7 @@ const ROLE_ALIASES = {
     "ten_mat_hang",
     "ten_hang_hoa",
     "mat_hang",
+    "mo_ta_san_pham",
     "danh_muc_con",
     "danh_muc",
     "nganh_hang",
@@ -95,6 +107,7 @@ const ROLE_ALIASES = {
     "gross_sales",
     "total_price",
     "payment_value",
+    "unit_price",
     "doanh_thu",
     "doanh_so",
     "doanh_thu_thuan",
@@ -123,12 +136,34 @@ const ROLE_ALIASES = {
 function normalizeToken(value) {
   return String(value ?? "")
     .trim()
+    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2")
     .toLowerCase()
     .replace(/đ/g, "d")
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_|_$/g, "");
+}
+
+function normalizeDateString(raw) {
+  const s = String(raw ?? "").trim();
+  if (!s) return "";
+  if (s.length >= 10 && s[4] === "-" && s[7] === "-") return s.slice(0, 10);
+  if (s.includes("/")) {
+    const datePart = s.split(/\s+/)[0];
+    const parts = datePart.split("/").map(Number);
+    if (parts.length === 3 && !parts.some(Number.isNaN)) {
+      let [p1, p2, p3] = parts;
+      if (p1 >= 1000) {
+        return `${p1}-${String(p2).padStart(2, "0")}-${String(p3).padStart(2, "0")}`;
+      }
+      if (p3 < 100) p3 += p3 < 70 ? 2000 : 1900;
+      const [day, month] = p1 > 12 ? [p1, p2] : p2 > 12 ? [p2, p1] : [p1, p2];
+      return `${p3}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+  }
+  return s.slice(0, 10);
 }
 
 function cleanHeader(rawKey) {
@@ -159,10 +194,54 @@ function resolveRoleHeaders(headers) {
       }
     }
   }
+  for (const [token, header] of tokenToHeader.entries()) {
+    const parts = token.split("_");
+    if (
+      !resolved.date &&
+      parts.some((p) => ["date", "timestamp", "time", "ngay"].includes(p))
+    ) {
+      resolved.date = header;
+    }
+    if (
+      !resolved.order_id &&
+      parts.some((p) => ["invoice", "order", "bill"].includes(p)) &&
+      parts.some((p) => ["id", "no", "number", "code", "ma"].includes(p))
+    ) {
+      resolved.order_id = header;
+    }
+    if (
+      !resolved.product &&
+      parts.some((p) =>
+        ["description", "desc", "title", "product", "item", "sku", "stock"].includes(p),
+      )
+    ) {
+      resolved.product = header;
+    }
+  }
   return resolved;
 }
 
-export function parseDataset(text, filename) {
+function findTextMergeIndex(headers) {
+  const roles = resolveRoleHeaders(headers);
+  if (roles.product && headers.includes(roles.product)) {
+    return headers.indexOf(roles.product);
+  }
+  for (let i = 0; i < headers.length; i++) {
+    const tok = normalizeToken(headers[i]);
+    if (
+      tok.includes("description") ||
+      tok.includes("desc") ||
+      tok.includes("product") ||
+      tok.includes("name") ||
+      tok.includes("title")
+    ) {
+      return i;
+    }
+  }
+  return Math.min(2, headers.length - 1);
+}
+
+export function parseDataset(text, filename, { tolerant = false } = {}) {
   text = text.replace(/^\uFEFF/, "");
   let rows;
   if (/\.json$/i.test(filename)) {
@@ -176,10 +255,21 @@ export function parseDataset(text, filename) {
     for (let i = 0; i < text.length; i++) {
       const c = text[i];
       if (c === '"') {
-        if (quoted && text[i + 1] === '"') {
+        if (quoted) {
+          const nxt = text[i + 1] ?? "";
+          if (nxt === '"') {
+            cell += '"';
+            i++;
+          } else if (nxt === "," || nxt === "\r" || nxt === "\n" || nxt === "") {
+            quoted = false;
+          } else {
+            cell += '"';
+          }
+        } else if (cell === "") {
+          quoted = true;
+        } else {
           cell += '"';
-          i++;
-        } else quoted = !quoted;
+        }
       } else if (c === "," && !quoted) {
         row.push(cell);
         cell = "";
@@ -196,17 +286,50 @@ export function parseDataset(text, filename) {
     if (row.some((v) => v !== "")) records.push(row);
     const headers = records.shift();
     if (!headers?.length) throw new Error("Tệp CSV trống.");
+    if (headers.length > 1 && !String(headers[0]).trim()) {
+      headers[0] = "row_index";
+    }
+    const mergeIdx = findTextMergeIndex(headers);
+    const structuralErrors = [];
     rows = records.map((r, i) => {
-      if (r.length !== headers.length)
-        throw new Error(`Dòng ${i + 2} có số cột không khớp.`);
+      const originalLen = r.length;
+      if (r.length > headers.length) {
+        const extra = r.length - headers.length;
+        const merged = r.slice(mergeIdx, mergeIdx + 1 + extra).join(", ");
+        r = [
+          ...r.slice(0, mergeIdx),
+          merged,
+          ...r.slice(mergeIdx + 1 + extra),
+        ];
+        if (r.length > headers.length) {
+          if (!tolerant) throw new Error(`Dòng ${i + 2} có số cột không khớp.`);
+          r = r.slice(0, headers.length);
+          structuralErrors.push({
+            row_index: i + 2,
+            actual: originalLen,
+            expected: headers.length,
+            issue: "EXTRA_COLUMNS",
+          });
+        }
+      } else if (r.length < headers.length) {
+        if (!tolerant) throw new Error(`Dòng ${i + 2} có số cột không khớp.`);
+        while (r.length < headers.length) r.push("");
+        structuralErrors.push({
+          row_index: i + 2,
+          actual: originalLen,
+          expected: headers.length,
+          issue: "MISSING_COLUMNS",
+        });
+      }
       return Object.fromEntries(headers.map((h, j) => [h, r[j]]));
     });
+    rows.structural_errors = structuralErrors;
   } else throw new Error("Chỉ hỗ trợ tệp CSV và JSON.");
-  if (!Array.isArray(rows) || !rows.length || rows.length > 100000)
-    throw new Error("Dữ liệu cần từ 1 đến 100.000 dòng.");
+  if (!Array.isArray(rows) || !rows.length || rows.length > 500000)
+    throw new Error("Dữ liệu cần từ 1 đến 500.000 dòng.");
 
   let roleMap = null;
-  return rows.map((row) => {
+  const result = rows.map((row) => {
     if (!row || Array.isArray(row) || typeof row !== "object")
       throw new Error("Mỗi dòng phải là một object.");
     const normalized = {};
@@ -227,7 +350,7 @@ export function parseDataset(text, filename) {
         const rawVal = normalized[srcHeader];
         const roleVal =
           role === "date" && typeof rawVal === "string"
-            ? rawVal.trim().slice(0, 10)
+            ? normalizeDateString(rawVal)
             : rawVal;
         Object.defineProperty(normalized, role, {
           value: roleVal,
@@ -239,10 +362,17 @@ export function parseDataset(text, filename) {
     }
     return normalized;
   });
+  Object.defineProperty(result, "structural_errors", {
+    value: rows.structural_errors || [],
+    enumerable: false,
+    configurable: true,
+    writable: true,
+  });
+  return result;
 }
 export function filterRows(rows, { from = "", to = "", product = "" } = {}) {
   return rows.filter((r) => {
-    const d = String(r.date ?? "").trim().slice(0, 10);
+    const d = normalizeDateString(r.date);
     return (
       (!from || d >= from) &&
       (!to || d <= to) &&

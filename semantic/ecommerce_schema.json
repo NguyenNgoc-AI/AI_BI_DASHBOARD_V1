@@ -103,7 +103,7 @@
           "nullable": false,
           "semantic_type": "identifier",
           "description": "Unique identifier / SKU for each product.",
-          "aliases": ["product_id", "sku", "mã sản phẩm", "mã hàng", "id sản phẩm", "item_code"],
+          "aliases": ["product_id", "sku", "stock_code", "stockcode", "mã sản phẩm", "mã hàng", "id sản phẩm", "item_code"],
           "example": "PROD_ELEC_9981"
         },
         "product_name": {
@@ -111,7 +111,7 @@
           "nullable": false,
           "semantic_type": "text",
           "description": "Commercial title or name of the product.",
-          "aliases": ["product_name", "product", "title", "item_name", "sản phẩm", "tên sản phẩm", "tên mặt hàng", "tên hàng hóa", "mặt hàng"],
+          "aliases": ["product_name", "product", "description", "product_description", "title", "item_name", "sản phẩm", "tên sản phẩm", "tên mặt hàng", "tên hàng hóa", "mặt hàng", "mô tả sản phẩm"],
           "example": "Wireless Noise Canceling Headphones"
         },
         "category": {
@@ -206,7 +206,7 @@
           "nullable": false,
           "semantic_type": "identifier",
           "description": "Unique identifier for each transaction order.",
-          "aliases": ["order_id", "mã đơn hàng", "mã đơn", "số đơn hàng", "id đơn hàng", "invoice_no"],
+          "aliases": ["order_id", "invoice_no", "invoiceno", "invoice", "mã đơn hàng", "mã đơn", "số đơn hàng", "id đơn hàng", "số hóa đơn"],
           "example": "ORD_2023_88410"
         },
         "customer_id": {
@@ -241,7 +241,7 @@
           "nullable": false,
           "semantic_type": "timestamp",
           "description": "Timestamp when the customer placed the order.",
-          "aliases": ["order_purchase_timestamp", "order_date", "purchase_date", "ngày đặt hàng", "ngày bán", "thời gian mua", "ngày mua", "thời điểm đặt"],
+          "aliases": ["order_purchase_timestamp", "order_date", "purchase_date", "invoice_date", "invoicedate", "transaction_date", "ngày đặt hàng", "ngày bán", "ngày hóa đơn", "thời gian mua", "ngày mua", "thời điểm đặt"],
           "example": "2023-05-12 14:22:10"
         },
         "order_approved_at": {

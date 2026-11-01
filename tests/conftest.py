@@ -10,3 +10,6 @@ TEST_TEMP.mkdir(exist_ok=True)
 os.environ["TEMP"] = str(TEST_TEMP)
 os.environ["TMP"] = str(TEST_TEMP)
 tempfile.tempdir = str(TEST_TEMP)
+
+if "JWT_SECRET" not in os.environ:
+    os.environ["JWT_SECRET"] = "test-secret-at-least-32-chars-long-for-testing"

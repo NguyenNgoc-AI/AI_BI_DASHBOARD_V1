@@ -4,7 +4,36 @@ from datetime import date, datetime
 import math
 from typing import Any
 
+import numpy as np
+
 from semantic.schema_definition import inspect_and_map_columns
+
+
+def _is_iso_date_or_datetime(text: str) -> bool:
+    n = len(text)
+    if n < 8:
+        return False
+    if n >= 10 and text[4] == "-" and text[7] == "-":
+        if n == 10:
+            try:
+                date.fromisoformat(text)
+                return True
+            except ValueError:
+                return False
+        try:
+            normalized = text[:-1] + "+00:00" if text.endswith(("Z", "z")) else text
+            datetime.fromisoformat(normalized)
+            return True
+        except ValueError:
+            return False
+    if "/" in text[:5] and n <= 22:
+        try:
+            from backend.dashboard_engine.data_pipeline import _parse_slash_date
+            _parse_slash_date(text)
+            return True
+        except Exception:
+            return False
+    return False
 
 
 def infer_value_type(value: Any) -> str:
@@ -17,20 +46,50 @@ def infer_value_type(value: Any) -> str:
     if isinstance(value, float):
         return "float"
     text = str(value).strip()
-    try:
-        date.fromisoformat(text)
+    if _is_iso_date_or_datetime(text):
         return "date"
-    except ValueError:
-        try:
-            normalized = text[:-1] + "+00:00" if text.endswith(("Z", "z")) else text
-            datetime.fromisoformat(normalized)
-            return "date"
-        except ValueError:
-            return "string"
+    return "string"
 
 
 def infer_column_type(values: list[Any]) -> str:
-    types = {infer_value_type(value) for value in values} - {"null"}
+    has_int = False
+    has_float = False
+    has_bool = False
+    has_date = False
+    has_string = False
+
+    for value in values:
+        if value is None or value == "":
+            continue
+        if isinstance(value, bool):
+            has_bool = True
+        elif isinstance(value, int):
+            has_int = True
+        elif isinstance(value, float):
+            has_float = True
+        else:
+            if has_string:
+                continue
+            text = str(value).strip()
+            if _is_iso_date_or_datetime(text):
+                has_date = True
+            else:
+                has_string = True
+                if has_int or has_float or has_bool or has_date:
+                    return "string"
+
+    types: set[str] = set()
+    if has_int:
+        types.add("integer")
+    if has_float:
+        types.add("float")
+    if has_bool:
+        types.add("boolean")
+    if has_date:
+        types.add("date")
+    if has_string:
+        types.add("string")
+
     if not types:
         return "null"
     if types <= {"integer", "float"}:
@@ -47,31 +106,91 @@ def pearson_correlation(xs: list[float], ys: list[float]) -> float | None:
     return numerator / denominator if denominator else None
 
 
+def _ordered_columns(rows: list[dict]) -> list[str]:
+    if not rows:
+        return []
+    first_keys = list(rows[0].keys())
+    if all(len(row) == len(first_keys) for row in rows[:20]):
+        return list(dict.fromkeys(k for row in rows for k in row.keys()))
+    return list(dict.fromkeys(k for row in rows for k in row.keys()))
+
+
 def infer_relationships(rows: list[dict]) -> list[dict]:
-    numeric = [
-        key
-        for key in (list(dict.fromkeys(k for row in rows for k in row.keys())) if rows else [])
-        if any(isinstance(row.get(key), (int, float)) and not isinstance(row.get(key), bool) for row in rows)
-    ]
-    relationships = []
-    for index, left in enumerate(numeric):
-        for right in numeric[index + 1 :]:
-            pairs = [
-                (float(row[left]), float(row[right]))
-                for row in rows
-                if isinstance(row.get(left), (int, float))
-                and not isinstance(row.get(left), bool)
-                and isinstance(row.get(right), (int, float))
-                and not isinstance(row.get(right), bool)
-            ]
-            value = pearson_correlation([x for x, _ in pairs], [y for _, y in pairs]) if pairs else None
-            if value is not None:
-                relationships.append({"left": left, "right": right, "type": "correlation", "value": value})
+    if len(rows) < 2:
+        return []
+    columns = _ordered_columns(rows)
+    numeric: list[str] = []
+    for key in columns:
+        for row in rows:
+            val = row.get(key)
+            if val is not None and val != "":
+                if isinstance(val, (int, float)) and not isinstance(val, bool):
+                    numeric.append(key)
+                break
+
+    if len(numeric) < 2:
+        return []
+
+    n_rows = len(rows)
+    n_cols = len(numeric)
+    matrix = np.full((n_cols, n_rows), np.nan, dtype=np.float64)
+    has_nan = False
+
+    for col_idx, key in enumerate(numeric):
+        col_vals = [row.get(key) for row in rows]
+        try:
+            arr = np.asarray(col_vals, dtype=np.float64)
+            matrix[col_idx] = arr
+            if np.isnan(arr).any():
+                has_nan = True
+        except (TypeError, ValueError):
+            has_nan = True
+            for row_idx, v in enumerate(col_vals):
+                if isinstance(v, (int, float)) and not isinstance(v, bool):
+                    matrix[col_idx, row_idx] = float(v)
+
+    relationships: list[dict] = []
+    if not has_nan:
+        means = matrix.mean(axis=1, keepdims=True)
+        centered = matrix - means
+        ss = np.sqrt(np.sum(centered * centered, axis=1))
+        for i in range(n_cols):
+            if ss[i] == 0.0:
+                continue
+            left = numeric[i]
+            ci = centered[i]
+            ssi = ss[i]
+            for j in range(i + 1, n_cols):
+                if ss[j] == 0.0:
+                    continue
+                denom = ssi * ss[j]
+                if denom > 0.0:
+                    corr = float(np.dot(ci, centered[j]) / denom)
+                    relationships.append({"left": left, "right": numeric[j], "type": "correlation", "value": corr})
+        return relationships
+
+    valid_masks = ~np.isnan(matrix)
+    for i in range(n_cols):
+        left = numeric[i]
+        vi = valid_masks[i]
+        xi = matrix[i]
+        for j in range(i + 1, n_cols):
+            joint = vi & valid_masks[j]
+            if int(joint.sum()) < 2:
+                continue
+            xs = xi[joint]
+            ys = matrix[j][joint]
+            dx = xs - xs.mean()
+            dy = ys - ys.mean()
+            denom = float(np.sqrt(np.dot(dx, dx) * np.dot(dy, dy)))
+            if denom > 0.0:
+                corr = float(np.dot(dx, dy) / denom)
+                relationships.append({"left": left, "right": numeric[j], "type": "correlation", "value": corr})
     return relationships
 
 
 def infer_schema(rows: list[dict]) -> dict:
-    columns = list(dict.fromkeys(key for row in rows for key in row.keys())) if rows else []
+    columns = _ordered_columns(rows)
     semantic_info = inspect_and_map_columns(columns)["columns"] if columns else {}
     return {
         "columns": {

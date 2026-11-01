@@ -22,11 +22,11 @@ from .schemas import (
     ScenarioListResponse,
 )
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
-PROFILE_PATH = BASE_DIR / "data" / "generated" / "learned_seed_profile.json"
-SEED_PATH = BASE_DIR / "data" / "sample_dataset" / "ecommerce_seed.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "warehouse" / "real_holdout.csv"
-SYNTHETIC_PATH = BASE_DIR / "data" / "generated" / "synthetic_ecommerce.csv"
+DATASETS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "datasets"
+PROFILE_PATH = DATASETS_DIR / "learned_seed_profile.json"
+SEED_PATH = DATASETS_DIR / "ecommerce_seed.csv"
+HOLDOUT_PATH = DATASETS_DIR / "real_holdout.csv"
+SYNTHETIC_PATH = DATASETS_DIR / "synthetic_ecommerce.csv"
 
 synthetic_router = APIRouter(
     prefix="/api/v1/synthetic",

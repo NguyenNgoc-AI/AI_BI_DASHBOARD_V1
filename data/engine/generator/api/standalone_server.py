@@ -43,9 +43,8 @@ def health_check():
 
 
 def start():
-    uvicorn.run("backend.synthetic_generator.api.standalone_server:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("data.engine.generator.api.standalone_server:app", host="127.0.0.1", port=8001, reload=False)
 
 
 if __name__ == "__main__":
     start()
-

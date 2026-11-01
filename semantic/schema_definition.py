@@ -16,8 +16,16 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 
 def normalize_alias_token(value: str) -> str:
-    """Normalizes column names/aliases (supports Vietnamese diacritics and punctuation)."""
-    text = str(value or "").strip().lower().replace("đ", "d")
+    """
+    Normalizes column names/aliases:
+    1. Splits CamelCase / PascalCase boundaries (e.g. InvoiceNo -> Invoice_No, UnitPrice -> Unit_Price).
+    2. Strips Vietnamese diacritics (e.g. đ -> d, Ngày bán -> ngay_ban).
+    3. Lowercases and normalizes non-alphanumeric separators to single underscores.
+    """
+    raw = str(value or "").strip()
+    raw = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", raw)
+    raw = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", raw)
+    text = raw.lower().replace("đ", "d")
     decomposed = unicodedata.normalize("NFKD", text)
     stripped = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
     return re.sub(r"[^a-z0-9]+", "_", stripped).strip("_")
@@ -207,7 +215,7 @@ class GenericSchema(BaseModel):
 
     def find_columns_by_alias(self, query_alias: str, table_name: Optional[str] = None) -> List[Tuple[str, str, ColumnDefinition]]:
         """
-        Searches for columns matching a natural language alias (exact or diacritic-insensitive).
+        Searches for columns matching a natural language alias (exact or CamelCase/diacritic-insensitive).
         Returns a list of tuples: (table_name, column_name, ColumnDefinition).
         """
         results = []
@@ -229,7 +237,7 @@ class GenericSchema(BaseModel):
         if results or not token_query:
             return results
 
-        # Pass 2: normalized token match (handles Vietnamese without diacritics, spaces vs underscores)
+        # Pass 2: normalized token match (handles CamelCase, Vietnamese without diacritics, spaces vs underscores)
         for t_name in tables_to_search:
             table = self.tables[t_name]
             for c_name, col_def in table.columns.items():
@@ -321,13 +329,16 @@ def export_json_schema(output_path: Optional[Union[str, Path]] = None) -> dict:
 
 
 DEFAULT_ECOMMERCE_SCHEMA_PATH = Path(__file__).resolve().parent / "ecommerce_schema.json"
+LEARNED_SEED_PROFILE_PATH = Path(__file__).resolve().parent.parent / "data" / "datasets" / "learned_seed_profile.json"
 
 ROLE_PRIORITIES: Dict[str, List[str]] = {
     "date": ["date", "order_purchase_timestamp", "created_at", "order_approved_at"],
     "order_id": ["order_id", "sales_id", "financial_record_id"],
     "product": ["product", "product_name", "sub_category", "category", "product_id"],
+    "product_id": ["product_id", "stock_code", "sku"],
     "revenue": ["revenue", "net_sales", "gross_revenue", "gross_sales", "payment_value"],
     "cost": ["cost", "cogs", "cogs_total", "unit_cost"],
+    "category": ["category", "sub_category"],
     "quantity": ["quantity"],
     "unit_price": ["unit_price"],
     "unit_cost": ["unit_cost"],
@@ -350,14 +361,157 @@ def get_default_ecommerce_schema() -> GenericSchema:
     return load_schema(DEFAULT_ECOMMERCE_SCHEMA_PATH)
 
 
+@lru_cache(maxsize=1)
+def get_learned_pricing_profile() -> Dict[str, Any]:
+    """
+    Loads read-only statistical pricing & margin knowledge from `data/datasets/learned_seed_profile.json`
+    learned by SchemaExtractor.
+    """
+    default_margin = 0.45
+    category_margins: Dict[str, float] = {}
+    if LEARNED_SEED_PROFILE_PATH.is_file():
+        try:
+            with open(LEARNED_SEED_PROFILE_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            num_dist = data.get("distributions", {}).get("numerical", {})
+            if "margin_rate" in num_dist and "mean" in num_dist["margin_rate"]:
+                default_margin = float(num_dist["margin_rate"]["mean"])
+            cat_patterns = data.get("hierarchies", {}).get("category_pricing_patterns", {})
+            for cat, info in cat_patterns.items():
+                if isinstance(info, dict) and "mean_margin_rate" in info:
+                    category_margins[str(cat).strip().lower()] = float(info["mean_margin_rate"])
+        except Exception:
+            pass
+    return {
+        "default_margin_rate": max(0.05, min(0.90, default_margin)),
+        "category_margins": category_margins,
+    }
+
+
+def estimate_learned_cost(revenue: float, category: Optional[str] = None) -> float:
+    """
+    Estimates Cost of Goods Sold (COGS) from revenue using the learned margin rate
+    from `learned_seed_profile.json` when a dataset (e.g. `online_retail_clean`) lacks a cost column.
+    """
+    profile = get_learned_pricing_profile()
+    margin_rate = profile["default_margin_rate"]
+    if category:
+        cat_key = str(category).strip().lower()
+        if cat_key in profile["category_margins"]:
+            margin_rate = profile["category_margins"][cat_key]
+    return round(max(0.0, float(revenue) * (1.0 - margin_rate)), 2)
+
+
+def _layer2_heuristic_match(token: str) -> Optional[Dict[str, Any]]:
+    """
+    Layer 2 Semantic Heuristic (ported from SchemaExtractor.infer_semantic_type):
+    Matches unseen column names by sub-tokens when Layer 1 exact/alias lookup does not match.
+    """
+    if not token:
+        return None
+    parts = set(token.split("_"))
+
+    if any(w in token for w in ("invoice_date", "trans_date", "order_date", "purchase_date")) or (
+        parts & {"date", "timestamp", "time", "ngay"}
+    ):
+        return {
+            "matched_table": "orders",
+            "matched_column": "order_purchase_timestamp",
+            "declared_type": "datetime",
+            "semantic_type": "timestamp",
+            "unit": None,
+            "description": "Inferred temporal milestone (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("invoice_no", "invoiceno", "bill_no", "order_no")) or (
+        parts & {"invoice", "order"} and parts & {"id", "no", "number", "code", "ma"}
+    ):
+        return {
+            "matched_table": "orders",
+            "matched_column": "order_id",
+            "declared_type": "string",
+            "semantic_type": "identifier",
+            "unit": None,
+            "description": "Inferred order identifier (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("stock_code", "stockcode", "item_code", "product_code")) or (
+        parts & {"product", "item", "stock", "sku"} and parts & {"id", "code", "no", "ma"}
+    ):
+        return {
+            "matched_table": "products",
+            "matched_column": "product_id",
+            "declared_type": "string",
+            "semantic_type": "identifier",
+            "unit": None,
+            "description": "Inferred product identifier (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("description", "product_desc", "item_desc", "product_title")) or (
+        parts & {"description", "desc", "title"}
+    ):
+        return {
+            "matched_table": "products",
+            "matched_column": "product_name",
+            "declared_type": "string",
+            "semantic_type": "text",
+            "unit": None,
+            "description": "Inferred product title/description (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("unit_price", "selling_price", "item_price", "retail_price")):
+        return {
+            "matched_table": "sales",
+            "matched_column": "unit_price",
+            "declared_type": "float",
+            "semantic_type": "numerical_currency",
+            "unit": "USD",
+            "description": "Inferred unit selling price (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("unit_cost", "item_cost", "buying_cost")):
+        return {
+            "matched_table": "products",
+            "matched_column": "unit_cost",
+            "declared_type": "float",
+            "semantic_type": "numerical_currency",
+            "unit": "USD",
+            "description": "Inferred unit cost (Layer 2 heuristic)",
+        }
+    if parts & {"qty", "quantity"} or "so_luong" in token:
+        return {
+            "matched_table": "sales",
+            "matched_column": "quantity",
+            "declared_type": "integer",
+            "semantic_type": "numerical_quantity",
+            "unit": None,
+            "description": "Inferred item quantity (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("revenue", "net_sales", "total_sales", "line_total", "amount", "doanh_thu", "thanh_tien")):
+        return {
+            "matched_table": "sales",
+            "matched_column": "net_sales",
+            "declared_type": "float",
+            "semantic_type": "numerical_currency",
+            "unit": "USD",
+            "description": "Inferred sales revenue (Layer 2 heuristic)",
+        }
+    if any(w in token for w in ("cogs", "cost_of_goods", "total_cost", "gia_von", "chi_phi")):
+        return {
+            "matched_table": "financials",
+            "matched_column": "cogs_total",
+            "declared_type": "float",
+            "semantic_type": "numerical_currency",
+            "unit": "USD",
+            "description": "Inferred cost of goods sold (Layer 2 heuristic)",
+        }
+    return None
+
+
 def inspect_and_map_columns(
     headers: List[str],
     schema: Optional[GenericSchema] = None,
 ) -> Dict[str, Any]:
     """
-    Inspects user-provided dataset headers against the 38-column semantic dictionary
-    and resolves the 5 Dashboard View Contract roles + financial extension roles
-    without mutating or colliding original header names.
+    2-Layer Semantic Mapper:
+    - Layer 1: Matches user headers against the 38-column semantic dictionary & 15 metrics.
+    - Layer 2: Applies sub-token heuristics (like SchemaExtractor.infer_semantic_type) for unseen variants.
+    Resolves the 5 Dashboard View Contract roles + financial extension roles without mutating original headers.
     """
     schema_obj = schema or get_default_ecommerce_schema()
     column_semantics: Dict[str, Dict[str, Any]] = {}
@@ -381,7 +535,7 @@ def inspect_and_map_columns(
             if token:
                 concept_to_headers.setdefault(token, []).append(raw_header)
         else:
-            # Check semantic_metrics (e.g. gross_profit, gross_margin_pct, net_margin_pct, cogs)
+            # Layer 1B: Check semantic_metrics (e.g. gross_profit, gross_margin_pct, net_margin_pct, cogs)
             matched_metric = None
             for metric in schema_obj.semantic_metrics.values():
                 metric_tokens = {normalize_alias_token(metric.code), *(normalize_alias_token(a) for a in metric.aliases)}
@@ -400,21 +554,26 @@ def inspect_and_map_columns(
                 }
                 concept_to_headers.setdefault(matched_metric.code.lower(), []).append(raw_header)
             else:
-                column_semantics[raw_header] = {
-                    "matched_table": None,
-                    "matched_column": None,
-                    "declared_type": None,
-                    "semantic_type": "custom",
-                    "unit": None,
-                    "description": None,
-                }
+                # Layer 2: Keyword & token structure heuristic
+                heuristic_info = _layer2_heuristic_match(token)
+                if heuristic_info:
+                    column_semantics[raw_header] = heuristic_info
+                    concept_to_headers.setdefault(heuristic_info["matched_column"], []).append(raw_header)
+                else:
+                    column_semantics[raw_header] = {
+                        "matched_table": None,
+                        "matched_column": None,
+                        "declared_type": None,
+                        "semantic_type": "custom",
+                        "unit": None,
+                        "description": None,
+                    }
             if token:
                 concept_to_headers.setdefault(token, []).append(raw_header)
 
     roles: Dict[str, Optional[str]] = {}
     for role, candidates in ROLE_PRIORITIES.items():
         selected = None
-        # First prefer exact normalized header token matching candidate order
         for candidate in candidates:
             for header in headers:
                 if normalize_alias_token(header) == candidate:
@@ -422,7 +581,6 @@ def inspect_and_map_columns(
                     break
             if selected:
                 break
-        # Next fall back to semantic concept matches in candidate priority order
         if not selected:
             for candidate in candidates:
                 if candidate in concept_to_headers and concept_to_headers[candidate]:
@@ -434,4 +592,3 @@ def inspect_and_map_columns(
         "columns": column_semantics,
         "roles": roles,
     }
-

@@ -9,6 +9,7 @@ _temporary_database = tempfile.TemporaryDirectory()
 os.environ["DATABASE_PATH"] = str(Path(_temporary_database.name) / "api.db")
 os.environ["ADMIN_USERNAME"] = "api_admin"
 os.environ["ADMIN_PASSWORD"] = "Admin-password-2026"
+os.environ["JWT_SECRET"] = "test-secret-at-least-32-chars-long-for-testing"
 
 from fastapi.testclient import TestClient
 
@@ -92,6 +93,16 @@ class ApiTests(unittest.TestCase):
         )
         self.assertEqual(analysis.status_code, 200, analysis.text)
         self.assertEqual(analysis.json()["kpis"]["net_profit"], 160)
+        self.assertFalse(analysis.json()["cost_estimated"])
+
+        no_cost_csv = b"date,order_id,product,revenue\n2026-10-01,O001,Bag A,100\n"
+        no_cost_analysis = self.client.post(
+            "/datasets/analyze?filename=nocost.csv",
+            content=no_cost_csv,
+            headers={**self.user["headers"], "Content-Type": "application/octet-stream"},
+        )
+        self.assertEqual(no_cost_analysis.status_code, 200)
+        self.assertTrue(no_cost_analysis.json()["cost_estimated"])
 
         seed_path = Path(__file__).resolve().parent.parent / "data" / "datasets" / "ecommerce_seed.csv"
         with open(seed_path, "r", encoding="utf-8") as f:
@@ -112,9 +123,23 @@ class ApiTests(unittest.TestCase):
         charts = self.client.post("/dashboard/charts", json={"rows": ROWS}, headers=self.user["headers"])
         self.assertEqual(profile.json()["row_count"], 2)
         self.assertEqual(quality.json()["score"], 1.0)
+        self.assertEqual(quality.json()["status"], "PASSED")
+        self.assertIn("dimensions", quality.json())
+        self.assertIn("violations", quality.json())
+        self.assertIn("recommendations", quality.json())
         self.assertEqual(schema.json()["columns"]["revenue"]["type"], "float")
         self.assertEqual(kpis.json()["net_profit"], 160)
         self.assertTrue(charts.json())
+
+        audit_res = self.client.post(
+            "/datasets/audit?filename=audit_test.csv",
+            content=CSV,
+            headers={**self.user["headers"], "Content-Type": "application/octet-stream"},
+        )
+        self.assertEqual(audit_res.status_code, 200, audit_res.text)
+        self.assertEqual(audit_res.json()["score"], 1.0)
+        self.assertEqual(audit_res.json()["status"], "PASSED")
+        self.assertIn("dimensions", audit_res.json())
 
         relations = self.client.post(
             "/schema/infer-relations",

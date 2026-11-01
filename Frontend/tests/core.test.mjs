@@ -48,6 +48,23 @@ test("Vietnamese headers and 38-column schema preserve exact keys and support fi
     filterRows(viRows, { from: "2026-10-01", to: "2026-10-02", product: "Tai nghe" }),
     [viRows[0]],
   );
+  const retailRows = parseDataset(
+    "InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country\n536365,85123A,HEART HOLDER,6,25/12/2010 8:26,2.55,17850,UK",
+    "online_retail_clean.csv",
+  );
+  assert.deepEqual(Object.keys(retailRows[0]), [
+    "InvoiceNo",
+    "StockCode",
+    "Description",
+    "Quantity",
+    "InvoiceDate",
+    "UnitPrice",
+    "CustomerID",
+    "Country",
+  ]);
+  assert.equal(retailRows[0].date, "2010-12-25");
+  assert.equal(retailRows[0].order_id, "536365");
+  assert.equal(retailRows[0].product, "HEART HOLDER");
 });
 test("untrusted content is escaped", () =>
   assert.equal(escapeHtml("<script>\"&'"), "&lt;script&gt;&quot;&amp;&#39;"));

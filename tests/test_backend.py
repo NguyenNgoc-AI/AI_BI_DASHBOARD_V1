@@ -75,6 +75,28 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(view[0]["date"], "2026-10-01")
         self.assertEqual(view[0]["product"], "Áo khoác Gió")
 
+        # UCI Online Retail (`online_retail_clean`) format: CamelCase headers, DD/MM/YYYY or MM/DD/YYYY dates, no cost column
+        online_retail_csv = (
+            "InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country\n"
+            "536365,85123A,WHITE HANGING HEART T-LIGHT HOLDER,6,01/12/2010 8:26,2.55,17850,United Kingdom\n"
+            "536366,71053,WHITE METAL LANTERN,6,25/12/2010 14:30,3.39,17850,United Kingdom\n"
+        ).encode("utf-8")
+        retail_rows = ingest(online_retail_csv, "online_retail_clean.csv")
+        self.assertEqual(
+            list(retail_rows[0].keys()),
+            ["InvoiceNo", "StockCode", "Description", "Quantity", "InvoiceDate", "UnitPrice", "CustomerID", "Country"],
+        )
+        retail_kpis = calculate_kpis(retail_rows)
+        # Total revenue = 6 * 2.55 + 6 * 3.39 = 15.30 + 20.34 = 35.64
+        self.assertAlmostEqual(retail_kpis["total_revenue"], 35.64, places=2)
+        # Cost imputed from learned_seed_profile.json (mean margin_rate ~ 0.5011)
+        self.assertGreater(retail_kpis["total_cost"], 0.0)
+        self.assertGreater(retail_kpis["net_profit"], 0.0)
+        retail_view = build_canonical_view(retail_rows)
+        self.assertEqual(retail_view[0]["date"], "2010-12-01")
+        self.assertEqual(retail_view[1]["date"], "2010-12-25")
+        self.assertEqual(retail_view[0]["product"], "WHITE HANGING HEART T-LIGHT HOLDER")
+
     def test_ingest_json_and_reject_bad_data(self):
         content = json.dumps(self.rows).encode()
         self.assertEqual(len(ingest(content, "sales.json")), 3)
@@ -213,6 +235,26 @@ class BackendTests(unittest.TestCase):
         llama = LLMRouter(replace(settings, llm_provider="llama", llama_base_url="http://localhost:11434"))
         self.assertEqual(llama.generate("system", "question"), "Llama OK")
         self.assertEqual(post.call_args.args[0], "http://localhost:11434/v1/chat/completions")
+
+    def test_quality_checker_audit_dimensions_and_violations(self):
+        clean_res = check_quality(self.rows)
+        self.assertEqual(clean_res["status"], "PASSED")
+        self.assertEqual(clean_res["tier"], "Tier A (Xuất sắc)")
+        self.assertIn("dimensions", clean_res)
+        self.assertEqual(clean_res["dimensions"]["completeness"]["score"], 100.0)
+        self.assertEqual(clean_res["dimensions"]["uniqueness"]["score"], 100.0)
+        self.assertEqual(len(clean_res["violations"]), 0)
+        self.assertTrue(len(clean_res["recommendations"]) > 0)
+
+        corrupted_rows = [
+            {"date": "2026-10-01", "order_id": "O001", "product": "Bag A", "revenue": 100.0, "cost": 60.0, "quantity": 1, "unit_price": 100.0, "gross_sales": 100.0, "discount_amount": 0.0, "net_sales": 100.0},
+            {"date": "2026-10-02", "order_id": "O001", "product": None, "revenue": 200.0, "cost": 80.0, "quantity": 2, "unit_price": 100.0, "gross_sales": 200.0, "discount_amount": 500.0, "net_sales": -300.0},
+        ]
+        corrupted_res = check_quality(corrupted_rows)
+        self.assertIn(corrupted_res["status"], ("WARNING", "FAILED"))
+        self.assertTrue(len(corrupted_res["violations"]) > 0)
+        categories = {v["category"] for v in corrupted_res["violations"]}
+        self.assertTrue("Tính duy nhất" in categories or "Luật kinh doanh" in categories or "Tính đầy đủ" in categories)
 
 
 if __name__ == "__main__":

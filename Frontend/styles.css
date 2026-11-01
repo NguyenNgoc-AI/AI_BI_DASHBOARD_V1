@@ -387,6 +387,12 @@ pre {
   font-size: 17px;
   width: 19px;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-icon svg {
+  display: block;
 }
 .assistant-card {
   margin-top: auto;

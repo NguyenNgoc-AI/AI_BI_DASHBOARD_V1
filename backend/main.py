@@ -43,7 +43,11 @@ from backend.dashboard_engine.data_pipeline import (
     build_canonical_view,
     coerce_ecommerce_types,
     ingest,
+    inspect_and_map_columns,
+    read_csv,
+    read_json,
     validate_required_columns,
+    _ordered_columns,
 )
 from backend.dashboard_engine.kpi_calculator import calculate_kpis
 from backend.dashboard_engine.report_exporter import build_report_payload, export_report
@@ -194,6 +198,11 @@ class QualityResponse(StrictModel):
     missing: dict[str, JsonValue]
     duplicates: dict[str, JsonValue]
     outliers: dict[str, JsonValue]
+    status: str = "PASSED"
+    tier: str = "Tier A (Xuất sắc)"
+    dimensions: dict[str, JsonValue] = Field(default_factory=dict)
+    violations: list[dict[str, JsonValue]] = Field(default_factory=list)
+    recommendations: list[str] = Field(default_factory=list)
 
 
 class SchemaResponse(StrictModel):
@@ -219,6 +228,7 @@ class AnalysisResponse(StrictModel):
     quality: QualityResponse
     kpis: KpiResponse
     charts: list[dict[str, JsonValue]]
+    cost_estimated: bool = False
 
 
 class RelationsResponse(StrictModel):
@@ -348,6 +358,20 @@ def analyze(rows: list[dict]) -> dict:
     quality = check_quality(raw_rows)
     kpis = calculate_kpis(view_rows)
     charts = generate_charts(view_rows)
+
+    mapping = getattr(raw_rows, "mapping", None) or inspect_and_map_columns(_ordered_columns(raw_rows))
+    roles = mapping.get("roles", {})
+    cost_col = roles.get("cost")
+    qty_col = roles.get("quantity")
+    ucost_col = roles.get("unit_cost")
+
+    if not raw_rows:
+        cost_estimated = False
+    else:
+        has_cost = any(r.get(cost_col) is not None for r in raw_rows) if cost_col else False
+        has_cogs = any(r.get(qty_col) is not None and r.get(ucost_col) is not None for r in raw_rows) if (qty_col and ucost_col) else False
+        cost_estimated = not (has_cost or has_cogs)
+
     return {
         "dataset": {"rows": len(raw_rows), "columns": len(schema["columns"])},
         "schema": schema,
@@ -355,6 +379,7 @@ def analyze(rows: list[dict]) -> dict:
         "quality": quality,
         "kpis": kpis,
         "charts": charts,
+        "cost_estimated": cost_estimated,
     }
 
 
@@ -528,6 +553,36 @@ def dataset_profile(payload: DatasetRequest, _user: dict = Depends(current_user)
 @app.post("/datasets/quality", response_model=QualityResponse, responses=DATA_RESPONSES)
 def dataset_quality(payload: DatasetRequest, _user: dict = Depends(current_user)) -> dict:
     return check_quality(canonical_rows(payload.rows))
+
+
+@app.post("/datasets/audit", response_model=QualityResponse, responses=DATA_RESPONSES)
+def audit_upload(
+    content: Annotated[
+        bytes,
+        Body(
+            media_type="application/octet-stream",
+            description="Raw UTF-8 CSV or JSON bytes to audit independently without affecting dashboard state.",
+        ),
+    ],
+    filename: str = Query(..., min_length=5, max_length=255),
+    _user: dict = Depends(current_user),
+) -> dict:
+    if len(content) > settings.max_upload_bytes:
+        raise HTTPException(status_code=413, detail="File is too large")
+    suffix = filename.lower().rsplit(".", 1)[-1]
+    if suffix == "csv":
+        raw_rows = read_csv(content)
+    elif suffix == "json":
+        raw_rows = read_json(content)
+    else:
+        raise HTTPException(status_code=400, detail="Only CSV and JSON files are supported")
+    if len(raw_rows) > settings.max_rows:
+        raise HTTPException(status_code=400, detail=f"Dataset exceeds the {settings.max_rows}-row limit")
+    try:
+        coerced = coerce_ecommerce_types(raw_rows)
+        return check_quality(coerced)
+    except Exception:
+        return check_quality(raw_rows)
 
 
 @app.post("/datasets/schema", response_model=SchemaResponse, responses=DATA_RESPONSES)

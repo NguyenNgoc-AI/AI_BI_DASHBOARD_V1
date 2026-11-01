@@ -31,6 +31,12 @@ const state = {
   busy: false,
   error: "",
   result: null,
+  audit: {
+    rows: [],
+    name: '',
+    quality: null,
+    demo: false,
+  },
 };
 const pages = [
   ["overview", "⌂", "Tổng quan"],
@@ -39,7 +45,7 @@ const pages = [
   ["data", "▱", "Dữ liệu"],
   ["products", "◇", "Sản phẩm"],
   ["finance", "▥", "Tài chính"],
-  ["synthetic", "⊞", "Dữ liệu tổng hợp"],
+  ["audit", `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>`, "Kiểm nghiệm dữ liệu"],
   ["admin", "♙", "Quản trị tài khoản"],
   ["settings", "⚙", "Cài đặt"],
 ];
@@ -169,9 +175,7 @@ function authView() {
   return `<main class="auth-page"><section class="auth-card"><div class="auth-form">${brand()}${success ? `<div class="success-symbol">✓</div><h1>Đã gửi yêu cầu!</h1><p>Yêu cầu đang chờ quản trị viên phê duyệt. Bạn sẽ nhận tài khoản và mật khẩu tạm qua kênh nội bộ.</p>${button("Trở lại đăng nhập", "login")}` : `<div class="eyebrow">Không gian làm việc của bạn</div><h1>${title}</h1><p>${sub}</p>${state.error ? `<div class="error" role="alert">${esc(state.error)}</div>` : ""}<form data-form="${form}">${fields}${form === "login" ? '<div class="auth-links"><span>Bảo mật trong phiên làm việc</span><button type="button" data-action="forgot">Quên mật khẩu?</button></div>' : ""}<button class="primary" type="submit">${submit}</button></form><div class="auth-links">${button(state.auth === "login" ? "Chưa có tài khoản? Gửi yêu cầu" : "← Trở lại đăng nhập", state.auth === "login" ? "register" : "login", "ghost")}${button("Cài đặt kết nối", "connection", "ghost")}</div>`}</div><div class="auth-art">${robot()}<small>CHÀO MỪNG ĐẾN VỚI</small><h2>Code Candy</h2><p>Biến dữ liệu thành hiểu biết.<br>Biến hiểu biết thành hành động.</p><small>— AI BI DASHBOARD —</small><br><br><p>Một không gian. Mọi góc nhìn.</p>${button("Khám phá cùng dữ liệu của bạn", "login", "ghost")}</div></section></main>`;
 }
 function shell() {
-  const visible = pages
-    .filter(([key]) => key !== "admin" || canAdmin(state.user))
-    .filter(([key]) => key !== "synthetic" || canGenerate(state.user));
+  const visible = pages.filter(([key]) => key !== "admin" || canAdmin(state.user));
   return `<div class="shell"><aside class="sidebar">${brand()}<nav class="nav" aria-label="Điều hướng chính">${visible.map(([key, icon, label]) => `<button data-page="${key}" class="${state.page === key ? "active" : ""}" ${state.page === key ? 'aria-current="page"' : ""}><span class="nav-icon">${icon}</span>${label}</button>`).join("")}</nav><div class="assistant-card">${robot()}<strong>AI Assistant</strong><p>Luôn sẵn sàng hỗ trợ<br>bạn khám phá dữ liệu!</p>${button("Chat với AI →", "chat")}</div></aside><header class="topbar"><button class="mobile-menu ghost" data-action="menu" aria-label="Mở menu">☰</button><form class="search" data-form="search"><input name="search" aria-label="Tìm trang" placeholder="⌕  Tìm báo cáo, dữ liệu, tính năng…"></form><div class="row"><span class="tag ${state.demo ? "orange" : "green"}">${state.demo ? "Dữ liệu mẫu" : "API trực tiếp"}</span><span class="avatar">${esc(state.user.username.slice(0, 1).toUpperCase())}</span><div class="user-info">${esc(state.user.username)}<small>${esc(state.user.role)} · ${esc(state.user.status)}</small></div><button class="ghost" data-action="logout" title="Đăng xuất" aria-label="Đăng xuất">↪</button></div></header><main class="content">${state.error ? `<div class="error" role="alert">${esc(state.error)}</div>` : ""}${pageView()}</main></div>`;
 }
 function heading(title, subtitle, action = "") {
@@ -185,6 +189,11 @@ function empty(
 }
 function kpis() {
   const k = state.analysis?.kpis;
+  const isCostEstimated = Boolean(state.analysis?.cost_estimated);
+  const profitCaption = isCostEstimated ? "⚠️ Chi phí ước tính" : "Doanh thu − chi phí";
+  const costNotice = isCostEstimated
+    ? `<div class="tip" style="margin-top:8px">⚠️ Chi phí được ước tính tự động từ doanh thu do tệp thiếu cột giá vốn.</div>`
+    : "";
   return `<div class="kpis">${[
     [
       "Tổng doanh thu",
@@ -192,7 +201,7 @@ function kpis() {
       "↗ Doanh thu trong dữ liệu",
     ],
     ["Tổng đơn hàng", k ? number(k.order_count) : "—", "◇ Đơn hàng duy nhất"],
-    ["Lợi nhuận", k ? money(k.net_profit) : "—", "Doanh thu − chi phí"],
+    ["Lợi nhuận", k ? money(k.net_profit) : "—", profitCaption],
     [
       "Giá trị trung bình / đơn",
       k ? money(k.average_order_value) : "—",
@@ -203,7 +212,7 @@ function kpis() {
       ([label, value, caption]) =>
         `<div class="kpi"><small>${label}</small><strong>${value}</strong><span class="tag">${caption}</span></div>`,
     )
-    .join("")}</div>`;
+    .join("")}</div>${costNotice}`;
 }
 function trend() {
   if (!state.analysis) return empty();
@@ -311,7 +320,7 @@ function dataView() {
       "Quản lý dữ liệu trong phiên làm việc và kiểm tra chất lượng.",
       state.analysis ? button("Xóa khỏi phiên", "clear-data", "ghost") : "",
     ) +
-    `<div class="split"><div class="stack"><section class="card"><form data-form="upload" class="dropzone"><div class="empty-symbol">⇧</div><h2>Tải dữ liệu của bạn</h2><p>CSV hoặc JSON · UTF-8 · Tối đa 10 MiB<br>Hỗ trợ tự động nhận diện từ điển ngữ nghĩa 38 cột (Anh/Việt) &amp; 5 vai trò chuẩn: date, order_id, product, revenue, cost</p><label>Tệp dữ liệu<input name="file" type="file" accept=".csv,.json" required></label><button class="primary">Tải lên & phân tích</button> ${button("Dùng mẫu", "sample", "ghost")}</form></section><section class="card"><div class="row between"><h2>Dữ liệu hiện tại</h2><span class="tag">${state.analysis ? esc(state.name) : "Chưa tải"}</span></div>${state.rows.length ? table(state.rows) : empty()}</section>${state.analysis ? `<section class="card"><h2>Schema & thống kê</h2><details><summary>Kiểu dữ liệu và quan hệ</summary>${jsonBlock(state.analysis.schema)}</details><details><summary>Profiling: phân bố, min, max, trung bình</summary>${jsonBlock(state.analysis.profile)}</details><details><summary>Chi tiết chất lượng</summary>${jsonBlock(state.analysis.quality)}</details></section>` : ""}<section class="card"><h2>Suy luận quan hệ nhiều bảng</h2><form data-form="relations"><label>JSON: {"tables": {"orders": [...], "customers": [...]}}<textarea name="tables" required placeholder='{"tables":{"orders":[{"customer_id":"C1"}],"customers":[{"customer_id":"C1"}]}}'></textarea></label><button class="primary">Phân tích quan hệ</button></form>${state.result?.kind === "relations" ? jsonBlock(state.result.data) : ""}</section></div><aside class="stack"><section class="card"><h2>Trạng thái dữ liệu</h2><p>${state.rows.length ? `${number(state.rows.length)} dòng đã tải` : "Chưa có nguồn dữ liệu"}</p><span class="tag ${state.demo ? "orange" : "green"}">${state.demo ? "Dữ liệu mẫu" : "Dữ liệu của bạn"}</span><div class="notice section-gap">Dữ liệu lưu trong bộ nhớ phiên. Tải lại trang hoặc đăng xuất sẽ xóa dữ liệu khỏi giao diện.</div></section><section class="card"><h2>Tệp mẫu</h2><p>Đúng schema backend, sẵn sàng để tải lên.</p>${button("↓ Tải CSV mẫu", "download-sample", "ghost")}</section></aside></div>`
+    `<div class="split"><div class="stack"><section class="card"><form data-form="upload" class="dropzone"><div class="empty-symbol">⇧</div><h2>Tải dữ liệu của bạn</h2><p>CSV hoặc JSON · UTF-8 · Tối đa 50 MiB<br>Hỗ trợ tự động nhận diện từ điển ngữ nghĩa 38 cột (Anh/Việt) &amp; 5 vai trò chuẩn: date, order_id, product, revenue, cost</p><label>Tệp dữ liệu<input name="file" type="file" accept=".csv,.json" required></label><button class="primary">Tải lên & phân tích</button> ${button("Dùng mẫu", "sample", "ghost")}</form></section><section class="card"><div class="row between"><h2>Dữ liệu hiện tại</h2><span class="tag">${state.analysis ? esc(state.name) : "Chưa tải"}</span></div>${state.rows.length ? table(state.rows) : empty()}</section>${state.analysis ? `<section class="card"><h2>Schema & thống kê</h2><details><summary>Kiểu dữ liệu và quan hệ</summary>${jsonBlock(state.analysis.schema)}</details><details><summary>Profiling: phân bố, min, max, trung bình</summary>${jsonBlock(state.analysis.profile)}</details><details><summary>Chi tiết chất lượng</summary>${jsonBlock(state.analysis.quality)}</details></section>` : ""}<section class="card"><h2>Suy luận quan hệ nhiều bảng</h2><form data-form="relations"><label>JSON: {"tables": {"orders": [...], "customers": [...]}}<textarea name="tables" required placeholder='{"tables":{"orders":[{"customer_id":"C1"}],"customers":[{"customer_id":"C1"}]}}'></textarea></label><button class="primary">Phân tích quan hệ</button></form>${state.result?.kind === "relations" ? jsonBlock(state.result.data) : ""}</section></div><aside class="stack"><section class="card"><h2>Trạng thái dữ liệu</h2><p>${state.rows.length ? `${number(state.rows.length)} dòng đã tải` : "Chưa có nguồn dữ liệu"}</p><span class="tag ${state.demo ? "orange" : "green"}">${state.demo ? "Dữ liệu mẫu" : "Dữ liệu của bạn"}</span><div class="notice section-gap">Dữ liệu lưu trong bộ nhớ phiên. Tải lại trang hoặc đăng xuất sẽ xóa dữ liệu khỏi giao diện.</div></section><section class="card"><h2>Tệp mẫu</h2><p>Đúng schema backend, sẵn sàng để tải lên.</p>${button("↓ Tải CSV mẫu", "download-sample", "ghost")}</section></aside></div>`
   );
 }
 function chat() {
@@ -323,15 +332,200 @@ function chat() {
     `<div class="chat-layout"><section class="card chat-panel"><div class="row between"><h2>✧ Trợ lý phân tích</h2><span class="tag">${state.analysis ? "Có ngữ cảnh dữ liệu" : "Chưa có dữ liệu"}</span></div><div class="messages"><div class="bubble">Xin chào ${esc(state.user.username)}! Tôi có thể giúp bạn phân tích doanh thu, sản phẩm và chất lượng dữ liệu. ${state.analysis ? "Bạn muốn tìm hiểu điều gì?" : "Hãy tải dữ liệu trước để bắt đầu."}</div>${state.messages.map((m) => `<div class="bubble ${m.role === "user" ? "user" : ""}">${esc(m.text)}${m.source ? `<small>Nguồn: ${esc(m.source)}</small>` : ""}</div>`).join("")}</div><form class="chat-input" data-form="chat"><input name="question" maxlength="2000" placeholder="Hỏi về doanh thu, lợi nhuận, sản phẩm…" aria-label="Câu hỏi" required ${!state.analysis ? "disabled" : ""}><select name="mode" aria-label="Chế độ" style="width:110px"><option value="query">Chat AI</option><option value="sql">SQL</option></select><button class="primary" ${!state.analysis ? "disabled" : ""}>Gửi ↗</button></form></section><aside class="stack"><section class="card"><h2>Gợi ý cho bạn</h2><div class="quick">${["Tổng doanh thu là bao nhiêu?", "Sản phẩm nào có doanh thu cao nhất?", "Lợi nhuận của dữ liệu hiện tại?", "Chất lượng dữ liệu như thế nào?"].map((q) => `<button data-question="${q}" ${!state.analysis ? "disabled" : ""}>✧ ${q}</button>`).join("")}</div></section><div class="tip">Câu trả lời có thể đến từ chế độ deterministic. Nhãn nguồn dưới mỗi câu trả lời cho biết provider thực tế.</div><section class="card"><h2>Text-to-SQL</h2><p>Chế độ SQL trả câu lệnh SELECT đã kiểm tra. Giao diện không thực thi SQL tùy ý.</p></section></aside></div>`
   );
 }
-function synthetic() {
-  if (!canGenerate(state.user))
-    return '<div class="error">Bạn không có quyền truy cập.</div>';
+function audit() {
+  const auditState = state.audit || {};
+  const q = auditState.quality;
+  const hasAudited = Boolean(q);
+
+  const dims = q?.dimensions || {};
+  const comp = dims.completeness || { score: 100, missing_rows: 0 };
+  const uniq = dims.uniqueness || { score: 100, duplicate_rows: 0, primary_key: "order_id" };
+  const val = dims.validity || { score: 100, invalid_rows: 0 };
+  const outl = dims.outliers || { score: 100, outlier_count: 0 };
+  const violations = q?.violations || [];
+  const recs = q?.recommendations || [];
+
+  const scorePct = Math.round((q?.score ?? 1.0) * 100);
+  const statusColor = q?.status === "PASSED" ? "green" : q?.status === "WARNING" ? "orange" : "danger";
+
+  // Upload Form
+  const uploadBox = `
+    <section class="card">
+      <form data-form="audit-upload" class="dropzone">
+        <div class="empty-symbol"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h2>Kiểm nghiệm tệp dữ liệu độc lập (Pre-flight Sandbox)</h2>
+        <p>
+          Tải tệp CSV hoặc JSON (tối đa 50 MiB) để quét chất lượng và quy tắc kinh doanh.<br>
+          <b>Hoàn toàn độc lập:</b> Quá trình kiểm nghiệm không ghi đè hay làm thay đổi Dashboard đang hiển thị.
+        </p>
+        <label>
+          Chọn tệp kiểm thử
+          <input name="file" type="file" accept=".csv,.json" required>
+        </label>
+        <div class="row" style="gap:10px;flex-wrap:wrap;">
+          <button class="primary">Quét &amp; Kiểm nghiệm ngay</button>
+          ${button("Dùng tệp mẫu test", "audit-sample", "ghost")}
+          ${state.rows.length ? button("↻ Lấy dữ liệu từ Dashboard", "audit-from-dashboard", "ghost") : ""}
+        </div>
+      </form>
+    </section>
+  `;
+
+  if (!hasAudited) {
+    return (
+      heading(
+        "Kiểm nghiệm dữ liệu",
+        "Tiền kiểm tra sức khỏe và luật kinh doanh của tập dữ liệu trước khi quyết định nạp vào Dashboard.",
+      ) +
+      uploadBox +
+      empty(
+        "Chưa có tệp nào được kiểm nghiệm",
+        "Chọn tệp CSV/JSON ở khung trên hoặc bấm 'Dùng tệp mẫu test' để hệ thống quét tự động.",
+      )
+    );
+  }
+
+  // Pre-flight Decision Banner
+  const isClean = q.status === "PASSED";
+  const decisionBanner = `
+    <section class="card section-gap" style="border-left:5px solid ${isClean ? "#1e7e43" : "#e05353"};background:${isClean ? "#f2faf5" : "#fff8f8"};">
+      <div class="row between" style="flex-wrap:wrap;gap:15px;">
+        <div>
+          <h3 style="margin-bottom:4px;color:${isClean ? "#1e7e43" : "#bc3650"};font-size:16px;">
+            ${isClean ? "✓ Dữ liệu đạt tiêu chuẩn chất lượng" : "⚠️ Phát hiện một số cảnh báo / lỗi dữ liệu"}
+          </h3>
+          <p style="margin:0;font-size:13px;">
+            Tệp đang kiểm thử: <b>${esc(auditState.name)}</b> (${number(auditState.rows.length)} dòng).
+            ${isClean ? "Bạn có thể đưa tệp này vào Dashboard để vẽ biểu đồ và phân tích ngay." : "Nên kiểm tra các dòng vi phạm trước khi đưa vào Dashboard để tránh sai lệch báo cáo."}
+          </p>
+        </div>
+        <div class="row" style="gap:10px;">
+          <button class="${isClean ? "primary" : "danger"}" data-action="apply-audit-to-dashboard">
+            🚀 Đưa vào Dashboard
+          </button>
+          ${button("📥 Xuất biên bản (JSON)", "download-audit", "ghost")}
+        </div>
+      </div>
+    </section>
+  `;
+
+  // Scorecard with 4 pillars
+  const scorecardHtml = `
+    <div class="grid2 section-gap">
+      <section class="card">
+        <div class="row between">
+          <h2>Điểm chất lượng tổng thể</h2>
+          <span class="tag ${statusColor}">${esc(q.status || "PASSED")}</span>
+        </div>
+        <div class="row section-gap" style="gap:24px;align-items:center;">
+          <div class="donut" data-label="${scorePct}%" style="background:conic-gradient(#5651e8 ${scorePct * 3.6}deg, #eeedf9 0);width:90px;height:90px;min-width:90px;font-size:18px;"></div>
+          <div>
+            <h3 style="margin-bottom:4px;font-size:16px;">${esc(q.tier || "Tier A (Xuất sắc)")}</h3>
+            <p style="margin:0;font-size:13px;">Đánh giá dựa trên 4 trụ cột: Tính đầy đủ, Tính duy nhất, Tính hợp lệ &amp; Bất thường.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4 Trụ cột chất lượng</h2>
+        <div class="stack" style="gap:12px;">
+          <div>
+            <div class="row between" style="font-size:13px;margin-bottom:4px;">
+              <span><b>1. Tính đầy đủ (Completeness)</b></span>
+              <span class="tag ${comp.missing_rows === 0 ? "green" : "orange"}">${comp.score}% · ${number(comp.missing_rows)} dòng thiếu</span>
+            </div>
+            <div class="progress"><i style="width:${comp.score}%;background:#5651e8;"></i></div>
+          </div>
+          <div>
+            <div class="row between" style="font-size:13px;margin-bottom:4px;">
+              <span><b>2. Tính duy nhất (Uniqueness)</b></span>
+              <span class="tag ${uniq.duplicate_rows === 0 ? "green" : "orange"}">${uniq.score}% · ${number(uniq.duplicate_rows)} đơn trùng</span>
+            </div>
+            <div class="progress"><i style="width:${uniq.score}%;background:#5651e8;"></i></div>
+          </div>
+          <div>
+            <div class="row between" style="font-size:13px;margin-bottom:4px;">
+              <span><b>3. Tính hợp lệ (Validity)</b></span>
+              <span class="tag ${val.invalid_rows === 0 ? "green" : "danger"}">${val.score}% · ${number(val.invalid_rows)} dòng lỗi toán</span>
+            </div>
+            <div class="progress"><i style="width:${val.score}%;background:#5651e8;"></i></div>
+          </div>
+          <div>
+            <div class="row between" style="font-size:13px;margin-bottom:4px;">
+              <span><b>4. Bất thường (Outliers)</b></span>
+              <span class="tag ${outl.outlier_count === 0 ? "green" : "orange"}">${outl.score}% · ${number(outl.outlier_count)} ngoại lai</span>
+            </div>
+            <div class="progress"><i style="width:${outl.score}%;background:#5651e8;"></i></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  `;
+
+  // Recommendations
+  const recsHtml = recs.length ? `
+    <section class="card section-gap">
+      <h2>💡 Đề xuất khắc phục &amp; Khuyến nghị</h2>
+      <ul style="margin:0;padding-left:20px;line-height:1.8;color:#535776;">
+        ${recs.map((r) => `<li>${esc(r)}</li>`).join("")}
+      </ul>
+    </section>
+  ` : "";
+
+  // Violations Table
+  const violationsHtml = `
+    <section class="card section-gap">
+      <div class="row between">
+        <h2>Danh sách cảnh báo &amp; vi phạm (${violations.length ? `${violations.length} mục` : "0 mục"})</h2>
+        <span class="tag ${violations.length ? "orange" : "green"}">${violations.length ? "Cần rà soát" : "Dữ liệu sạch"}</span>
+      </div>
+      ${violations.length ? `
+        <div class="table-wrap section-gap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:60px;">Dòng</th>
+                <th>Mã đơn / Khóa</th>
+                <th>Phân loại</th>
+                <th>Mức độ</th>
+                <th>Quy tắc vi phạm</th>
+                <th>Chi tiết vấn đề</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${violations.slice(0, 50).map((v) => `
+                <tr>
+                  <td><b>#${v.row_index}</b></td>
+                  <td><code>${esc(v.identifier)}</code></td>
+                  <td>${esc(v.category)}</td>
+                  <td><span class="tag ${v.severity === "CRITICAL" ? "danger" : v.severity === "WARNING" ? "orange" : ""}">${esc(v.severity)}</span></td>
+                  <td><small>${esc(v.rule)}</small></td>
+                  <td>${esc(v.message)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+        ${violations.length > 50 ? `<p class="muted section-gap" style="text-align:center;">Hiển thị 50 / ${violations.length} vi phạm đầu tiên. Tải tệp JSON để xem toàn bộ danh sách.</p>` : ""}
+      ` : `
+        <div class="notice section-gap" style="background:#eaf8ef;color:#1e7e43;border-color:#b8ebd0;">
+          ✓ Tuyệt vời! Không phát hiện vi phạm luật kinh doanh, trùng lặp khóa chính hay giá trị khuyết thiếu trong tập dữ liệu này.
+        </div>
+      `}
+    </section>
+  `;
+
   return (
     heading(
-      "Dữ liệu tổng hợp",
-      "Sinh và kiểm định dữ liệu từ tập dữ liệu hiện tại.",
+      "Kiểm nghiệm dữ liệu",
+      "Tiền kiểm tra sức khỏe và luật kinh doanh của tập dữ liệu trước khi quyết định nạp vào Dashboard.",
+      hasAudited ? button("＋ Đổi tệp kiểm thử", "audit-sample", "ghost") : ""
     ) +
-    `<div class="grid2"><section class="card"><form data-form="synthetic"><label>Mô hình<select name="model">${["bootstrap", "gaussian_copula", "ctgan", "copulagan", "llm_agent"].map((m) => `<option>${m}</option>`).join("")}</select></label>${field("Số dòng cần sinh", "count", "number", 'min="1" max="100000" value="100"')}${field("Seed", "seed", "number", 'value="42"')}<label>Cột mục tiêu TSTR (không bắt buộc)<input name="target_column" placeholder="revenue"></label><button class="primary" ${!state.rows.length ? "disabled" : ""}>Sinh & kiểm định</button></form><p class="section-gap">CTGAN/Copula cần requirements-ai. LLM Agent cần provider thật. Tập lớn có thể vượt thời gian chờ.</p></section><section class="card">${state.result?.kind === "synthetic" ? `<h2>Kết quả kiểm định</h2>${jsonBlock(state.result.data.validation)}${button("Tải JSON tổng hợp", "download-synthetic")}` : empty("Sẵn sàng tạo dữ liệu mới", "Tải dữ liệu ở mục Dữ liệu, sau đó chọn mô hình.")}</section></div>`
+    uploadBox +
+    decisionBanner +
+    scorecardHtml +
+    recsHtml +
+    violationsHtml
   );
 }
 function admin() {
@@ -362,8 +556,8 @@ function pageView() {
       return dataView();
     case "chat":
       return chat();
-    case "synthetic":
-      return synthetic();
+    case "audit":
+      return audit();
     case "admin":
       return admin();
     case "settings":
@@ -424,6 +618,7 @@ const rolePermissions = {
     "chart:view",
     "chat:use",
     "report:view",
+    "dataset:audit",
   ],
   manager: [
     "dashboard:view",
@@ -478,10 +673,43 @@ root.addEventListener("submit", (event) => {
       state.auth = "login";
       toast("Kích hoạt thành công. Đăng nhập lại bằng mật khẩu mới.");
     }
+    if (kind === "audit-upload") {
+      const file = data.file;
+      if (!file.size || file.size > 52428800)
+        throw new Error("Tệp phải từ 1 byte đến 50 MiB.");
+      const text = await file.text();
+      state.error = "";
+      const rows = parseDataset(text, file.name, { tolerant: true });
+      const quality = await api.post(
+        "/datasets/audit?filename=" + encodeURIComponent(file.name),
+        text,
+        { raw: true },
+      );
+      if (rows.structural_errors && rows.structural_errors.length) {
+        const existingRowIndices = new Set((quality.violations || []).map((v) => v.row_index));
+        for (const err of rows.structural_errors) {
+          if (!existingRowIndices.has(err.row_index)) {
+            (quality.violations = quality.violations || []).unshift({
+              row_index: err.row_index,
+              identifier: `Dòng #${err.row_index}`,
+              category: "Cấu trúc tệp (CSV Malformed)",
+              severity: "CRITICAL",
+              rule: "CSV Column Count Matching",
+              message: `Dòng ${err.row_index} có ${err.actual} cột, không khớp số cột tiêu đề (${err.expected} cột). Đã tự động đệm để kiểm nghiệm.`,
+            });
+          }
+        }
+      }
+      state.audit.rows = rows;
+      state.audit.quality = quality;
+      state.audit.name = file.name;
+      state.audit.demo = false;
+      toast(`Đã kiểm nghiệm xong ${rows.length} dòng dữ liệu.`);
+    }
     if (kind === "upload") {
       const file = data.file;
-      if (!file.size || file.size > 10485760)
-        throw new Error("Tệp phải từ 1 byte đến 10 MiB.");
+      if (!file.size || file.size > 52428800)
+        throw new Error("Tệp phải từ 1 byte đến 50 MiB.");
       const text = await file.text();
       const rows = parseDataset(text, file.name);
       const analysis = await api.post(
@@ -518,16 +746,7 @@ root.addEventListener("submit", (event) => {
         },
       );
     }
-    if (kind === "synthetic") {
-      const response = await api.post("/synthetic/generate", {
-        rows: selectedRows(),
-        count: Number(data.count),
-        seed: Number(data.seed),
-        model: data.model,
-        target_column: data.target_column || null,
-      });
-      state.result = { kind: "synthetic", data: response };
-    }
+
     if (kind === "relations") {
       const response = await api.post(
         "/schema/infer-relations",
@@ -593,8 +812,7 @@ root.addEventListener("submit", (event) => {
       );
       if (!match) throw new Error("Không tìm thấy trang phù hợp.");
       if (
-        (match[0] === "admin" && !canAdmin(state.user)) ||
-        (match[0] === "synthetic" && !canGenerate(state.user))
+        (match[0] === "admin" && !canAdmin(state.user))
       )
         throw new Error("Bạn không có quyền truy cập trang này.");
       state.page = match[0];
@@ -720,13 +938,49 @@ root.addEventListener("click", (event) => {
     );
     return;
   }
-  if (action === "download-synthetic") {
+  if (action === "apply-audit-to-dashboard") {
+    if (!state.audit?.rows?.length) return;
+    run(async () => {
+      await loadRows(state.audit.rows, state.audit.name || "Dữ liệu đã kiểm nghiệm", state.audit.demo);
+      state.page = "overview";
+      toast("Đã nạp dữ liệu kiểm nghiệm vào Dashboard thành công!");
+    });
+    return;
+  }
+  if (action === "audit-sample") {
+    run(async () => {
+      const quality = await api.post("/datasets/quality", { rows: sampleRows });
+      state.audit.rows = sampleRows;
+      state.audit.quality = quality;
+      state.audit.name = "Dữ liệu mẫu kiểm thử · 24 dòng";
+      state.audit.demo = true;
+      toast("Đã nạp dữ liệu mẫu vào hộp kiểm nghiệm.");
+      render();
+    });
+    return;
+  }
+  if (action === "audit-from-dashboard") {
+    if (!state.rows?.length) {
+      toast("Dashboard hiện chưa có dữ liệu.");
+      return;
+    }
+    state.audit.rows = [...state.rows];
+    state.audit.quality = state.analysis?.quality || null;
+    state.audit.name = state.name || "Dữ liệu Dashboard";
+    state.audit.demo = state.demo;
+    toast("Đã nạp dữ liệu hiện tại của Dashboard vào kiểm nghiệm.");
+    render();
+    return;
+  }
+  if (action === "download-audit") {
+    if (!state.analysis?.quality) return;
     saveFile(
-      new Blob([JSON.stringify(state.result.data.rows, null, 2)], {
+      new Blob([JSON.stringify(state.analysis.quality, null, 2)], {
         type: "application/json",
       }),
-      "synthetic.json",
+      `data_quality_audit_${new Date().toISOString().slice(0, 10)}.json`,
     );
+    toast("Đã tải biên bản kiểm toán dữ liệu.");
     return;
   }
   if (action === "clear-data") {

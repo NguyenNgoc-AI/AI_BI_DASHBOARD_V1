@@ -27,5 +27,5 @@ def profile_column(values: list[Any]) -> dict[str, Any]:
 
 
 def profile_dataset(rows: list[dict]) -> dict:
-    columns = sorted(set().union(*(row.keys() for row in rows))) if rows else []
+    columns = list(dict.fromkeys(key for row in rows for key in row.keys())) if rows else []
     return {"row_count": len(rows), "columns": {column: profile_column([row.get(column) for row in rows]) for column in columns}}
