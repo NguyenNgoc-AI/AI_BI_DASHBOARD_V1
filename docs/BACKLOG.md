@@ -18,6 +18,7 @@
   2. [x] Chạy lệnh `python -m unittest tests/test_api.py` hoàn tất trong vòng dưới 15 giây và đạt kết quả **PASS 100% (6/6 suites, 2.58s)**.
 
 ---
+
 ## Mức Độ Ưu Tiên P1: Cốt Lõi & Dọn Dẹp Mã Nguồn
 
 ### [P1-1] Dọn Dẹp Mã Nguồn Nhân Bản & Sửa Lỗi Import [HOÀN THÀNH]
@@ -41,6 +42,28 @@
   3. [x] **Cầu nối nạp Dashboard:** Cung cấp nút **"🚀 Đưa vào Dashboard"** để chuyển dữ liệu đã kiểm định đạt chuẩn sang Dashboard chỉ bằng một cú nhấp chuột.
   4. [x] **Kiểm thử:** Bổ sung test kiểm tra `POST /datasets/audit` và các trường audit; toàn bộ test suite chạy đạt 100% PASS.
 
+### [P1-4] Chuẩn Hóa & Tự Động Hóa Dựng Dashboard Theo 3 Cơ Chế Đa Chiều & DESIGN.md [HOÀN THÀNH]
+- **Mô tả:** Triển khai tự động hóa dựng Dashboard và phân bổ 3 cơ chế hiển thị trên 2 tab Tổng quan và Báo cáo theo đúng bộ quy chuẩn thiết kế [`docs/DESIGN.md`](./DESIGN.md) (ADR-10).
+- **Tiêu chí hoàn thành (Acceptance Criteria):**
+  1. [x] **Backend (`chart_generator.py`):** Bổ sung bộ lọc quyết định chọn biểu đồ tự động (Line nếu $\ge 7$ mốc, Column nếu $\le 6$ mốc; giới hạn Donut $\le 5$ lát, tự động chuyển đổi sang Horizontal Sorted Bar có baseline = 0 nếu $> 5$ danh mục; tự động gộp nhóm "Khác" nếu $> 15$ danh mục). Đính kèm metadata chỉ định `palette_slot` và `measure_family`.
+  2. [x] **Tab Tổng quan (Cơ chế 1 & 2):**
+     - *Cơ chế 1 (Metric Switcher):* Thanh chọn nhanh các chỉ số số thực có trong file (`revenue, cost, quantity, profit, discount...`). Bấm chọn chỉ số nào thì toàn bộ 4 thẻ KPI và biểu đồ trục $Y$ chuyển sang chỉ số đó; màu sắc đồng bộ theo bảng màu Okabe-Ito.
+     - *Cơ chế 2 (Breakdown đa chiều):* Hiển thị biểu đồ thanh ngang cho các chiều danh mục chính (Sản phẩm, Vùng miền, Kênh), tự động nhảy số theo chỉ số chọn ở Cơ chế 1.
+  3. [x] **Tab Báo cáo (Cơ chế 3):**
+     - Thay thế các khối JSON thô bằng lưới thẻ trực quan *Data Distribution Explorer* cho 100% các cột (Mini Histogram cho cột số, Data Bars cho cột danh mục).
+  4. [x] **Kiểm thử:** Đảm bảo toàn bộ test suite frontend và backend đạt 100% PASS, nhãn chữ đạt chuẩn tương phản WCAG 2.1 AA.
+
+### [P1-5] Nâng Cấp Chatbot Cô Lập Thành Local Semantic Intent Engine (4 Nhóm Hỏi Đáp & Zero Mutation) [HOÀN THÀNH]
+- **Mô tả:** Tái cấu trúc lớp chatbot thành chuyên gia đọc vị biểu đồ nội bộ (ADR-11), đảm bảo cô lập 100% không thể can thiệp hay sửa đổi Dashboard chính, khắc phục triệt để lỗi hỏi gì cũng trả về 1 câu doanh thu.
+- **Tiêu chí hoàn thành (Acceptance Criteria):**
+  1. [x] **Ranh giới cô lập (Zero Mutation):** Endpoint `/chat/query` và giao diện chat hoạt động hoàn toàn ở chế độ Read-only; cấm tuyệt đối mọi logic ghi đè hay thay đổi `state.rows` / `state.filter`.
+  2. [x] **Local Semantic Intent Engine (`llm_router.py`):** Nâng cấp `DeterministicAdapter` thành bộ máy phân loại ý định nội bộ chạy local 100% miễn phí, phản hồi tức thì (< 2ms), bao quát chuẩn xác 4 nhóm:
+     - *Chào hỏi & Hướng dẫn:* Chào mừng thân thiện, giới thiệu chức năng.
+     - *Công thức tính toán:* Giải thích cặn kẽ công thức AOV, Net Profit, Gross/Net Sales, Margin, COGS.
+     - *Truy vấn Dashboard:* Bóc tách chính xác từng chỉ số KPI hoặc sản phẩm theo đúng câu hỏi.
+     - *Từ chối ngoài phạm vi:* Câu hỏi ngoài lề được trả về nguyên văn: *"Yêu cầu này không nằm trong phạm vi hỏi đáp của trợ lý dữ liệu Dashboard."*
+  3. [x] **Kiểm thử tích hợp:** Viết unit test và API test kiểm tra cả 4 kịch bản hỏi đáp, đạt 100% PASS.
+
 ---
 
 ## Mức Độ Ưu Tiên P2: Kế Hoạch Tiếp Theo (Upcoming Tasks)
@@ -57,11 +80,11 @@
   1. [ ] API `GET /admin/users` trả về danh sách tài khoản hiện có cùng trạng thái kích hoạt và role.
   2. [ ] Giao diện Admin hiển thị bảng tài khoản, cho phép đổi vai trò (`admin`, `manager`, `user`) trực tiếp qua dropdown.
 
-### [P2-3] Tối Ưu Ngữ Cảnh Cho Trợ Lý AI (Chatbot RAG Trực Quan) [CHỜ LÀM]
-- **Mô tả:** Tinh chỉnh prompt và lược trích ngữ cảnh từ dữ liệu Dashboard hiện hành khi người dùng đặt câu hỏi phân tích kinh doanh.
+### [P2-3] Mở Rộng Quy Tắc E-commerce Rules & Benchmark Metrics Cho Dashboard [CHỜ LÀM]
+- **Mô tả:** Bổ sung thêm các chỉ số và ngưỡng cảnh báo ngành (ví dụ: Tỷ lệ hoàn đơn, Chi phí vận chuyển / Doanh thu) vào bộ luật nghiệp vụ `semantic/business_rules.py`.
 - **Tiêu chí hoàn thành (Acceptance Criteria):**
-  1. [ ] Khi dataset có nhiều dòng, tự động tóm tắt các chiều phân tích quan trọng (Top 5 sản phẩm, ngày biến động mạnh nhất) gửi cho LLM.
-  2. [ ] Đảm bảo câu trả lời phản ánh đúng số liệu đang hiển thị trên biểu đồ của người dùng.
+  1. [ ] Mở rộng tính toán các chỉ số bổ trợ khi file đầu vào có các cột tương ứng.
+  2. [ ] Hiển thị cảnh báo trực quan khi chỉ số vượt ngưỡng an toàn theo chuẩn ngành E-commerce.
 
 ---
 

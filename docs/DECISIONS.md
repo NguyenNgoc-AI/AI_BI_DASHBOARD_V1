@@ -86,3 +86,37 @@ Tài liệu này ghi lại các quyết định thiết kế quan trọng trong 
   - Tách biệt hoàn toàn trạng thái giữa phiên làm việc Dashboard (`state.rows`, `state.analysis`) và phiên kiểm thử độc lập (`state.audit.rows`, `state.audit.quality`).
 - **Phương án đã loại bỏ (Đã loại bỏ):** Loại bỏ việc buộc người dùng phải tải dữ liệu trực tiếp vào Dashboard rồi mới xem được chất lượng.
 
+---
+
+### ADR-10: Chuẩn Hóa & Tự Động Hóa Dựng Dashboard Theo 3 Cơ Chế Đa Chiều & Bộ Quy Chuẩn DESIGN.md
+- **Ngày quyết định:** 02/11/2026
+- **Quyết định:**
+  1. Hợp nhất và ban hành bộ quy chuẩn thiết kế chính thức [`docs/DESIGN.md`](./DESIGN.md) gồm hai trụ cột: *Chiến lược màu sắc (Color Strategy)* và *Khung quyết định chọn biểu đồ (Chart Selection Framework)*.
+  2. Xóa bỏ hoàn toàn việc hardcode bám cứng vào chỉ số Doanh thu (`revenue`); thay thế bằng cấu trúc 3 cơ chế phân tầng trên 2 tab hiển thị:
+     - **Cơ chế 1: Dynamic Metric Switcher (Chuyển đổi chỉ số 1-chạm):** Đặt ở đầu tab *Tổng quan*, tự động phát hiện các cột số (`revenue, cost, quantity, profit, discount...`), cho phép đổi góc nhìn toàn bộ Dashboard chỉ bằng 1 click mà không tốn diện tích màn hình.
+     - **Cơ chế 2: Multi-Dimensional Breakdown (Phân rã đa chiều tự động):** Đặt ở thân tab *Tổng quan*, tự động quét các cột danh mục (`product, category, city...`) để dựng các biểu đồ thanh ngang sắp xếp giảm dần (*Horizontal Sorted Bar*) và Donut ($\le 5$ nhóm), tự động nhảy số theo chỉ số chọn ở Cơ chế 1.
+     - **Cơ chế 3: Tầng Khám phá toàn diện (Data Profile & Distribution Explorer):** Đặt ở tab *Báo cáo*, hiển thị thẻ trực quan Mini Histogram và Data Bars phân bố cho 100% các cột trong file thay thế các khối JSON thô.
+  3. Áp dụng bảng màu chuẩn mù màu Okabe-Ito, nguyên tắc *Same measure $\rightarrow$ same color*, gốc trục tọa độ luôn bắt đầu từ số 0 (`baseline = 0`), và tuyệt đối cấm biểu đồ tròn $> 5$ lát cắt.
+- **Lý do (Vì):**
+  - Tự động hóa quá trình trực quan hóa dữ liệu từ tệp thô, đảm bảo tính chuẩn xác thống kê và thẩm mỹ theo đẳng cấp Power BI / Tableau Tier.
+  - Bao quát 100% các cột số và chiều danh mục trong file mà không gây quá tải nhận thức thị giác cho người dùng.
+- **Phương án đã loại bỏ (Đã loại bỏ):** Loại bỏ việc hardcode cứng chỉ vẽ doanh thu; loại bỏ việc vẽ biểu đồ tròn quá nhiều lát cắt gây vỡ giao diện; loại bỏ việc cho phép người dùng tùy tiện vẽ biểu đồ sai quy chuẩn.
+
+---
+
+### ADR-11: Cô Lập Chatbot Thành Trợ Lý Đọc Vị Biểu Đồ Nội Bộ (Local Semantic Intent Engine)
+- **Ngày quyết định:** 02/11/2026
+- **Quyết định:**
+  1. **Cô lập hoàn toàn (Zero Mutation / Read-only):** Chatbot chỉ đóng vai trò phân tích, diễn giải dữ liệu và trả lời câu hỏi; tuyệt đối không có quyền can thiệp, chỉnh sửa hay làm thay đổi Dashboard chính (`state.rows`, `state.filter`).
+  2. **Thay thế cơ chế hardcode 1 câu bằng Local Semantic Intent Engine:** Nâng cấp lớp `DeterministicAdapter` thành bộ máy xử lý ngôn ngữ tự nhiên nội bộ đáp ứng chuẩn xác 4 nhóm chủ đề:
+     - *Nhóm 1 (Chào hỏi & Hướng dẫn):* Chào hỏi thân thiện và giới thiệu các chức năng hỗ trợ.
+     - *Nhóm 2 (Giải thích công thức tài chính):* Tích hợp sẵn tri thức công thức tính toán AOV, Lợi nhuận ròng, Doanh thu thuần, Biên lợi nhuận...
+     - *Nhóm 3 (Hỏi đáp số liệu Dashboard):* Bóc tách chính xác từng chỉ số KPI hoặc sản phẩm bán chạy theo đúng câu hỏi của người dùng.
+     - *Nhóm 4 (Từ chối ngoài phạm vi):* Tự động nhận diện câu hỏi ngoài lề (thời tiết, code...) và từ chối lịch sự bằng câu chuẩn xác: *"Yêu cầu này không nằm trong phạm vi hỏi đáp của trợ lý dữ liệu Dashboard."*
+  3. **Vận hành 100% Local, Miễn phí, Ổn định:** Không phụ thuộc vào API đám mây ngoài, tốc độ phản hồi tức thì (< 2ms), độ chính xác tuyệt đối (0% ảo giác số liệu) và bảo mật dữ liệu tuyệt đối trên máy người dùng.
+- **Lý do (Vì):**
+  - Khắc phục triệt để lỗi chatbot cũ hỏi bất kỳ câu gì cũng chỉ trả về 1 câu doanh thu/chi phí.
+  - Bảo vệ Dashboard chính an toàn 100%, không lo AI can thiệp phá vỡ giao diện.
+  - Phù hợp hoàn hảo với định hướng phát triển cục bộ (Lean Local Strategy) không tốn chi phí và không phụ thuộc mạng internet.
+- **Phương án đã loại bỏ (Đã loại bỏ):** Loại bỏ việc để Chatbot có quyền sửa đổi dashboard (Text-to-Dashboard / Generative Modifier); loại bỏ việc phụ thuộc cứng vào các API đám mây trả phí tốn kém và có độ trễ cao.
+

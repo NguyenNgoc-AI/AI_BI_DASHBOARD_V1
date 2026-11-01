@@ -220,33 +220,41 @@ flowchart TD
     K --> N
     L --> N
     M --> N
-    N --> O[Frontend lưu dữ liệu vào RAM & Render Dashboard]
+    N --> O[Frontend lưu dữ liệu vào RAM & Render Dashboard 3 Tầng]
+    O --> O1[Tầng 1: Dynamic Metric Switcher - Đổi góc nhìn 1-chạm]
+    O --> O2[Tầng 2: Multi-Dimensional Breakdown - Biểu đồ danh mục]
+    O --> O3[Tầng 3: Data Distribution Explorer - Khám phá 100% cột tại tab Báo cáo]
 ```
 
-### 4.3 Luồng Trợ Lý AI & Text-to-SQL An Toàn
+### 4.3 Luồng Trợ Lý AI Cô Lập (Isolated Local Semantic Engine) & Text-to-SQL An Toàn
 
 ```mermaid
 flowchart LR
-    Q[Người dùng gửi câu hỏi] --> API[POST /chat/query hoặc /chat/sql]
+    Q[Người dùng gửi câu hỏi] --> API[POST /chat/query (Read-only / Zero Mutation)]
     API --> Ctx[build_dashboard_context: Đóng gói KPI, Charts, Schema dạng JSON]
     Ctx --> Prompt[Bọc dữ liệu trong tag an toàn <untrusted_data>]
     Prompt --> Router{LLM Router}
     
+    Router -->|LLM_PROVIDER=deterministic (Mặc định)| DET[Local Semantic Intent Engine]
     Router -->|LLM_PROVIDER=openai| OAI[OpenAI Responses API]
     Router -->|LLM_PROVIDER=gemini| GEM[Google Gemini generateContent]
     Router -->|LLM_PROVIDER=llama| LLM[Local Llama / Ollama Server]
-    Router -->|LLM_PROVIDER=deterministic| DET[Deterministic Local Fallback]
     
     OAI -.->|Lỗi API / Mất mạng| DET
     GEM -.->|Lỗi API / Mất mạng| DET
     LLM -.->|Lỗi API / Mất mạng| DET
     
-    DET --> Res[Câu trả lời cố định từ KPI có sẵn]
-    OAI --> Res2[Câu trả lời tổng hợp từ ngữ cảnh]
-    GEM --> Res2
-    LLM --> Res2
+    DET --> D1[1. Chào hỏi & Hướng dẫn]
+    DET --> D2[2. Từ điển công thức tài chính]
+    DET --> D3[3. Bóc tách số liệu KPI / Charts thật]
+    DET --> D4[4. Từ chối ngoài phạm vi]
     
-    Res --> Client[Trả kết quả kèm source & fallback_reason]
-    Res2 --> Client
+    D1 --> Client[Trả kết quả JSON hiển thị lên khung Chat - Không đổi state Dashboard]
+    D2 --> Client
+    D3 --> Client
+    D4 --> Client
+    OAI --> Client
+    GEM --> Client
+    LLM --> Client
 ```
 

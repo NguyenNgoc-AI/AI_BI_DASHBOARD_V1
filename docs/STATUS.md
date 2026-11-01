@@ -1,6 +1,6 @@
 # STATUS.md — Hiện Trạng Từng Tính Năng & Rủi Ro Kỹ Thuật
 
-> **Ngày cập nhật:** 01/11/2026  
+> **Ngày cập nhật:** 02/11/2026  
 > **Tình trạng kiểm toán:** Toàn diện mã nguồn, kiểm tra cơ sở dữ liệu SQLite và chạy các bộ test thực tế.
 
 ---
@@ -25,16 +25,15 @@
 | 2.2 | Đánh giá chất lượng dữ liệu (Quality Check & EDA) | **Xong** | Kiểm tra null, duplicate, outlier, tính toán ma trận tương quan và phân phối cột. |
 | 2.3 | Suy luận cấu trúc và quan hệ (`/schema/infer-relations`) | **Xong** | Dự đoán kiểu dữ liệu, ứng viên khóa chính (PK) và khóa ngoại (FK) giữa nhiều bảng. |
 | 2.4 | Tính toán chỉ số KPI E-commerce | **Xong** | Tính đúng Doanh thu, Chi phí, Lợi nhuận, AOV; CAC/ROAS khi có `ad_spend`/`new_customers`. Khi thiếu cột giá vốn, hệ thống trả cờ `cost_estimated: true` và Frontend hiển thị cảnh báo trực quan cho người dùng. |
-| 2.5 | Cấu hình biểu đồ trực quan (Charts API) | **Xong** | Sinh cấu hình biểu đồ trung lập (Doanh thu theo ngày, Top sản phẩm, Cơ cấu doanh thu) cho Frontend vẽ SVG. |
+| 2.5 | Cấu hình biểu đồ trực quan (Charts API) | **Xong (ADR-10)** | Đã tích hợp trọn vẹn [`docs/DESIGN.md`](./DESIGN.md) và 3 cơ chế: Metric Switcher (1-chạm), Multi-Dimensional Breakdown (Top 8 Horizontal Bar, Donut ≤ 5), Data Profile & Distribution Explorer. |
 | 2.6 | Lọc dữ liệu báo cáo & Xuất báo cáo đa định dạng | **Chạy một phần** | Hỗ trợ 6 định dạng (JSON, CSV, HTML, PDF, XLSX, PPTX). Nội dung xuất hiện mới chỉ tóm tắt bảng KPI, chưa nhúng biểu đồ. |
-| 2.7 | Kiểm nghiệm dữ liệu độc lập (Data Audit Sandbox) | **Xong** | Cho phép upload kiểm tra chất lượng tệp độc lập (POST /datasets/audit), không ghi đè Dashboard. Phân hạng chất lượng Tier A-D, bắt dòng vi phạm luật kinh doanh và nút "🚀 Đưa vào Dashboard". |
 | **III** | **Trí Tuệ Nhân Tạo & Trợ Lý Phân Tích (AI & LLM)** | | |
 | 3.1 | LLM Router đa nhà cung cấp | **Xong** | Hỗ trợ `deterministic`, `openai`, `gemini`, `llama`. Tự động fallback về chế độ ngoại tuyến khi gặp lỗi mạng/API. |
-| 3.2 | Trợ lý hỏi đáp Dashboard (RAG Engine) | **Chạy một phần** | Ở chế độ `deterministic` chỉ trả về 1 câu mẫu cố định. Khi kết nối LLM thật chưa có cơ chế cắt tỉa ngữ cảnh lớn. |
+| 3.2 | Trợ lý hỏi đáp Dashboard (RAG Engine) | **Xong (ADR-11)** | Cô lập hoàn toàn Read-only (Zero Mutation). Thay thế câu hardcode cố định bằng `LocalSemanticEngine` nhận diện 4 nhóm intent: Chào hỏi, Công thức, Tra cứu KPI, Từ chối ngoài phạm vi. |
 | 3.3 | Text-to-SQL an toàn | **Chỉ có khung** | Sinh câu lệnh SQL và áp bộ lọc regex an toàn (`SELECT` only, allowlist cột/bảng). **Chưa thực thi câu lệnh** lên DB thật. |
 | 3.4 | Giám sát chi phí & Giới hạn Token LLM | **Chưa có** | Chưa có bộ đếm token, chưa có hạn mức theo ngày/người dùng hay lưu vết chi phí phát sinh. |
-| **IV** | **Dữ Liệu Tổng Hợp (Synthetic Data Engine)** | | |
-| 4.1 | Sinh dữ liệu mô hình `bootstrap` | **Xong** | Hoạt động tốt với thư viện cơ bản, hoán vị dữ liệu có kiểm soát và ẩn danh hóa ID cá nhân. |
+| **IV** | **Kiểm Nghiệm Dữ Liệu (Pre-flight Audit Sandbox)** | | |
+| 4.1 | Kiểm thử chất lượng độc lập (`/datasets/audit`) | **Xong (ADR-09)** | Hỗ trợ nạp tệp CSV/JSON độc lập kiểm tra 4 trụ cột chất lượng (Tier A-D), danh sách vi phạm (`CRITICAL`, `WARNING`), không ghi đè Dashboard. Có nút nạp sang Dashboard 1 click. |
 | 4.2 | Sinh dữ liệu mô hình nâng cao (`sdv`: CTGAN, CopulaGAN) | **Chạy một phần** | Code đã sẵn sàng nhưng môi trường chưa cài gói `sdv` (trong `requirements-ai.txt`). Chạy đồng bộ dễ quá hạn timeout. |
 | 4.3 | Sinh dữ liệu qua `llm_agent` | **Chạy một phần** | Logic xử lý prompt và parse JSON hoàn thiện, đã có unit test qua mock adapter. |
 | 4.4 | Kiểm định chất lượng 3 chiều (Fidelity/Privacy/Utility) | **Xong** | Đo khoảng cách Wasserstein, Jensen-Shannon, DCR bảo mật và TSTR kiểm tra giá trị phân tích. |
